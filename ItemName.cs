@@ -2,5 +2,5 @@
 
 public enum ItemName
 {
-    APPLE, ORANGE, BANAN
+    APPLE, ORANGE, BANANA
 }
