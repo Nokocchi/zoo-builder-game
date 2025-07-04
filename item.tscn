@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://l3nopjxgquuw"]
+
+[ext_resource type="Script" uid="uid://m4u7kb23aabd" path="res://Item.cs" id="1_tnite"]
+
+[node name="Item" type="Node3D"]
+script = ExtResource("1_tnite")

@@ -1,0 +1,19 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooBuilder", "ZooBuilder.csproj", "{2E012385-9D1C-4348-8258-61B197CE213D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E012385-9D1C-4348-8258-61B197CE213D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E012385-9D1C-4348-8258-61B197CE213D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E012385-9D1C-4348-8258-61B197CE213D}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{2E012385-9D1C-4348-8258-61B197CE213D}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{2E012385-9D1C-4348-8258-61B197CE213D}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{2E012385-9D1C-4348-8258-61B197CE213D}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+EndGlobal
