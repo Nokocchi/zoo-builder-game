@@ -123,7 +123,7 @@ public partial class Player : CharacterBody3D
                     }
                     else if (_something == 1)
                     {
-                        fruitName = ItemName.BANAN;
+                        fruitName = ItemName.BANANA;
                     }
                     else
                     {
