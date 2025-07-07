@@ -20,11 +20,17 @@ public partial class Player : CharacterBody3D
     public int BounceImpulse { get; set; } = 16;
     
     private int _something = 0;
+    private SpringArm3D _playerSpringArm;
     
     [Signal]
     public delegate void HitEventHandler();
 
     private Vector3 _targetVelocity = Vector3.Zero;
+
+    public override void _Ready()
+    {
+        _playerSpringArm = GetNode<SpringArm3D>("PlayerSpringArm");
+    }
 
     private void Die()
     {
@@ -35,14 +41,14 @@ public partial class Player : CharacterBody3D
     // We also specified this function name in PascalCase in the editor's connection window.
     private void OnMobDetectorBodyEntered(Node3D body)
     {
-        Die();
+        //Die();
     }
 
     public override void _PhysicsProcess(double delta)
     {
         // We create a local variable to store the input direction.
         Vector3 direction = Vector3.Zero;
-
+        
         // We check for each move input and update the direction accordingly.
         if (Input.IsActionPressed("move_right"))
         {
@@ -65,7 +71,11 @@ public partial class Player : CharacterBody3D
         {
             direction.Z -= 1.0f;
         }
+        
 
+        // UP => Y=1
+        direction = direction.Rotated(Vector3.Up, _playerSpringArm.Rotation.Y);
+        
         if (direction != Vector3.Zero)
         {
             direction = direction.Normalized();
@@ -88,6 +98,8 @@ public partial class Player : CharacterBody3D
             _targetVelocity.Y -= FallAcceleration * (float)delta;
         }
 
+
+        
         // Moving the character
         Velocity = _targetVelocity;
         

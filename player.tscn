@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cct7dqifva85s"]
+[gd_scene load_steps=9 format=3 uid="uid://cct7dqifva85s"]
 
 [ext_resource type="PackedScene" uid="uid://d0ypm0v45pwdv" path="res://art/player.glb" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://cyihatx8hsdcf" path="res://Player.cs" id="1_onrkg"]
+[ext_resource type="Script" uid="uid://csr4t1tl8ejdu" path="res://PlayerSpringArm.cs" id="3_i3pqv"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_onrkg"]
 radius = 1.0
@@ -99,5 +100,13 @@ libraries = {
 &"": SubResource("AnimationLibrary_hqtel")
 }
 autoplay = "float"
+
+[node name="PlayerSpringArm" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.51973, 0)
+spring_length = 0.0
+script = ExtResource("3_i3pqv")
+
+[node name="PlayerCamera" type="Camera3D" parent="PlayerSpringArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 
 [connection signal="body_entered" from="MobDetector" to="." method="OnMobDetectorBodyEntered"]
