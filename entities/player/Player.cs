@@ -11,17 +11,22 @@ public partial class Player : CharacterBody3D
 
     // The downward acceleration when in the air, in meters per second squared.
     [Export] public int FallAcceleration { get; set; } = 75;
-    
+
     // Vertical impulse applied to the character upon jumping in meters per second.
     [Export] public int JumpImpulse { get; set; } = 20;
-    
+
     // Vertical impulse applied to the character upon bouncing over a mob in meters per second.
-    [Export]
-    public int BounceImpulse { get; set; } = 16;
-    
-    private int _something = 0;
+    [Export] public int BounceImpulse { get; set; } = 16;
+
+    private enum State
+    {
+        WALKING,
+        IN_AIR
+    }
+
+    private State _state;
     private SpringArm3D _playerSpringArm;
-    
+
     [Signal]
     public delegate void HitEventHandler();
 
@@ -29,6 +34,7 @@ public partial class Player : CharacterBody3D
 
     public override void _Ready()
     {
+        _state = State.WALKING;
         _playerSpringArm = GetNode<SpringArm3D>("PlayerSpringArm");
     }
 
@@ -37,7 +43,7 @@ public partial class Player : CharacterBody3D
         EmitSignal(SignalName.Hit);
         QueueFree();
     }
-    
+
     // We also specified this function name in PascalCase in the editor's connection window.
     private void OnMobDetectorBodyEntered(Node3D body)
     {
@@ -48,34 +54,41 @@ public partial class Player : CharacterBody3D
     {
         // We create a local variable to store the input direction.
         Vector3 direction = Vector3.Zero;
-        
-        // We check for each move input and update the direction accordingly.
-        if (Input.IsActionPressed("move_right"))
+
+        InventorySingleton inventorySingleton = InventorySingleton.Instance;
+
+        // We do not want to update the player's direction or speed while menu is open. Just animate and process physics
+        if (!inventorySingleton.MenuOpen)
         {
-            direction.X += 1.0f;
+            // We check for each move input and update the direction accordingly.
+            if (Input.IsActionPressed("move_right"))
+            {
+                direction.X += 1.0f;
+            }
+
+            if (Input.IsActionPressed("move_left"))
+            {
+                direction.X -= 1.0f;
+            }
+
+            if (Input.IsActionPressed("move_back"))
+            {
+                // Notice how we are working with the vector's X and Z axes.
+                // In 3D, the XZ plane is the ground plane.
+                direction.Z += 1.0f;
+            }
+
+            if (Input.IsActionPressed("move_forward"))
+            {
+                direction.Z -= 1.0f;
+            }
         }
 
-        if (Input.IsActionPressed("move_left"))
-        {
-            direction.X -= 1.0f;
-        }
-
-        if (Input.IsActionPressed("move_back"))
-        {
-            // Notice how we are working with the vector's X and Z axes.
-            // In 3D, the XZ plane is the ground plane.
-            direction.Z += 1.0f;
-        }
-
-        if (Input.IsActionPressed("move_forward"))
-        {
-            direction.Z -= 1.0f;
-        }
-        
 
         // UP => Y=1
+        // Rotate direction vector by the direction the camera is facing
         direction = direction.Rotated(Vector3.Up, _playerSpringArm.Rotation.Y);
-        
+
         if (direction != Vector3.Zero)
         {
             direction = direction.Normalized();
@@ -98,19 +111,17 @@ public partial class Player : CharacterBody3D
             _targetVelocity.Y -= FallAcceleration * (float)delta;
         }
 
-
-        
         // Moving the character
         Velocity = _targetVelocity;
-        
+
         // Jumping.
         if (IsOnFloor() && Input.IsActionJustPressed("jump"))
         {
             _targetVelocity.Y = JumpImpulse;
         }
-        
+
         MoveAndSlide();
-        
+
         // Iterate through all collisions that occurred this frame.
         for (int index = 0; index < GetSlideCollisionCount(); index++)
         {
@@ -127,31 +138,29 @@ public partial class Player : CharacterBody3D
                 {
                     // If so, we squash it and bounce.
                     mob.Squash();
+                    int item = new Random().Next(3);
 
-                    ItemName fruitName;
-                    if (_something == 0)
+                    switch (item)
                     {
-                        fruitName = ItemName.APPLE;
-                    }
-                    else if (_something == 1)
-                    {
-                        fruitName = ItemName.BANANA;
-                    }
-                    else
-                    {
-                        fruitName = ItemName.ORANGE;
+                        case 1:
+                            inventorySingleton.AddItem(new ItemStackResource(ItemData.Apple, 1));
+                            break;
+                        case 2:
+                            inventorySingleton.AddItem(new ItemStackResource(ItemData.Orange, 1));
+                            break;
+                        default:
+                            inventorySingleton.AddItem(new ItemStackResource(ItemData.Banana, 1));
+                            break;
                     }
 
-                    _something = (_something + 1) % 3;
 
-                    InventorySingleton.Instance.AddItem(new Item(fruitName, "Soup"));
                     _targetVelocity.Y = BounceImpulse;
                     // Prevent further duplicate calls.
                     break;
                 }
             }
         }
-        
+
         Node3D pivot = GetNode<Node3D>("Pivot");
         pivot.Rotation = new Vector3(Mathf.Pi / 6.0f * Velocity.Y / JumpImpulse, pivot.Rotation.Y, pivot.Rotation.Z);
     }

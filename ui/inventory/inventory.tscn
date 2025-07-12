@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://d6u50yq3mt8o"]
+
+[ext_resource type="Script" uid="uid://dkamlpsj4mi0d" path="res://ui/inventory/Inventory.cs" id="1_pohso"]
+[ext_resource type="Script" uid="uid://bvvul8s4swcaw" path="res://ui/inventory/InventoryGridContainer.cs" id="2_s83yu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c0rdb"]
+bg_color = Color(0.677049, 0.590007, 0.402708, 1)
+
+[node name="InventoryView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pohso")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.014
+anchor_top = 0.025
+anchor_right = 0.986
+anchor_bottom = 0.765
+offset_left = -0.128
+offset_top = -0.200001
+offset_right = 0.12793
+offset_bottom = 0.279968
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c0rdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="InventoryGridContainer" type="GridContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+columns = 10
+script = ExtResource("2_s83yu")

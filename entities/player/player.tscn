@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://cct7dqifva85s"]
 
 [ext_resource type="PackedScene" uid="uid://d0ypm0v45pwdv" path="res://art/player.glb" id="1_4flbx"]
-[ext_resource type="Script" uid="uid://cyihatx8hsdcf" path="res://Player.cs" id="1_onrkg"]
-[ext_resource type="Script" uid="uid://csr4t1tl8ejdu" path="res://PlayerSpringArm.cs" id="3_i3pqv"]
+[ext_resource type="Script" uid="uid://cyihatx8hsdcf" path="res://entities/player/Player.cs" id="1_onrkg"]
+[ext_resource type="Script" uid="uid://csr4t1tl8ejdu" path="res://entities/player/PlayerSpringArm.cs" id="3_i3pqv"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_onrkg"]
 radius = 1.0

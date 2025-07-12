@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://cj1sh7dasg33y"]
+
+[ext_resource type="Script" uid="uid://d2mujxwx8j8lf" path="res://ui/inventory/hotbar/HotBarGridContainer.cs" id="2_24o5v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fwof5"]
+bg_color = Color(0.776703, 0.548346, 0.253141, 1)
+
+[node name="HotBarView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.16059
+anchor_top = 0.802469
+anchor_right = 0.864583
+anchor_bottom = 0.958333
+theme_override_styles/panel = SubResource("StyleBoxFlat_fwof5")
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HotBarGridContainer" type="GridContainer" parent="Panel/MarginContainer"]
+layout_direction = 2
+layout_mode = 2
+columns = 8
+script = ExtResource("2_24o5v")

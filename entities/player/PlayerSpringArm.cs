@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using SquashtheCreeps3D;
 
 public partial class PlayerSpringArm : SpringArm3D
 {
@@ -30,21 +31,8 @@ public partial class PlayerSpringArm : SpringArm3D
 
 	public override void _Input(InputEvent @event)
 	{
-		if (@event is InputEventMouseMotion eventMouseMotion)
+		InventorySingleton inventorySingleton = InventorySingleton.Instance;
+		if (!inventorySingleton.MenuOpen && @event is InputEventMouseMotion eventMouseMotion)
 			_mouseRelative = -eventMouseMotion.Relative * MouseSensitivity;
-		else if (@event is InputEventKey eventKey)
-		{
-			if (eventKey.Pressed && eventKey.Keycode is Key.Escape)
-			{
-				Input.MouseMode = Input.MouseModeEnum.Visible;
-			}
-		}
-		else if (@event is InputEventMouseButton eventMouseButton)
-		{
-			if (eventMouseButton.Pressed && eventMouseButton.ButtonIndex == MouseButton.Left)
-			{
-				Input.MouseMode = Input.MouseModeEnum.Captured;
-			}
-		}
 	}
 }
