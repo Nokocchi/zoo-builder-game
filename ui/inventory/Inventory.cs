@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Godot.Collections;
 using SquashtheCreeps3D;
 
-public partial class Inventory : Control
+public partial class Inventory : CanvasLayer
 {
 	
 

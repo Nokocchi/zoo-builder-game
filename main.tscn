@@ -105,9 +105,7 @@ text = "Score: 0"
 script = ExtResource("5_7mycd")
 
 [node name="InventoryView" parent="UserInterface" instance=ExtResource("7_272bh")]
-layout_mode = 1
 
 [node name="HotBar" parent="UserInterface" instance=ExtResource("6_7mycd")]
-layout_mode = 1
 
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]
