@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using SquashtheCreeps3D;
 
 public partial class PlayerSpringArm : SpringArm3D
 {

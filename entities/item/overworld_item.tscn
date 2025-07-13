@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6ts0k6wj3s1u"]
+
+[ext_resource type="Script" uid="uid://bawkuu5cfrdia" path="res://entities/item/OverworldItem.cs" id="1_a0s5l"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_a0s5l"]
+radius = 1.7708
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kw7vn"]
+transparency = 1
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_8vatd"]
+material = SubResource("StandardMaterial3D_kw7vn")
+
+[node name="OverworldItem" type="RigidBody3D"]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_a0s5l")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_a0s5l")
+
+[node name="ItemMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_8vatd")

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
-using SquashtheCreeps3D;
 
 public partial class HotBarGridContainer : GridContainer
 {

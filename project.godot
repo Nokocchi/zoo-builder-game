@@ -26,6 +26,10 @@ project/assembly_name="ZooBuilder"
 
 import/blender/enabled=false
 
+[global_group]
+
+global_camera=""
+
 [input]
 
 move_left={
@@ -73,3 +77,4 @@ open_inventory={
 3d_physics/layer_1="player"
 3d_physics/layer_2="enemies"
 3d_physics/layer_3="world"
+3d_physics/layer_4="item"

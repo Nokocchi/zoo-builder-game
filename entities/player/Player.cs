@@ -1,6 +1,6 @@
 using Godot;
 using System;
-using SquashtheCreeps3D;
+using Godot.Collections;
 
 public partial class Player : CharacterBody3D
 {
@@ -26,6 +26,8 @@ public partial class Player : CharacterBody3D
 
     private State _state;
     private SpringArm3D _playerSpringArm;
+    private Area3D _itemPullZone;
+    private Area3D _itemPickupZone;
 
     [Signal]
     public delegate void HitEventHandler();
@@ -36,10 +38,13 @@ public partial class Player : CharacterBody3D
     {
         _state = State.WALKING;
         _playerSpringArm = GetNode<SpringArm3D>("PlayerSpringArm");
+        _itemPullZone = GetNode<Area3D>("ItemPullZone");
+        _itemPickupZone = GetNode<Area3D>("ItemImmediatePickupZone");
     }
 
     private void Die()
     {
+        GD.Print("DEAD");
         EmitSignal(SignalName.Hit);
         QueueFree();
     }
@@ -48,6 +53,43 @@ public partial class Player : CharacterBody3D
     private void OnMobDetectorBodyEntered(Node3D body)
     {
         //Die();
+    }
+
+    private void ItemPullZoneBodyEntered(Node3D body)
+    {
+        MoveNearbyItemsToPlayer();
+    }
+
+    private void MoveNearbyItemsToPlayer()
+    {
+        Array<Node3D> overlappingBodies = _itemPullZone.GetOverlappingBodies();
+        foreach (Node3D overlappingBody in overlappingBodies)
+        {
+            if (overlappingBody is OverworldItem overworldItem)
+            {
+                overworldItem.MoveToPlayer = this;
+            }
+        }
+    }
+    
+    private void ItemImmediatePickupZoneBodyEntered(Node3D body)
+    {
+        PickupNearbyItems();
+    }
+
+    // Immediately picks up everything within a short radius
+    private void PickupNearbyItems()
+    {
+        Array<Node3D> overlappingBodies = _itemPickupZone.GetOverlappingBodies();
+        foreach (Node3D overlappingBody in overlappingBodies)
+        {
+            if (overlappingBody is OverworldItem overworldItem)
+            {
+                InventorySingleton.Instance.AddItem(new ItemStackResource(overworldItem.ItemDataResource, 1));
+                overworldItem.QueueFree();
+            }
+        }
+
     }
 
     public override void _PhysicsProcess(double delta)

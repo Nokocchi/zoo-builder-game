@@ -3,8 +3,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using Godot;
 
-namespace SquashtheCreeps3D;
-
 public partial class InventorySingleton : Node
 {
     public static InventorySingleton Instance { get; private set; }

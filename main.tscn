@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dccrigx4avpxq"]
+[gd_scene load_steps=19 format=3 uid="uid://dccrigx4avpxq"]
 
 [ext_resource type="Script" uid="uid://bhprgr5jxyobx" path="res://Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cct7dqifva85s" path="res://entities/player/player.tscn" id="1_ig7tw"]
@@ -7,6 +7,10 @@
 [ext_resource type="Script" uid="uid://ehw2a7dxyavb" path="res://ScoreLabel.cs" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://cj1sh7dasg33y" path="res://ui/inventory/hotbar/hot_bar_view.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://d6u50yq3mt8o" path="res://ui/inventory/inventory.tscn" id="7_272bh"]
+[ext_resource type="PackedScene" uid="uid://c6ts0k6wj3s1u" path="res://entities/item/overworld_item.tscn" id="8_kek77"]
+[ext_resource type="Resource" uid="uid://crrrvdgqenk8j" path="res://item_data_resource.tres" id="9_4c57u"]
+[ext_resource type="Texture2D" uid="uid://m1rfkeubsfdu" path="res://art/apple.jpg" id="10_efxa6"]
+[ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://globals/ItemDataResource.cs" id="11_dg77c"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
 size = Vector3(60, 2, 60)
@@ -30,6 +34,13 @@ point_count = 4
 
 [sub_resource type="Theme" id="Theme_272bh"]
 default_font = ExtResource("4_lquwl")
+
+[sub_resource type="Resource" id="Resource_ycdy4"]
+script = ExtResource("11_dg77c")
+ItemName = "Apple"
+Image = ExtResource("10_efxa6")
+Description = "Juicy"
+metadata/_custom_type_script = "uid://btip0t8tiuff8"
 
 [node name="Main" type="Node"]
 script = ExtResource("1_h2yge")
@@ -108,4 +119,13 @@ script = ExtResource("5_7mycd")
 
 [node name="HotBar" parent="UserInterface" instance=ExtResource("6_7mycd")]
 
+[node name="OverworldItem" parent="." instance=ExtResource("8_kek77")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.16956, 3.91068, 0)
+ItemDataResource = ExtResource("9_4c57u")
+
+[node name="OverworldItem2" parent="." instance=ExtResource("8_kek77")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.6588, 3.91068, 25.4837)
+ItemDataResource = SubResource("Resource_ycdy4")
+
+[connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]

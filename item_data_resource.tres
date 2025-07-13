@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemDataResource" load_steps=3 format=3 uid="uid://crrrvdgqenk8j"]
+
+[ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://globals/ItemDataResource.cs" id="1_4oprt"]
+[ext_resource type="Texture2D" uid="uid://ble217x32stmb" path="res://art/orange.png" id="1_f8la5"]
+
+[resource]
+script = ExtResource("1_4oprt")
+ItemName = "Orange"
+Image = ExtResource("1_f8la5")
+Description = "Juicy"
+metadata/_custom_type_script = "uid://btip0t8tiuff8"
