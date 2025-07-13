@@ -42,7 +42,7 @@ public partial class HotBarGridContainer : GridContainer
                 TextureRect itemIcon = instance.GetNode<TextureRect>("ItemIcon");
                 Label stackSizeLabel = instance.GetNode<Label>("ItemIcon/StackSize");
                 stackSizeLabel.Text = "" + stackAtIndex.Amount;
-                itemIcon.Texture = stackAtIndex.ItemData.Image;
+                itemIcon.Texture = stackAtIndex.ItemData.Texture;
             }
 
             AddChild(instance);

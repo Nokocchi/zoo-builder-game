@@ -185,13 +185,13 @@ public partial class Player : CharacterBody3D
                     switch (item)
                     {
                         case 1:
-                            inventorySingleton.AddItem(new ItemStackResource(ItemData.Apple, 1));
+                            inventorySingleton.AddItem(new ItemStackResource(new Apple(), 1));
                             break;
                         case 2:
-                            inventorySingleton.AddItem(new ItemStackResource(ItemData.Orange, 1));
+                            inventorySingleton.AddItem(new ItemStackResource(new Orange(), 1));
                             break;
                         default:
-                            inventorySingleton.AddItem(new ItemStackResource(ItemData.Banana, 1));
+                            inventorySingleton.AddItem(new ItemStackResource(new Banana(), 1));
                             break;
                     }
 

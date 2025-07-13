@@ -18,7 +18,7 @@ public partial class OverworldItem() : RigidBody3D
 		MeshInstance3D meshInstance = GetNode<MeshInstance3D>("ItemMesh");
 		QuadMesh mesh = (QuadMesh) meshInstance.Mesh;
 		StandardMaterial3D material = (StandardMaterial3D) mesh.Material;
-		material.AlbedoTexture = ItemDataResource.Image;
+		material.AlbedoTexture = ItemDataResource.Texture;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
