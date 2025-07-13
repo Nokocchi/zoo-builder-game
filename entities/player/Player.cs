@@ -28,6 +28,9 @@ public partial class Player : CharacterBody3D
     private SpringArm3D _playerSpringArm;
     private Area3D _itemPullZone;
     private Area3D _itemPickupZone;
+    private ItemDataResource _appleResource;
+    private ItemDataResource _orangeResource;
+    private ItemDataResource _bananaResource;
 
     [Signal]
     public delegate void HitEventHandler();
@@ -40,6 +43,9 @@ public partial class Player : CharacterBody3D
         _playerSpringArm = GetNode<SpringArm3D>("PlayerSpringArm");
         _itemPullZone = GetNode<Area3D>("ItemPullZone");
         _itemPickupZone = GetNode<Area3D>("ItemImmediatePickupZone");
+        _appleResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_apple.tres");
+        _orangeResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_orange.tres");
+        _bananaResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_banana.tres");
     }
 
     private void Die()
@@ -185,13 +191,13 @@ public partial class Player : CharacterBody3D
                     switch (item)
                     {
                         case 1:
-                            inventorySingleton.AddItem(new ItemStackResource(new Apple(), 1));
+                            inventorySingleton.AddItem(new ItemStackResource(_appleResource, 1));
                             break;
                         case 2:
-                            inventorySingleton.AddItem(new ItemStackResource(new Orange(), 1));
+                            inventorySingleton.AddItem(new ItemStackResource(_orangeResource, 1));
                             break;
                         default:
-                            inventorySingleton.AddItem(new ItemStackResource(new Banana(), 1));
+                            inventorySingleton.AddItem(new ItemStackResource(_bananaResource, 1));
                             break;
                     }
 
