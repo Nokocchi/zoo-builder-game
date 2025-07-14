@@ -16,9 +16,12 @@ public partial class OverworldItem() : RigidBody3D
 	{
 		_camera = (Camera3D) GetTree().GetFirstNodeInGroup("global_camera");
 		MeshInstance3D meshInstance = GetNode<MeshInstance3D>("ItemMesh");
-		QuadMesh mesh = (QuadMesh) meshInstance.Mesh;
-		StandardMaterial3D material = (StandardMaterial3D) mesh.Material;
+		
+		// We need to duplicate the mesh - otherwise, godot will try to reuse the mesh resource and they will all end up with the same texture.
+		QuadMesh duplicate = (QuadMesh) meshInstance.Mesh.Duplicate(true);
+		StandardMaterial3D material = (StandardMaterial3D) duplicate.Material;
 		material.AlbedoTexture = ItemDataResource.Texture;
+		meshInstance.Mesh = duplicate;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

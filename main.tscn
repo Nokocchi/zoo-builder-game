@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dccrigx4avpxq"]
+[gd_scene load_steps=21 format=3 uid="uid://dccrigx4avpxq"]
 
 [ext_resource type="Script" uid="uid://bhprgr5jxyobx" path="res://Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cct7dqifva85s" path="res://entities/player/player.tscn" id="1_ig7tw"]
@@ -8,7 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://cj1sh7dasg33y" path="res://ui/inventory/hotbar/hot_bar_view.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://d6u50yq3mt8o" path="res://ui/inventory/inventory.tscn" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://c6ts0k6wj3s1u" path="res://entities/item/overworld_item.tscn" id="8_kek77"]
+[ext_resource type="Texture2D" uid="uid://cpf58p7pinxex" path="res://art/samplepic.png" id="9_ycdy4"]
+[ext_resource type="Resource" uid="uid://bpxkd43kvlasp" path="res://entities/item/item_apple.tres" id="11_w48qg"]
+[ext_resource type="Resource" uid="uid://c444dyocwbmho" path="res://entities/item/item_banana.tres" id="12_vivmo"]
 [ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://globals/resources/ItemDataResource.cs" id="12_w48qg"]
+[ext_resource type="Resource" uid="uid://ut7reqal1pue" path="res://entities/item/item_orange.tres" id="13_2cqfq"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
 size = Vector3(60, 2, 60)
@@ -33,44 +37,11 @@ point_count = 4
 [sub_resource type="Theme" id="Theme_272bh"]
 default_font = ExtResource("4_lquwl")
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kek77"]
-load_path = "res://.godot/imported/samplepic.png-3b3403d6bd126665e5952124b131eeab.s3tc.ctex"
-
-[sub_resource type="Resource" id="Resource_w48qg"]
-script = ExtResource("12_w48qg")
-ItemName = "CustomFruit"
-Texture = SubResource("CompressedTexture2D_kek77")
-Description = "WOW"
-metadata/_custom_type_script = "uid://btip0t8tiuff8"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4c57u"]
-load_path = "res://.godot/imported/banana.jpg-c191c44e4f49aaacd71e51294df804a1.s3tc.ctex"
-
-[sub_resource type="Resource" id="Resource_vivmo"]
-script = ExtResource("12_w48qg")
-ItemName = "Banana"
-Texture = SubResource("CompressedTexture2D_4c57u")
-Description = "This fruit has a handy, yellow surface which is easy to clean and can be removed quickly."
-metadata/_custom_type_script = "uid://btip0t8tiuff8"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_efxa6"]
-load_path = "res://.godot/imported/apple.jpg-fcd5719e04ea93bd406eba18ddf11d58.s3tc.ctex"
-
-[sub_resource type="Resource" id="Resource_2cqfq"]
-script = ExtResource("12_w48qg")
-ItemName = "Apple"
-Texture = SubResource("CompressedTexture2D_efxa6")
-Description = "A juicy, firm and sweet fruit"
-metadata/_custom_type_script = "uid://btip0t8tiuff8"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dg77c"]
-load_path = "res://.godot/imported/orange.png-a56166733958a179bf2deb5b782ff954.s3tc.ctex"
-
 [sub_resource type="Resource" id="Resource_yaehf"]
 script = ExtResource("12_w48qg")
-ItemName = "Orange"
-Texture = SubResource("CompressedTexture2D_dg77c")
-Description = "It is indeed orange."
+ItemName = "feeffe"
+Texture = ExtResource("9_ycdy4")
+Description = "fafafafaa"
 metadata/_custom_type_script = "uid://btip0t8tiuff8"
 
 [node name="Main" type="Node"]
@@ -151,21 +122,21 @@ script = ExtResource("5_7mycd")
 
 [node name="HotBar" parent="UserInterface" instance=ExtResource("6_7mycd")]
 
-[node name="OverworldItem" parent="." instance=ExtResource("8_kek77")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 23.6205)
-ItemDataResource = SubResource("Resource_w48qg")
-
-[node name="OverworldItem2" parent="." instance=ExtResource("8_kek77")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.144, 0, 0)
-ItemDataResource = SubResource("Resource_vivmo")
-
-[node name="OverworldItem3" parent="." instance=ExtResource("8_kek77")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -26.1092)
-ItemDataResource = SubResource("Resource_2cqfq")
-
 [node name="OverworldItem4" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.59, 0, 0)
 ItemDataResource = SubResource("Resource_yaehf")
+
+[node name="OverworldItem" parent="." instance=ExtResource("8_kek77")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 23.6205)
+ItemDataResource = ExtResource("11_w48qg")
+
+[node name="OverworldItem2" parent="." instance=ExtResource("8_kek77")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.144, 0, 0)
+ItemDataResource = ExtResource("12_vivmo")
+
+[node name="OverworldItem3" parent="." instance=ExtResource("8_kek77")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.53561, 1.30059, -26.5101)
+ItemDataResource = ExtResource("13_2cqfq")
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]

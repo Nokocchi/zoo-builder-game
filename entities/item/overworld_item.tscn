@@ -5,12 +5,12 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0s5l"]
 radius = 1.7708
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kw7vn"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ffdaq"]
 transparency = 1
 billboard_mode = 1
 
-[sub_resource type="QuadMesh" id="QuadMesh_8vatd"]
-material = SubResource("StandardMaterial3D_kw7vn")
+[sub_resource type="QuadMesh" id="QuadMesh_ffdaq"]
+material = SubResource("StandardMaterial3D_ffdaq")
 
 [node name="OverworldItem" type="RigidBody3D"]
 collision_layer = 8
@@ -21,4 +21,4 @@ script = ExtResource("1_a0s5l")
 shape = SubResource("SphereShape3D_a0s5l")
 
 [node name="ItemMesh" type="MeshInstance3D" parent="."]
-mesh = SubResource("QuadMesh_8vatd")
+mesh = SubResource("QuadMesh_ffdaq")
