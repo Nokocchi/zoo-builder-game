@@ -6,10 +6,12 @@
 radius = 1.7708
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ffdaq"]
+resource_local_to_scene = true
 transparency = 1
 billboard_mode = 1
 
 [sub_resource type="QuadMesh" id="QuadMesh_ffdaq"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_ffdaq")
 
 [node name="OverworldItem" type="RigidBody3D"]

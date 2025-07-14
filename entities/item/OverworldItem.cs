@@ -17,11 +17,11 @@ public partial class OverworldItem() : RigidBody3D
 		_camera = (Camera3D) GetTree().GetFirstNodeInGroup("global_camera");
 		MeshInstance3D meshInstance = GetNode<MeshInstance3D>("ItemMesh");
 		
-		// We need to duplicate the mesh - otherwise, godot will try to reuse the mesh resource and they will all end up with the same texture.
-		QuadMesh duplicate = (QuadMesh) meshInstance.Mesh.Duplicate(true);
-		StandardMaterial3D material = (StandardMaterial3D) duplicate.Material;
+		// Normally, this would not be enough. The Mesh and Material would be shared and you would have to duplicate the mesh with subresources here.
+		// I've marked both mesh and material as "local to scene" in the OverworldItem scene though, and that accomplishes the same.
+		QuadMesh mesh = (QuadMesh) meshInstance.Mesh;
+		StandardMaterial3D material = (StandardMaterial3D) mesh.Material;
 		material.AlbedoTexture = ItemDataResource.Texture;
-		meshInstance.Mesh = duplicate;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
