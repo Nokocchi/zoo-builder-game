@@ -27,7 +27,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - Right click item to split stack in half
 - **Simple Hotbar**
   - ✅ Show some of your most used items
-  - One item in the hotbar is always highlighted - can be switched by scrolling with mouse
+  - ✅ One item in the hotbar is always highlighted - can be switched by scrolling with mouse
 - **Collections view**
   - Keep track of which items the player has picked up
   - Show ? if never seen, black box is seen but not picked up, image if picked up

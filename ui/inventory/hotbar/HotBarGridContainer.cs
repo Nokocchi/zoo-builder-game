@@ -11,7 +11,15 @@ public partial class HotBarGridContainer : GridContainer
     {
         _inventoryItemStackScene = GD.Load<PackedScene>("res://ui/inventory/inventory_item_stack.tscn");
         InventorySingleton.Instance.InventoryUpdated += OnInventoryUpdated;
+        InventorySingleton.Instance.HighlightedSlotUpdated += OnHighlightedHotbarSlotUpdated;
+        for (int i = 0; i < InventorySingleton.HotBarSize; i++)
+        {
+            InventoryItemStack hotbarSlot = _inventoryItemStackScene.Instantiate<InventoryItemStack>();
+            AddChild(hotbarSlot);
+        }
+
         OnInventoryUpdated();
+        SetSlotFocus(InventorySingleton.Instance.SelectedHotbarSlotIndex, true);
     }
 
 
@@ -22,30 +30,57 @@ public partial class HotBarGridContainer : GridContainer
 
     public void OnInventoryUpdated()
     {
+        // First clear all data from hotbar
         Array<Node> children = GetChildren();
         foreach (Node child in children)
         {
-            child.QueueFree();
+            if (child is InventoryItemStack hotbarSlot)
+            {
+                hotbarSlot.ClearStackResource();
+            }
         }
 
         InventorySingleton inventorySingleton = InventorySingleton.Instance;
         List<ItemStackResource> inventory = inventorySingleton.Inventory;
 
-
         for (int i = 0; i < InventorySingleton.HotBarSize; i++)
         {
             ItemStackResource stackAtIndex = inventory[i];
-            InventoryItemStack instance = _inventoryItemStackScene.Instantiate<InventoryItemStack>();
+            InventoryItemStack slot = GetChild<InventoryItemStack>(i);
 
             if (stackAtIndex != null)
             {
-                TextureRect itemIcon = instance.GetNode<TextureRect>("ItemIcon");
-                Label stackSizeLabel = instance.GetNode<Label>("ItemIcon/StackSize");
-                stackSizeLabel.Text = "" + stackAtIndex.Amount;
-                itemIcon.Texture = stackAtIndex.ItemData.Texture;
+                slot.ItemStackResource = stackAtIndex;
             }
+        }
+        
+        SetSlotFocus(inventorySingleton.SelectedHotbarSlotIndex, true);
+    }
 
-            AddChild(instance);
+    private void OnHighlightedHotbarSlotUpdated(int oldIndex, int newIndex)
+    {
+        SetSlotFocus(oldIndex, false);
+        SetSlotFocus(newIndex, true);
+    }
+
+    // TODO: Don't use Button focus. Figure out a way to make a proper border
+    private void SetSlotFocus(int index, bool shouldHaveFocus)
+    {
+        GD.Print("New focus: ", index, shouldHaveFocus);
+        // Not sure why Rider is complaining about this always being true
+        if ((index >= 0) || (index <= InventorySingleton.HotBarSize))
+        {
+            InventoryItemStack slot = GetChild<InventoryItemStack>(index);
+            if (shouldHaveFocus)
+            {
+                slot.GrabFocus();
+            }
+            else
+            {
+                slot.ReleaseFocus();
+            }
         }
     }
+
+
 }

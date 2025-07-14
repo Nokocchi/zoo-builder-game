@@ -13,6 +13,14 @@ public partial class InventoryGridContainer : GridContainer
 	{
 		_inventoryItemStackScene = GD.Load<PackedScene>("res://ui/inventory/inventory_item_stack.tscn");
 		InventorySingleton.Instance.InventoryUpdated += OnInventoryUpdated;
+		
+		// Of all InventorySingleton.InventorySize slots in the inventory,
+		// the first InventorySingleton.HotBarSize are rendered by the hotbar. The remaining are rendered here
+		for (int i = 0; i < InventorySingleton.Instance.InventorySize - InventorySingleton.HotBarSize; i++)
+		{
+			InventoryItemStack slot = _inventoryItemStackScene.Instantiate<InventoryItemStack>();
+			AddChild(slot);
+		}
 		OnInventoryUpdated();
 	}
 
@@ -23,30 +31,28 @@ public partial class InventoryGridContainer : GridContainer
 	
 	public void OnInventoryUpdated()
 	{
+		// First clear all data from hotbar
 		Array<Node> children = GetChildren();
 		foreach (Node child in children)
 		{
-			child.QueueFree();
+			if (child is InventoryItemStack slot)
+			{
+				slot.ClearStackResource();
+			}
 		}
 
 		InventorySingleton inventorySingleton = InventorySingleton.Instance;
 		List<ItemStackResource> inventory = inventorySingleton.Inventory;
-		
 
-		for (int i = InventorySingleton.HotBarSize; i < inventorySingleton.InventorySize; i++)
+		for (int i = 0; i < inventorySingleton.InventorySize - InventorySingleton.HotBarSize; i++)
 		{
-			ItemStackResource stackAtIndex = inventory[i];
-			InventoryItemStack instance = _inventoryItemStackScene.Instantiate<InventoryItemStack>();
+			ItemStackResource stackAtIndex = inventory[i + InventorySingleton.HotBarSize];
+			InventoryItemStack slot = GetChild<InventoryItemStack>(i);
 
 			if (stackAtIndex != null)
 			{
-				TextureRect itemIcon = instance.GetNode<TextureRect>("ItemIcon");
-				Label stackSizeLabel = instance.GetNode<Label>("ItemIcon/StackSize");
-				stackSizeLabel.Text = "" + stackAtIndex.Amount;
-				itemIcon.Texture = stackAtIndex.ItemData.Texture;
+				slot.ItemStackResource = stackAtIndex;
 			}
-
-			AddChild(instance);
 		}
 	}
 }

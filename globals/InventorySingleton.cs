@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -10,14 +11,24 @@ public partial class InventorySingleton : Node
     [Signal]
     public delegate void InventoryUpdatedEventHandler();
     
-    [Export]
-    public int InventorySize = 20;
+    [Signal]
+    public delegate void HighlightedSlotUpdatedEventHandler(int oldIndex, int newIndex);
+
+    [Export] public int InventorySize = 20;
 
     public const int HotBarSize = 8;
 
     public List<ItemStackResource> Inventory;
 
     public bool MenuOpen { get; set; }
+
+    private int _selectedHotbarSlotIndex;
+
+    public int SelectedHotbarSlotIndex
+    {
+        get => _selectedHotbarSlotIndex;
+        set => SetHotbarSlotIndex(value);
+    }
 
     public override void _EnterTree()
     {
@@ -32,6 +43,13 @@ public partial class InventorySingleton : Node
 
     public override void _Ready()
     {
+    }
+    
+    private void SetHotbarSlotIndex(int newIndex)
+    {
+        int oldIndex = _selectedHotbarSlotIndex;
+        _selectedHotbarSlotIndex = Math.Abs(newIndex) % HotBarSize;
+        EmitSignal(SignalName.HighlightedSlotUpdated, oldIndex, _selectedHotbarSlotIndex);
     }
 
     public void AddItem(ItemStackResource itemStack)
@@ -70,5 +88,23 @@ public partial class InventorySingleton : Node
         GD.Print("Add new stack");
         Inventory.Insert(firstEmptySlot, itemStack);
         EmitSignal(SignalName.InventoryUpdated);
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.IsPressed())
+        {
+            int newIndex = 0;
+            if (eventMouseButton.ButtonIndex == MouseButton.WheelDown)
+            {
+                newIndex = (_selectedHotbarSlotIndex + 1) % HotBarSize;
+            }
+
+            if (eventMouseButton.ButtonIndex == MouseButton.WheelUp)
+            {
+                newIndex = ((_selectedHotbarSlotIndex - 1) + HotBarSize) % HotBarSize;
+            }
+            SetHotbarSlotIndex(newIndex);
+        }
     }
 }
