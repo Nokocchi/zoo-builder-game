@@ -25,6 +25,7 @@ public partial class Player : CharacterBody3D
     }
 
     private State _state;
+    private SettingsSingleton _settings;
     private SpringArm3D _playerSpringArm;
     private Area3D _itemPullZone;
     private Area3D _itemPickupZone;
@@ -46,11 +47,11 @@ public partial class Player : CharacterBody3D
         _appleResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_apple.tres");
         _orangeResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_orange.tres");
         _bananaResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_banana.tres");
+        _settings = ResourceLoader.Load<SettingsSingleton>("res://globals/resources/settings.tres");
     }
 
     private void Die()
     {
-        GD.Print("DEAD");
         EmitSignal(SignalName.Hit);
         QueueFree();
     }

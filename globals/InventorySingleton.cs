@@ -24,6 +24,8 @@ public partial class InventorySingleton : Node
 
     private int _selectedHotbarSlotIndex;
 
+    private SettingsSingleton _settings;
+    
     public int SelectedHotbarSlotIndex
     {
         get => _selectedHotbarSlotIndex;
@@ -43,6 +45,7 @@ public partial class InventorySingleton : Node
 
     public override void _Ready()
     {
+        _settings = ResourceLoader.Load<SettingsSingleton>("res://globals/resources/settings.tres");
     }
     
     private void SetHotbarSlotIndex(int newIndex)
@@ -94,13 +97,23 @@ public partial class InventorySingleton : Node
     {
         if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.IsPressed())
         {
+            bool wheelDown = eventMouseButton.ButtonIndex == MouseButton.WheelDown;
+            bool wheelUp = eventMouseButton.ButtonIndex == MouseButton.WheelUp;
+            
+            // Player is not scrolling - end early
+            if (!wheelDown && !wheelUp)
+            {
+                return;
+            }
+            
+
             int newIndex = 0;
-            if (eventMouseButton.ButtonIndex == MouseButton.WheelDown)
+            if (wheelDown ^ _settings.HotbarScrollDirectionFlipped)
             {
                 newIndex = (_selectedHotbarSlotIndex + 1) % HotBarSize;
             }
 
-            if (eventMouseButton.ButtonIndex == MouseButton.WheelUp)
+            if (wheelUp ^ _settings.HotbarScrollDirectionFlipped)
             {
                 newIndex = ((_selectedHotbarSlotIndex - 1) + HotBarSize) % HotBarSize;
             }

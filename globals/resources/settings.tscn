@@ -1,0 +1,81 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv4awdbqqm0k7"]
+
+[ext_resource type="Script" uid="uid://6asm2tbecgum" path="res://Settings.cs" id="1_kwqq5"]
+
+[node name="Settings" type="CanvasLayer"]
+script = ExtResource("1_kwqq5")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 378.0
+offset_top = 78.0
+offset_right = -378.0
+offset_bottom = -78.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 12
+
+[node name="VFlowContainer" type="VFlowContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/v_separation = 10
+
+[node name="Label3" type="Label" parent="Panel/MarginContainer/VFlowContainer"]
+layout_mode = 2
+text = "Flip hotbar selection direction"
+horizontal_alignment = 1
+
+[node name="HotbarScrollDirectionFlipped" type="CheckBox" parent="Panel/MarginContainer/VFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="HSeparator3" type="HSeparator" parent="Panel/MarginContainer/VFlowContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/VFlowContainer"]
+layout_mode = 2
+text = "Flip mouse up/down"
+horizontal_alignment = 1
+
+[node name="MouseUpDownFlipped" type="CheckBox" parent="Panel/MarginContainer/VFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="HSeparator" type="HSeparator" parent="Panel/MarginContainer/VFlowContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Panel/MarginContainer/VFlowContainer"]
+layout_mode = 2
+text = "Mouse sensitivity"
+horizontal_alignment = 1
+
+[node name="MouseSensitivitySlider" type="HSlider" parent="Panel/MarginContainer/VFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Panel/MarginContainer/VFlowContainer"]
+layout_mode = 2
+
+[node name="MouseSensitivityText" type="SpinBox" parent="Panel/MarginContainer/VFlowContainer/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="toggled" from="Panel/MarginContainer/VFlowContainer/HotbarScrollDirectionFlipped" to="." method="OnHotbarScrollDirectionFlipped"]
+[connection signal="toggled" from="Panel/MarginContainer/VFlowContainer/MouseUpDownFlipped" to="." method="OnMouseUpDownFlippedUpdated"]
+[connection signal="value_changed" from="Panel/MarginContainer/VFlowContainer/MouseSensitivitySlider" to="." method="OnMouseSensitivitySliderUpdated"]
+[connection signal="value_changed" from="Panel/MarginContainer/VFlowContainer/CenterContainer/MouseSensitivityText" to="." method="OnMouseSensitivityTextUpdated"]

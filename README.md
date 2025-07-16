@@ -35,10 +35,12 @@ Actual storyline details, specific features or game mechanics will be added afte
   - Keep track of game stats, like number of items picked up, meters walked
   - Show achievement here if some number is reached
 - **Settings view**
-  - Change mouse sensitivity
-  - Change up/down direction of mouse
+  - ✅ Change mouse sensitivity
+  - ✅ Change up/down direction of mouse
   - Hide minimap
   - Save and load game buttons
+  - Adjust audio
+  - ✅ Hotbar scrolling direction
 - **Quest view**
   - Show 3 tabs. Active quests, completed quests, all quests
   - Completed quests greyed out with checkmark icon
@@ -64,7 +66,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 ## Save / Load
 - Save achievements
-- Save settings
+- ✅ Save settings
 - Save character customization
 - Save quest progression
 - Save inventory
