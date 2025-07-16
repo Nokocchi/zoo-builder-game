@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemDataResource" load_steps=2 format=3 uid="uid://crrrvdgqenk8j"]
+
+[ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://globals/resources/ItemDataResource.cs" id="1_tscvr"]
+
+[resource]
+script = ExtResource("1_tscvr")
+ItemName = "Orange"
+Description = "Juicy"
+metadata/_custom_type_script = "uid://btip0t8tiuff8"

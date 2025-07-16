@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cv4awdbqqm0k7"]
 
-[ext_resource type="Script" uid="uid://6asm2tbecgum" path="res://Settings.cs" id="1_kwqq5"]
+[ext_resource type="Script" uid="uid://6asm2tbecgum" path="res://ui/settings/Settings.cs" id="1_kwqq5"]
 
 [node name="Settings" type="CanvasLayer"]
 script = ExtResource("1_kwqq5")

@@ -9,12 +9,9 @@ public partial class OverworldItem() : RigidBody3D
 
 	public Player MoveToPlayer { get; set; }
 	
-	private Camera3D _camera;
-	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_camera = (Camera3D) GetTree().GetFirstNodeInGroup("global_camera");
 		MeshInstance3D meshInstance = GetNode<MeshInstance3D>("ItemMesh");
 		
 		// Normally, this would not be enough. The Mesh and Material would be shared and you would have to duplicate the mesh with subresources here.
