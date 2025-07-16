@@ -8,6 +8,7 @@ public partial class Settings : CanvasLayer
 	private SpinBox _mouseSensitivityText;
 	private CheckBox _mouseUpDownFlipped;
 	private CheckBox _hotbarScrollDirectionFlipped;
+	private CheckBox _hideMinimap;
 	private SettingsSingleton _settings;
 	
 	// Called when the node enters the scene tree for the first time.
@@ -17,10 +18,13 @@ public partial class Settings : CanvasLayer
 		_mouseSensitivityText = GetNode<SpinBox>("%MouseSensitivityText");
 		_mouseUpDownFlipped = GetNode<CheckBox>("%MouseUpDownFlipped");
 		_hotbarScrollDirectionFlipped = GetNode<CheckBox>("%HotbarScrollDirectionFlipped");
+		_hideMinimap = GetNode<CheckBox>("%HideMinimap");
 
 		Visible = false;
 		
-		_settings = ResourceLoader.Load<SettingsSingleton>("res://globals/resources/settings.tres");
+		_settings = SettingsSingleton.Load();
+		
+		_settings.SettingsOpen = false;
 		
 		_mouseSensitivitySlider.Value = _settings.MouseSensitivity;
 		_mouseSensitivityText.Value = _settings.MouseSensitivity;
@@ -56,6 +60,12 @@ public partial class Settings : CanvasLayer
 	private void OnHotbarScrollDirectionFlipped(bool scrollbarDirectionFlipped)
 	{
 		_settings.HotbarScrollDirectionFlipped = scrollbarDirectionFlipped;
+		Save();
+	}
+	
+	private void OnHideMinimap(bool hideMinimap)
+	{
+		_settings.HideMinimap = hideMinimap;
 		Save();
 	}
 

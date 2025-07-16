@@ -37,7 +37,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 - **Settings view**
   - ✅ Change mouse sensitivity
   - ✅ Change up/down direction of mouse
-  - Hide minimap
+  - ✅ Hide minimap
   - Save and load game buttons
   - Adjust audio
   - ✅ Hotbar scrolling direction
@@ -48,7 +48,9 @@ Actual storyline details, specific features or game mechanics will be added afte
 - Put all these views into the same UI, but in different tabs.
 
 ## HUD
-  - Minimap showing the player from above
+  - Minimap
+    - ✅ Minimap showing the player from above
+    - Minimap's up direction should always be where the camera is facing
   - Digital clock
 
 ## Overworld entities
@@ -91,3 +93,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 - Moon moves through the sky as time passes (night)
 - Warmer light during morning and evening
 - Shadows based on sun position
+
+# Known bugs
+- Hotbar selection keeps disappearing, like when changing scroll direction or hiding minimap
+- Hotbar selection changes when opening inventory with Tab

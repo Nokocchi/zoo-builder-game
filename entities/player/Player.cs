@@ -47,7 +47,9 @@ public partial class Player : CharacterBody3D
         _appleResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_apple.tres");
         _orangeResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_orange.tres");
         _bananaResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_banana.tres");
-        _settings = ResourceLoader.Load<SettingsSingleton>("res://globals/resources/settings.tres");
+        _settings = SettingsSingleton.Load();
+        RemoteTransform3D remoteTransform3D = GetNode<RemoteTransform3D>("RemoteTransform3D");
+        remoteTransform3D.RemotePath = GetTree().GetFirstNodeInGroup("minimap_camera_pivot").GetPath().ToString();
     }
 
     private void Die()
@@ -78,7 +80,7 @@ public partial class Player : CharacterBody3D
             }
         }
     }
-    
+
     private void ItemImmediatePickupZoneBodyEntered(Node3D body)
     {
         PickupNearbyItems();
@@ -92,12 +94,12 @@ public partial class Player : CharacterBody3D
         {
             if (overlappingBody is OverworldItem overworldItem)
             {
-                GD.Print(overworldItem.ItemDataResource.ItemName, overworldItem.ItemDataResource.Description, overworldItem.ItemDataResource.Texture.ResourcePath);
+                GD.Print(overworldItem.ItemDataResource.ItemName, overworldItem.ItemDataResource.Description,
+                    overworldItem.ItemDataResource.Texture.ResourcePath);
                 InventorySingleton.Instance.AddItem(new ItemStackResource(overworldItem.ItemDataResource, 1));
                 overworldItem.QueueFree();
             }
         }
-
     }
 
     public override void _PhysicsProcess(double delta)

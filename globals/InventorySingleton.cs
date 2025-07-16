@@ -45,7 +45,7 @@ public partial class InventorySingleton : Node
 
     public override void _Ready()
     {
-        _settings = ResourceLoader.Load<SettingsSingleton>("res://globals/resources/settings.tres");
+        _settings = SettingsSingleton.Load();
     }
     
     private void SetHotbarSlotIndex(int newIndex)

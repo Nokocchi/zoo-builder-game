@@ -10,7 +10,8 @@ public partial class SettingsSingleton : Resource
     [Export] public float MouseSensitivity = 50;
     [Export] public bool MouseUpDownFlipped;
     [Export] public bool HotbarScrollDirectionFlipped;
-    public bool SettingsOpen { get; set; }
+    [Export] public bool HideMinimap;
+    [Export] public bool SettingsOpen;
 
     public static SettingsSingleton Load()
     {

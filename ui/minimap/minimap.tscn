@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://bekc2wv2d7dyu"]
+
+[ext_resource type="Script" uid="uid://bkbbhykpkym0j" path="res://ui/minimap/Minimap.cs" id="1_nfbjl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m6qbg"]
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.107707, 0.104199, 0.0885866, 1)
+
+[node name="Minimap" type="CanvasLayer"]
+script = ExtResource("1_nfbjl")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_m6qbg")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(130, 130)
+layout_mode = 2
+stretch = true
+
+[node name="MinimapSubViewport" type="SubViewport" parent="MarginContainer/PanelContainer/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(130, 130)
+render_target_update_mode = 4
+
+[node name="MinimapCameraPivot" type="Node3D" parent="MarginContainer/PanelContainer/SubViewportContainer/MinimapSubViewport" groups=["minimap_camera_pivot"]]
+
+[node name="MinimapCamera" type="Camera3D" parent="MarginContainer/PanelContainer/SubViewportContainer/MinimapSubViewport/MinimapCameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 20.9448, 0)
+projection = 1
+size = 25.0

@@ -132,6 +132,8 @@ shape = SubResource("SphereShape3D_bls4j")
 [node name="ItemPickupTimer" type="Timer" parent="."]
 autostart = true
 
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+
 [connection signal="body_entered" from="MobDetector" to="." method="OnMobDetectorBodyEntered"]
 [connection signal="body_entered" from="ItemPullZone" to="." method="ItemPullZoneBodyEntered"]
 [connection signal="body_entered" from="ItemImmediatePickupZone" to="." method="ItemImmediatePickupZoneBodyEntered"]
