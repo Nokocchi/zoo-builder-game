@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using ZooBuilder.globals;
 
 public partial class PlayerSpringArm : SpringArm3D
 {
@@ -20,6 +21,7 @@ public partial class PlayerSpringArm : SpringArm3D
 		SpringLength = _camera.Position.Z;
 		_rotation = RotationDegrees;
 		Input.MouseMode = Input.MouseModeEnum.Captured;
+		GlobalObjectsContainer.Instance.PlayerSpringArm = this;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using Godot.Collections;
+using ZooBuilder.globals;
 
 public partial class Player : CharacterBody3D
 {
@@ -48,8 +49,7 @@ public partial class Player : CharacterBody3D
         _orangeResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_orange.tres");
         _bananaResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_banana.tres");
         _settings = SettingsSingleton.Load();
-        RemoteTransform3D remoteTransform3D = GetNode<RemoteTransform3D>("RemoteTransform3D");
-        remoteTransform3D.RemotePath = GetTree().GetFirstNodeInGroup("minimap_camera_pivot").GetPath().ToString();
+        GlobalObjectsContainer.Instance.Player = this;
     }
 
     private void Die()

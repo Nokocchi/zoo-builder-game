@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 [autoload]
 
 InventorySingleton="*res://globals/InventorySingleton.cs"
+GlobalObjectsContainer="*res://globals/GlobalObjectsContainer.cs"
 
 [dotnet]
 
@@ -25,10 +26,6 @@ project/assembly_name="ZooBuilder"
 [filesystem]
 
 import/blender/enabled=false
-
-[global_group]
-
-global_camera=""
 
 [input]
 

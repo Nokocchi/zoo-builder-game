@@ -8,5 +8,5 @@ MouseSensitivity = 100.0
 MouseUpDownFlipped = false
 HotbarScrollDirectionFlipped = false
 HideMinimap = false
-SettingsOpen = true
+SettingsOpen = false
 metadata/_custom_type_script = "uid://bf4pxjwy2cv4f"

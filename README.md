@@ -50,7 +50,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 ## HUD
   - Minimap
     - ✅ Minimap showing the player from above
-    - Minimap's up direction should always be where the camera is facing
+    - ✅ Minimap's up direction should always be where the camera is facing
   - Digital clock
 
 ## Overworld entities
