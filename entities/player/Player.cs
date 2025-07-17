@@ -9,6 +9,7 @@ public partial class Player : CharacterBody3D
 
     // How fast the player moves in meters per second.
     [Export] public int Speed { get; set; } = 14;
+    [Export] public int RunSpeed { get; set; } = 25;
 
     // The downward acceleration when in the air, in meters per second squared.
     [Export] public int FallAcceleration { get; set; } = 75;
@@ -136,7 +137,6 @@ public partial class Player : CharacterBody3D
             }
         }
 
-
         // UP => Y=1
         // Rotate direction vector by the direction the camera is facing
         direction = direction.Rotated(Vector3.Up, _playerSpringArm.Rotation.Y);
@@ -153,9 +153,10 @@ public partial class Player : CharacterBody3D
             GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 1;
         }
 
+        int speed = Input.IsActionPressed("run") ? RunSpeed : Speed;
         // Ground velocity
-        _targetVelocity.X = direction.X * Speed;
-        _targetVelocity.Z = direction.Z * Speed;
+        _targetVelocity.X = direction.X * speed;
+        _targetVelocity.Z = direction.Z * speed;
 
         // Vertical velocity
         if (!IsOnFloor()) // If in the air, fall towards the floor. Literally gravity
