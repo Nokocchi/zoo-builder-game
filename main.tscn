@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dccrigx4avpxq"]
+[gd_scene load_steps=28 format=3 uid="uid://dccrigx4avpxq"]
 
 [ext_resource type="Script" uid="uid://bhprgr5jxyobx" path="res://Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cct7dqifva85s" path="res://entities/player/player.tscn" id="1_ig7tw"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://bekc2wv2d7dyu" path="res://ui/minimap/minimap.tscn" id="9_vivmo"]
 [ext_resource type="Texture2D" uid="uid://cpf58p7pinxex" path="res://art/samplepic.png" id="9_ycdy4"]
 [ext_resource type="Resource" uid="uid://bpxkd43kvlasp" path="res://entities/item/item_apple.tres" id="11_w48qg"]
+[ext_resource type="Script" uid="uid://cqb8fpfa7pppt" path="res://globals/resources/ItemStackResource.cs" id="12_2cqfq"]
 [ext_resource type="Resource" uid="uid://c444dyocwbmho" path="res://entities/item/item_banana.tres" id="12_vivmo"]
 [ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://globals/resources/ItemDataResource.cs" id="12_w48qg"]
 [ext_resource type="Resource" uid="uid://ut7reqal1pue" path="res://entities/item/item_orange.tres" id="13_2cqfq"]
@@ -39,12 +40,36 @@ point_count = 4
 [sub_resource type="Theme" id="Theme_272bh"]
 default_font = ExtResource("4_lquwl")
 
-[sub_resource type="Resource" id="Resource_ycdy4"]
+[sub_resource type="Resource" id="Resource_yaehf"]
+script = ExtResource("12_2cqfq")
+ItemData = ExtResource("11_w48qg")
+Amount = 5
+metadata/_custom_type_script = "uid://cqb8fpfa7pppt"
+
+[sub_resource type="Resource" id="Resource_074og"]
+script = ExtResource("12_2cqfq")
+ItemData = ExtResource("12_vivmo")
+Amount = 2
+metadata/_custom_type_script = "uid://cqb8fpfa7pppt"
+
+[sub_resource type="Resource" id="Resource_cegan"]
+script = ExtResource("12_2cqfq")
+ItemData = ExtResource("13_2cqfq")
+Amount = 1
+metadata/_custom_type_script = "uid://cqb8fpfa7pppt"
+
+[sub_resource type="Resource" id="Resource_82xsv"]
 script = ExtResource("12_w48qg")
-ItemName = "addadaadda"
+ItemName = "ddwdwdw"
 Texture = ExtResource("9_ycdy4")
-Description = "aawwawaawwa"
+Description = "wdwffwfwfw"
 metadata/_custom_type_script = "uid://btip0t8tiuff8"
+
+[sub_resource type="Resource" id="Resource_getpj"]
+script = ExtResource("12_2cqfq")
+ItemData = SubResource("Resource_82xsv")
+Amount = 1
+metadata/_custom_type_script = "uid://cqb8fpfa7pppt"
 
 [node name="Main" type="Node"]
 script = ExtResource("1_h2yge")
@@ -129,19 +154,19 @@ script = ExtResource("5_7mycd")
 
 [node name="OverworldItem" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 23.6205)
-ItemDataResource = ExtResource("11_w48qg")
+ItemStackResource = SubResource("Resource_yaehf")
 
 [node name="OverworldItem2" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.144, 0, 0)
-ItemDataResource = ExtResource("12_vivmo")
+ItemStackResource = SubResource("Resource_074og")
 
 [node name="OverworldItem3" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.53561, 1.30059, -26.5101)
-ItemDataResource = ExtResource("13_2cqfq")
+ItemStackResource = SubResource("Resource_cegan")
 
 [node name="OverworldItem4" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.1277, 0, 0)
-ItemDataResource = SubResource("Resource_ycdy4")
+ItemStackResource = SubResource("Resource_getpj")
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]

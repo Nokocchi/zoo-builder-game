@@ -95,9 +95,7 @@ public partial class Player : CharacterBody3D
         {
             if (overlappingBody is OverworldItem overworldItem)
             {
-                GD.Print(overworldItem.ItemDataResource.ItemName, overworldItem.ItemDataResource.Description,
-                    overworldItem.ItemDataResource.Texture.ResourcePath);
-                InventorySingleton.Instance.AddItem(new ItemStackResource(overworldItem.ItemDataResource, 1));
+                InventorySingleton.Instance.AddItem(overworldItem.ItemStackResource);
                 overworldItem.QueueFree();
             }
         }

@@ -1,15 +1,25 @@
 using Godot;
 
 [GlobalClass]
-public partial class ItemStackResource(ItemDataResource itemData, int amount) : Resource
+public partial class ItemStackResource : Resource
 {
-	// Called when the node enters the scene tree for the first time.
+    
+    // Empty constructor so this item can be instantiated from the editor
+    public ItemStackResource()
+    {
+    }
 
-	[field: Export] public ItemDataResource ItemData { get; } = itemData;
-	public int Amount = amount;
+    public ItemStackResource(ItemDataResource itemData, int amount)
+    {
+        ItemData = itemData;
+        Amount = amount;
+    }
 
-	public void IncreaseStackSize(int amount)
-	{
-		Amount += amount;
-	}
+    [Export] public ItemDataResource ItemData { get; set; }
+    [Export] public int Amount { get; set; }
+
+    public void IncreaseStackSize(int amount)
+    {
+        Amount += amount;
+    }
 }
