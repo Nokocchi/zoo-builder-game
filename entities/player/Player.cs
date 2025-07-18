@@ -34,6 +34,7 @@ public partial class Player : CharacterBody3D
     private ItemDataResource _appleResource;
     private ItemDataResource _orangeResource;
     private ItemDataResource _bananaResource;
+    private InventorySingleton _inventorySingleton;
 
     [Signal]
     public delegate void HitEventHandler();
@@ -50,6 +51,7 @@ public partial class Player : CharacterBody3D
         _orangeResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_orange.tres");
         _bananaResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_banana.tres");
         _settings = SettingsSingleton.Load();
+        _inventorySingleton = InventorySingleton.Instance;
         GlobalObjectsContainer.Instance.Player = this;
     }
 
@@ -106,10 +108,8 @@ public partial class Player : CharacterBody3D
         // We create a local variable to store the input direction.
         Vector3 direction = Vector3.Zero;
 
-        InventorySingleton inventorySingleton = InventorySingleton.Instance;
-
         // We do not want to update the player's direction or speed while menu is open. Just animate and process physics
-        if (!inventorySingleton.MenuOpen)
+        if (!_inventorySingleton.MenuOpen)
         {
             // We check for each move input and update the direction accordingly.
             if (Input.IsActionPressed("move_right"))
@@ -173,6 +173,7 @@ public partial class Player : CharacterBody3D
 
         MoveAndSlide();
 
+        
         // Iterate through all collisions that occurred this frame.
         for (int index = 0; index < GetSlideCollisionCount(); index++)
         {
@@ -194,13 +195,13 @@ public partial class Player : CharacterBody3D
                     switch (item)
                     {
                         case 1:
-                            inventorySingleton.AddItem(new ItemStackResource(_appleResource, 1));
+                            _inventorySingleton.AddItem(new ItemStackResource(_appleResource, 1));
                             break;
                         case 2:
-                            inventorySingleton.AddItem(new ItemStackResource(_orangeResource, 1));
+                            _inventorySingleton.AddItem(new ItemStackResource(_orangeResource, 1));
                             break;
                         default:
-                            inventorySingleton.AddItem(new ItemStackResource(_bananaResource, 1));
+                            _inventorySingleton.AddItem(new ItemStackResource(_bananaResource, 1));
                             break;
                     }
 

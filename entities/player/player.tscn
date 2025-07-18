@@ -80,7 +80,7 @@ radius = 7.58136
 radius = 2.84293
 
 [node name="Player" type="CharacterBody3D"]
-collision_mask = 6
+collision_mask = 4
 script = ExtResource("1_onrkg")
 
 [node name="Pivot" type="Node3D" parent="."]
@@ -134,5 +134,5 @@ autostart = true
 [connection signal="body_entered" from="MobDetector" to="." method="OnMobDetectorBodyEntered"]
 [connection signal="body_entered" from="ItemPullZone" to="." method="ItemPullZoneBodyEntered"]
 [connection signal="body_entered" from="ItemImmediatePickupZone" to="." method="ItemImmediatePickupZoneBodyEntered"]
-[connection signal="timeout" from="ItemPickupTimer" to="." method="PickupNearbyItems"]
 [connection signal="timeout" from="ItemPickupTimer" to="." method="MoveNearbyItemsToPlayer"]
+[connection signal="timeout" from="ItemPickupTimer" to="." method="PickupNearbyItems"]

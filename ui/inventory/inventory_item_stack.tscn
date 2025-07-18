@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://c330e51s4kcsv"]
+[gd_scene load_steps=4 format=3 uid="uid://c330e51s4kcsv"]
 
 [ext_resource type="Script" uid="uid://cha1n2ww0flpb" path="res://ui/inventory/InventoryItemStack.cs" id="1_xyqih"]
 
@@ -10,6 +10,18 @@ border_width_bottom = 4
 border_color = Color(0.930764, 0.319223, 0.72559, 1)
 corner_detail = 1
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gninf"]
+resource_local_to_scene = true
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [node name="InventoryItemStack" type="Button" groups=["hotbar_slot"]]
 offset_right = 75.0
 offset_bottom = 75.0
@@ -18,27 +30,39 @@ size_flags_vertical = 3
 theme_override_styles/focus = SubResource("StyleBoxFlat_xyqih")
 script = ExtResource("1_xyqih")
 
-[node name="ItemIcon" type="TextureRect" parent="."]
+[node name="PanelWithBorder" type="Panel" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_gninf")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelWithBorder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="ItemIcon" type="TextureRect" parent="PanelWithBorder/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 expand_mode = 1
 
-[node name="StackSize" type="Label" parent="ItemIcon"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -23.0
-offset_right = 20.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="StackSize" type="Label" parent="PanelWithBorder/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 7

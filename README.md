@@ -94,6 +94,8 @@ Actual storyline details, specific features or game mechanics will be added afte
 - Warmer light during morning and evening
 - Shadows based on sun position
 
+---
+
 # Known bugs
 - Hotbar selection keeps disappearing, like when changing scroll direction or hiding minimap
 - Hotbar selection changes when opening inventory with Tab

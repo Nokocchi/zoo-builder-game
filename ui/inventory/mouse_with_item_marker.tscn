@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://6rbicaxbnvcl"]
+
+[ext_resource type="Script" uid="uid://bdki0elarvgw3" path="res://ui/inventory/MouseWithItemMarker.cs" id="1_3cs6q"]
+[ext_resource type="PackedScene" uid="uid://c330e51s4kcsv" path="res://ui/inventory/inventory_item_stack.tscn" id="2_skofm"]
+
+[node name="MouseWithItemMarker" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 1
+script = ExtResource("1_3cs6q")
+
+[node name="InventoryItemStack" parent="." instance=ExtResource("2_skofm")]
+layout_mode = 0
+pivot_offset = Vector2(1, 1)
+mouse_filter = 2
+button_mask = 0

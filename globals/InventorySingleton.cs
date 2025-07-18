@@ -48,8 +48,9 @@ public partial class InventorySingleton : Node
         _settings = SettingsSingleton.Load();
     }
     
-    private void SetHotbarSlotIndex(int newIndex)
+    public void SetHotbarSlotIndex(int newIndex)
     {
+        GD.Print("New selected index is ", newIndex);
         int oldIndex = _selectedHotbarSlotIndex;
         _selectedHotbarSlotIndex = Math.Abs(newIndex) % HotBarSize;
         EmitSignal(SignalName.HighlightedSlotUpdated, oldIndex, _selectedHotbarSlotIndex);
@@ -93,31 +94,5 @@ public partial class InventorySingleton : Node
         EmitSignal(SignalName.InventoryUpdated);
     }
 
-    public override void _Input(InputEvent @event)
-    {
-        if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.IsPressed())
-        {
-            bool wheelDown = eventMouseButton.ButtonIndex == MouseButton.WheelDown;
-            bool wheelUp = eventMouseButton.ButtonIndex == MouseButton.WheelUp;
-            
-            // Player is not scrolling - end early
-            if (!wheelDown && !wheelUp)
-            {
-                return;
-            }
-            
 
-            int newIndex = 0;
-            if (wheelDown ^ _settings.HotbarScrollDirectionFlipped)
-            {
-                newIndex = (_selectedHotbarSlotIndex + 1) % HotBarSize;
-            }
-
-            if (wheelUp ^ _settings.HotbarScrollDirectionFlipped)
-            {
-                newIndex = ((_selectedHotbarSlotIndex - 1) + HotBarSize) % HotBarSize;
-            }
-            SetHotbarSlotIndex(newIndex);
-        }
-    }
 }
