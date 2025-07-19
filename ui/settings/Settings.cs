@@ -68,6 +68,12 @@ public partial class Settings : CanvasLayer
 		_settings.HideMinimap = hideMinimap;
 		Save();
 	}
+	
+	private void OnNorthFacingMinimap(bool northFacingMinimap)
+	{
+		_settings.NorthFacingMinimap = northFacingMinimap;
+		Save();
+	}
 
 	private void Save()
 	{

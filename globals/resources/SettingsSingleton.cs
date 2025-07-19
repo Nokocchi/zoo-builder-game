@@ -11,6 +11,7 @@ public partial class SettingsSingleton : Resource
     [Export] public bool MouseUpDownFlipped;
     [Export] public bool HotbarScrollDirectionFlipped;
     [Export] public bool HideMinimap;
+    [Export] public bool NorthFacingMinimap;
     [Export] public bool SettingsOpen;
 
     public static SettingsSingleton Load()

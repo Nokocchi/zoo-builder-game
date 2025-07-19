@@ -1,9 +1,13 @@
 using Godot;
 using System;
 
-public partial class InventoryItemStack : Button
+public partial class InventoryItemStack : Panel
 {
+    [Signal]
+    public delegate void ItemStackPressedEventHandler(InventoryItemStack stack);
+
     private ItemStackResource _itemStackResource;
+    //private InventorySingleton _inventorySingleton;
 
     public ItemStackResource ItemStackResource
     {
@@ -18,14 +22,19 @@ public partial class InventoryItemStack : Button
     public int InventoryIndex { get; set; }
     private TextureRect _itemIcon;
     private Label _stackSizeLabel;
-    private Panel _panelWithBorder;
+    private StyleBoxFlat _selectedStyle;
+    private StyleBoxFlat _unselectedStyle;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         _itemIcon = GetNode<TextureRect>("%ItemIcon");
         _stackSizeLabel = GetNode<Label>("%StackSize");
-        _panelWithBorder = GetNode<Panel>("%PanelWithBorder");
+        _selectedStyle =
+            ResourceLoader.Load<StyleBoxFlat>("res://ui/inventory/hotbar/item_stack_panel_theme_selected.tres");
+        _unselectedStyle =
+            ResourceLoader.Load<StyleBoxFlat>("res://ui/inventory/hotbar/item_stack_panel_theme_unselected.tres");
+        InventorySingleton.Instance.SelectedHotbarSlotUpdated += OnSelectedHotbarSlotChanged;
         Render();
     }
 
@@ -59,28 +68,25 @@ public partial class InventoryItemStack : Button
         _stackSizeLabel.Text = "" + stackSize;
     }
 
-// Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
+
+    // Called by the button child, propagated as new signal that the inventory can listen to
+    private void OnPressed()
     {
+        EmitSignal(SignalName.ItemStackPressed, this);
     }
 
-    public override void _Pressed()
+    // TODO: This technically "works", but ideally I should switch between two predefined resources
+    private void OnSelectedHotbarSlotChanged(int oldIndex, int newIndex)
     {
-        base._Pressed();
-        GD.Print("InventoryItemStack.Pressed()");
-    }
-
-    public void Selected(bool shouldBeSelected)
-    {
-        // Just draft code. Should probably be built with swappable resources or themes or something. 
-        StyleBoxFlat styleBox = (StyleBoxFlat)_panelWithBorder.GetThemeStylebox("panel");
-        if (shouldBeSelected)
+        // This stack should now be highlighted
+        if (InventoryIndex == newIndex)
         {
-            styleBox.BorderColor = new Color(0, 0, 0, 255);
+            AddThemeStyleboxOverride("panel", _selectedStyle);
         }
         else
         {
-            styleBox.BorderColor = new Color(255, 255, 255, 255);
+            // This stack should no longer be highlighted
+            AddThemeStyleboxOverride("panel", _unselectedStyle);
         }
     }
 }

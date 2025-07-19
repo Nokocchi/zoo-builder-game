@@ -16,17 +16,16 @@ public partial class HotBarGridContainer : GridContainer
         _inventoryItemStackScene = GD.Load<PackedScene>("res://ui/inventory/inventory_item_stack.tscn");
         _inventorySingleton = InventorySingleton.Instance;
         _inventorySingleton.InventoryUpdated += OnInventoryUpdated;
-        _inventorySingleton.HighlightedSlotUpdated += OnHighlightedHotbarSlotUpdated;
         for (int i = 0; i < InventorySingleton.HotBarSize; i++)
         {
             InventoryItemStack hotbarSlot = _inventoryItemStackScene.Instantiate<InventoryItemStack>();
             hotbarSlot.InventoryIndex = i;
-            hotbarSlot.Pressed += OnItemClicked(hotbarSlot);
+            hotbarSlot.ItemStackPressed += OnItemClicked;
             AddChild(hotbarSlot);
         }
 
         OnInventoryUpdated();
-        SetSlotSelected(InventorySingleton.Instance.SelectedHotbarSlotIndex, true);
+        _inventorySingleton.SelectedHotbarSlotIndex = 0;
         _settings = SettingsSingleton.Load();
         _globals = GlobalObjectsContainer.Instance;
     }
@@ -38,43 +37,39 @@ public partial class HotBarGridContainer : GridContainer
     }
 
     // TODO: Refactor the hotbar and inventory so they don't need all this duplicated logic.
-    private Action OnItemClicked(InventoryItemStack clickedSlot)
+    private void OnItemClicked(InventoryItemStack clickedSlot)
     {
-        return () =>
+        GD.Print("Slot clicked");
+        ItemStackResource currentlyHeldItemStackResource = _globals.MouseWithMarker.ItemStack.ItemStackResource;
+        int currentlyHeldItemStackIndex = _globals.MouseWithMarker.ItemStack.InventoryIndex;
+
+        // We are holding an item. We want to either drop it, if the clicked slot is empty, or swap items
+        ItemStackResource clickedSlotItemResource = clickedSlot.ItemStackResource;
+        if (currentlyHeldItemStackResource != null)
         {
-            GD.Print("Slot clicked");
-            ItemStackResource currentlyHeldItemStackResource = _globals.MouseWithMarker.ItemStack.ItemStackResource;
-            int currentlyHeldItemStackIndex = _globals.MouseWithMarker.ItemStack.InventoryIndex;
-
-            // We are holding an item. We want to either drop it, if the clicked slot is empty, or swap items
-            ItemStackResource clickedSlotItemResource = clickedSlot.ItemStackResource;
-            if (currentlyHeldItemStackResource != null)
+            // Clicked slot is empty, drop item here
+            if (clickedSlotItemResource == null)
             {
-                // Clicked slot is empty, drop item here
-                if (clickedSlotItemResource == null)
-                {
-                    clickedSlot.ItemStackResource = currentlyHeldItemStackResource;
-                }
-                // Clicked slot has item, swap
-                else
-                {
-                    clickedSlot.ItemStackResource =currentlyHeldItemStackResource;
-                    InventoryItemStack slotItemCameFrom = GetChild<InventoryItemStack>(currentlyHeldItemStackIndex);
-                    slotItemCameFrom.ItemStackResource = clickedSlotItemResource;
-                }
-
-                _globals.MouseWithMarker.ClearItemStack();
+                clickedSlot.ItemStackResource = currentlyHeldItemStackResource;
             }
-            // We are not currently holding anything, but the slot we clicked does have an item. Pick it up
-            else if (currentlyHeldItemStackResource == null && clickedSlotItemResource != null)
+            // Clicked slot has item, swap
+            else
             {
-                GD.Print("Hold item");
-                GlobalObjectsContainer.Instance.MouseWithMarker.HoldItemStack(clickedSlot);
-                clickedSlot.ItemStackResource = null;
+                clickedSlot.ItemStackResource = currentlyHeldItemStackResource;
+                InventoryItemStack slotItemCameFrom = GetChild<InventoryItemStack>(currentlyHeldItemStackIndex);
+                slotItemCameFrom.ItemStackResource = clickedSlotItemResource;
             }
 
-            _inventorySingleton.SetHotbarSlotIndex(clickedSlot.InventoryIndex);
-        };
+            _globals.MouseWithMarker.ClearItemStack();
+        }
+        // We are not currently holding anything, but the slot we clicked does have an item. Pick it up
+        else if (currentlyHeldItemStackResource == null && clickedSlotItemResource != null)
+        {
+            GD.Print("Hold item");
+            GlobalObjectsContainer.Instance.MouseWithMarker.HoldItemStack(clickedSlot);
+            clickedSlot.ItemStackResource = null;
+        }
+        
     }
 
     public void OnInventoryUpdated()
@@ -88,9 +83,8 @@ public partial class HotBarGridContainer : GridContainer
                 hotbarSlot.ClearStackResource();
             }
         }
-
-        InventorySingleton inventorySingleton = InventorySingleton.Instance;
-        List<ItemStackResource> inventory = inventorySingleton.Inventory;
+        
+        List<ItemStackResource> inventory = _inventorySingleton.Inventory;
 
         for (int i = 0; i < InventorySingleton.HotBarSize; i++)
         {
@@ -102,26 +96,9 @@ public partial class HotBarGridContainer : GridContainer
                 slot.ItemStackResource = stackAtIndex;
             }
         }
-
-        SetSlotSelected(inventorySingleton.SelectedHotbarSlotIndex, true);
     }
 
-    private void OnHighlightedHotbarSlotUpdated(int oldIndex, int newIndex)
-    {
-        SetSlotSelected(oldIndex, false);
-        SetSlotSelected(newIndex, true);
-    }
-
-    private void SetSlotSelected(int index, bool shouldBeSelected)
-    {
-        // Not sure why Rider is complaining about this always being true
-        if ((index >= 0) || (index <= InventorySingleton.HotBarSize))
-        {
-            InventoryItemStack slot = GetChild<InventoryItemStack>(index);
-            slot.Selected(shouldBeSelected);
-        }
-    }
-
+    // Change selected hotbar slot with mouse scrolling
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.IsPressed())
@@ -148,7 +125,7 @@ public partial class HotBarGridContainer : GridContainer
                            InventorySingleton.HotBarSize;
             }
 
-            _inventorySingleton.SetHotbarSlotIndex(newIndex);
+            _inventorySingleton.SelectedHotbarSlotIndex = newIndex;
         }
     }
 }

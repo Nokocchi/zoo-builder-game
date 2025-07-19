@@ -12,12 +12,12 @@ public partial class InventorySingleton : Node
     public delegate void InventoryUpdatedEventHandler();
     
     [Signal]
-    public delegate void HighlightedSlotUpdatedEventHandler(int oldIndex, int newIndex);
+    public delegate void SelectedHotbarSlotUpdatedEventHandler(int oldIndex, int newIndex);
 
     [Export] public int InventorySize = 20;
 
     public const int HotBarSize = 8;
-
+    
     public List<ItemStackResource> Inventory;
 
     public bool MenuOpen { get; set; }
@@ -48,12 +48,12 @@ public partial class InventorySingleton : Node
         _settings = SettingsSingleton.Load();
     }
     
-    public void SetHotbarSlotIndex(int newIndex)
+    private void SetHotbarSlotIndex(int newIndex)
     {
         GD.Print("New selected index is ", newIndex);
         int oldIndex = _selectedHotbarSlotIndex;
         _selectedHotbarSlotIndex = Math.Abs(newIndex) % HotBarSize;
-        EmitSignal(SignalName.HighlightedSlotUpdated, oldIndex, _selectedHotbarSlotIndex);
+        EmitSignal(SignalName.SelectedHotbarSlotUpdated, oldIndex, _selectedHotbarSlotIndex);
     }
 
     public void AddItem(ItemStackResource itemStack)

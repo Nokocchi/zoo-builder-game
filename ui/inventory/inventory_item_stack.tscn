@@ -1,47 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://c330e51s4kcsv"]
+[gd_scene load_steps=3 format=3 uid="uid://c330e51s4kcsv"]
 
+[ext_resource type="StyleBox" uid="uid://clq5mm63o6ebj" path="res://ui/inventory/hotbar/item_stack_panel_theme_unselected.tres" id="1_gninf"]
 [ext_resource type="Script" uid="uid://cha1n2ww0flpb" path="res://ui/inventory/InventoryItemStack.cs" id="1_xyqih"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xyqih"]
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.930764, 0.319223, 0.72559, 1)
-corner_detail = 1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gninf"]
-resource_local_to_scene = true
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 6
-border_width_top = 6
-border_width_right = 6
-border_width_bottom = 6
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[node name="InventoryItemStack" type="Button" groups=["hotbar_slot"]]
+[node name="InventoryItemStack" type="Panel" groups=["hotbar_slot"]]
 offset_right = 75.0
 offset_bottom = 75.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_styles/focus = SubResource("StyleBoxFlat_xyqih")
+theme_override_styles/panel = ExtResource("1_gninf")
 script = ExtResource("1_xyqih")
 
-[node name="PanelWithBorder" type="Panel" parent="."]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_gninf")
-
-[node name="MarginContainer" type="MarginContainer" parent="PanelWithBorder"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -53,18 +23,39 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="ItemIcon" type="TextureRect" parent="PanelWithBorder/MarginContainer"]
-unique_name_in_owner = true
+[node name="Button" type="Button" parent="MarginContainer"]
 layout_mode = 2
+focus_mode = 0
+
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/Button"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 expand_mode = 1
 
-[node name="StackSize" type="Label" parent="PanelWithBorder/MarginContainer"]
+[node name="StackSize" type="Label" parent="MarginContainer/Button"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_top = -22.3333
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_horizontal = 4
 size_flags_vertical = 8
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 7
 horizontal_alignment = 1
-vertical_alignment = 1
+vertical_alignment = 2
+
+[connection signal="pressed" from="MarginContainer/Button" to="." method="OnPressed"]

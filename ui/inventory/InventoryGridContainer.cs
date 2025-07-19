@@ -19,24 +19,21 @@ public partial class InventoryGridContainer : GridContainer
         for (int i = 0; i < InventorySingleton.Instance.InventorySize - InventorySingleton.HotBarSize; i++)
         {
             InventoryItemStack slot = _inventoryItemStackScene.Instantiate<InventoryItemStack>();
-            slot.InventoryIndex = i;
-            slot.Pressed += OnItemClicked(slot);
+            slot.InventoryIndex = i + InventorySingleton.HotBarSize;
+            slot.ItemStackPressed += OnItemClicked;
             AddChild(slot);
         }
 
         OnInventoryUpdated();
     }
 
-    private Action OnItemClicked(InventoryItemStack slot)
+    private void OnItemClicked(InventoryItemStack slot)
     {
-        return () =>
+        if (slot != null)
         {
-            if (slot != null)
-            {
-                GlobalObjectsContainer.Instance.MouseWithMarker.HoldItemStack(slot);
-                slot.ItemStackResource = null;
-            }
-        };
+            GlobalObjectsContainer.Instance.MouseWithMarker.HoldItemStack(slot);
+            slot.ItemStackResource = null;
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

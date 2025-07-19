@@ -99,3 +99,4 @@ Actual storyline details, specific features or game mechanics will be added afte
 # Known bugs
 - Hotbar selection keeps disappearing, like when changing scroll direction or hiding minimap
 - Hotbar selection changes when opening inventory with Tab
+- Have item in hotbar slot 5, and rest of inventory is empty. Pick up a new item of different type. The new item should go to slot 0 and leave the item in slot 5, but instead it moves both items to slot 0 and 1. Respect current indices! 
