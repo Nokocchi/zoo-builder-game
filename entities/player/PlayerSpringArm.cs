@@ -22,6 +22,7 @@ public partial class PlayerSpringArm : SpringArm3D
 		_rotation = RotationDegrees;
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		GlobalObjectsContainer.Instance.PlayerSpringArm = this;
+		GlobalObjectsContainer.Instance.PlayerCamera = _camera;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

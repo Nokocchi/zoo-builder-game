@@ -21,9 +21,11 @@ Actual storyline details, specific features or game mechanics will be added afte
 ## Menu
 - **Full screen inventory with all your items**
   - ✅ Opening stops character movements and shows your mouse
-  - When clicking an item, the item is picked up and follows the cursor.
-  - When holding an item and clicking another slot, move item to this spot. Swap items if necessary
-  - When holding an item and clicking either Q or outside of inventory, drop in overworld
+  - ✅ When clicking an item, the item is picked up and follows the cursor.
+  - ✅ When holding an item and clicking another slot, move item to this spot. Swap items if necessary
+  - ✅ When holding an item and clicking Q, drop in overworld
+  - When holding an item and clicking outside inventory, drop whole stack in overworld
+  - When not inventory not open and item is selected in hotbar and you press Q, drop one from stack in overworld
   - Right click item to split stack in half
 - **Simple Hotbar**
   - ✅ Show some of your most used items
@@ -45,10 +47,10 @@ Actual storyline details, specific features or game mechanics will be added afte
   - Show 3 tabs. Active quests, completed quests, all quests
   - Completed quests greyed out with checkmark icon
 - **Tabs**
-- Put all these views into the same UI, but in different tabs.
+  - Put all these views into the same UI, but in different tabs.
 
 ## HUD
-  - Minimap
+  - ✅ Minimap
     - ✅ Minimap showing the player from above
     - ✅ Minimap's up direction should always be where the camera is facing
   - Digital clock
@@ -98,5 +100,4 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 # Known bugs
 - Hotbar selection keeps disappearing, like when changing scroll direction or hiding minimap
-- Hotbar selection changes when opening inventory with Tab
 - Have item in hotbar slot 5, and rest of inventory is empty. Pick up a new item of different type. The new item should go to slot 0 and leave the item in slot 5, but instead it moves both items to slot 0 and 1. Respect current indices! 

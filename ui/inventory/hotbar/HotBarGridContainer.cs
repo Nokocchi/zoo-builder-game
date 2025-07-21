@@ -39,23 +39,16 @@ public partial class HotBarGridContainer : GridContainer
     // TODO: Refactor the hotbar and inventory so they don't need all this duplicated logic.
     private void OnItemClicked(InventoryItemStack clickedSlot)
     {
-        GD.Print("Slot clicked");
-        ItemStackResource currentlyHeldItemStackResource = _globals.MouseWithMarker.ItemStack.ItemStackResource;
-        int currentlyHeldItemStackIndex = _globals.MouseWithMarker.ItemStack.InventoryIndex;
-
         // We are holding an item. We want to either drop it, if the clicked slot is empty, or swap items
         ItemStackResource clickedSlotItemResource = clickedSlot.ItemStackResource;
-        if (currentlyHeldItemStackResource != null)
+        if (_globals.MouseWithMarker.HoldsItem)
         {
-            // Clicked slot is empty, drop item here
-            if (clickedSlotItemResource == null)
-            {
-                clickedSlot.ItemStackResource = currentlyHeldItemStackResource;
-            }
+            ItemStackResource currentlyHeldItemStackResource = _globals.MouseWithMarker.ItemStackInstance.ItemStackResource;
+            int currentlyHeldItemStackIndex = _globals.MouseWithMarker.ItemStackInstance.InventoryIndex;
+            clickedSlot.ItemStackResource = currentlyHeldItemStackResource;
             // Clicked slot has item, swap
-            else
+            if (clickedSlotItemResource != null)
             {
-                clickedSlot.ItemStackResource = currentlyHeldItemStackResource;
                 InventoryItemStack slotItemCameFrom = GetChild<InventoryItemStack>(currentlyHeldItemStackIndex);
                 slotItemCameFrom.ItemStackResource = clickedSlotItemResource;
             }
@@ -63,9 +56,8 @@ public partial class HotBarGridContainer : GridContainer
             _globals.MouseWithMarker.ClearItemStack();
         }
         // We are not currently holding anything, but the slot we clicked does have an item. Pick it up
-        else if (currentlyHeldItemStackResource == null && clickedSlotItemResource != null)
+        else if (clickedSlotItemResource != null)
         {
-            GD.Print("Hold item");
             GlobalObjectsContainer.Instance.MouseWithMarker.HoldItemStack(clickedSlot);
             clickedSlot.ItemStackResource = null;
         }

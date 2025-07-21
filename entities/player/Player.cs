@@ -35,7 +35,11 @@ public partial class Player : CharacterBody3D
     private ItemDataResource _orangeResource;
     private ItemDataResource _bananaResource;
     private InventorySingleton _inventorySingleton;
+    private Camera3D _playerCamera;
 
+    [Export]
+    public PackedScene OverworldItemScene { get; set; }
+    
     [Signal]
     public delegate void HitEventHandler();
 
@@ -47,6 +51,7 @@ public partial class Player : CharacterBody3D
         _playerSpringArm = GetNode<SpringArm3D>("PlayerSpringArm");
         _itemPullZone = GetNode<Area3D>("ItemPullZone");
         _itemPickupZone = GetNode<Area3D>("ItemImmediatePickupZone");
+        _playerCamera = GetNode<Camera3D>("PlayerSpringArm/PlayerCamera");
         _appleResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_apple.tres");
         _orangeResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_orange.tres");
         _bananaResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_banana.tres");
@@ -77,9 +82,9 @@ public partial class Player : CharacterBody3D
         Array<Node3D> overlappingBodies = _itemPullZone.GetOverlappingBodies();
         foreach (Node3D overlappingBody in overlappingBodies)
         {
-            if (overlappingBody is OverworldItem overworldItem)
+            if (overlappingBody is OverworldItem {CanPickUp: true} overworldItem)
             {
-                overworldItem.MoveToPlayer = this;
+                overworldItem.MoveToPlayer = true;
             }
         }
     }
@@ -95,7 +100,7 @@ public partial class Player : CharacterBody3D
         Array<Node3D> overlappingBodies = _itemPickupZone.GetOverlappingBodies();
         foreach (Node3D overlappingBody in overlappingBodies)
         {
-            if (overlappingBody is OverworldItem overworldItem)
+            if (overlappingBody is OverworldItem { CanPickUp: true } overworldItem)
             {
                 InventorySingleton.Instance.AddItem(overworldItem.ItemStackResource);
                 overworldItem.QueueFree();
@@ -124,8 +129,6 @@ public partial class Player : CharacterBody3D
 
             if (Input.IsActionPressed("move_back"))
             {
-                // Notice how we are working with the vector's X and Z axes.
-                // In 3D, the XZ plane is the ground plane.
                 direction.Z += 1.0f;
             }
 
@@ -215,5 +218,13 @@ public partial class Player : CharacterBody3D
 
         Node3D pivot = GetNode<Node3D>("Pivot");
         pivot.Rotation = new Vector3(Mathf.Pi / 6.0f * Velocity.Y / JumpImpulse, pivot.Rotation.Y, pivot.Rotation.Z);
+    }
+    
+    public void TossItem(ItemStackResource itemStackResource)
+    {
+        OverworldItem overworldItem = OverworldItemScene.Instantiate<OverworldItem>();
+        overworldItem.ItemStackResource = itemStackResource;
+        GlobalObjectsContainer.Instance.Game.AddChild(overworldItem);
+        overworldItem.LaunchFromPlayer();
     }
 }

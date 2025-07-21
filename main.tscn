@@ -158,19 +158,19 @@ script = ExtResource("5_7mycd")
 [node name="MouseWithItemMarker" parent="UserInterface/CanvasLayer" instance=ExtResource("17_yaehf")]
 
 [node name="OverworldItem" parent="." instance=ExtResource("8_kek77")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 23.6205)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.76123, 23.6205)
 ItemStackResource = SubResource("Resource_yaehf")
 
 [node name="OverworldItem2" parent="." instance=ExtResource("8_kek77")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.144, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.144, 1.83059, 0)
 ItemStackResource = SubResource("Resource_074og")
 
 [node name="OverworldItem3" parent="." instance=ExtResource("8_kek77")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.53561, 1.30059, -26.5101)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.53561, 2.50881, -26.5101)
 ItemStackResource = SubResource("Resource_cegan")
 
 [node name="OverworldItem4" parent="." instance=ExtResource("8_kek77")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.1277, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.1277, 2.35158, 0)
 ItemStackResource = SubResource("Resource_getpj")
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]

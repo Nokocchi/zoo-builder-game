@@ -68,6 +68,13 @@ public partial class InventoryItemStack : Panel
         _stackSizeLabel.Text = "" + stackSize;
     }
 
+    public int DecrementAndRerender()
+    {
+        ItemStackResource.Amount -= 1;
+        Render();
+        return ItemStackResource.Amount;
+    }
+
 
     // Called by the button child, propagated as new signal that the inventory can listen to
     private void OnPressed()
