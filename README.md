@@ -25,7 +25,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ When holding an item and clicking another slot, move item to this spot. Swap items if necessary
   - ✅ When holding an item and clicking Q, drop in overworld
   - When holding an item and clicking outside inventory, drop whole stack in overworld
-  - When not inventory not open and item is selected in hotbar and you press Q, drop one from stack in overworld
+  - ✅ When not inventory not open and item is selected in hotbar and you press Q, drop one from stack in overworld
   - Right click item to split stack in half
 - **Simple Hotbar**
   - ✅ Show some of your most used items
@@ -65,10 +65,10 @@ Actual storyline details, specific features or game mechanics will be added afte
 - ✅ Overworld items that get picked up when touched
   - ✅ Image always facing the player
   - ✅ Move items towards player if nearby
+  - ✅ Combine into one stack if multiple of the same item are near each other
   - Play sound when picked up
-  - Stack items on the ground if multiple are in close proximity
 
-## Save / Load
+## Save / Loadq
 - Save achievements
 - ✅ Save settings
 - Save character customization
@@ -101,3 +101,9 @@ Actual storyline details, specific features or game mechanics will be added afte
 # Known bugs
 - Hotbar selection keeps disappearing, like when changing scroll direction or hiding minimap
 - Have item in hotbar slot 5, and rest of inventory is empty. Pick up a new item of different type. The new item should go to slot 0 and leave the item in slot 5, but instead it moves both items to slot 0 and 1. Respect current indices! 
+- When tossing multiple items quickly, too many stacks are created. Quickly tossing 2 items results in 3x "picked up stack of 1" => total of 3 items. They also don't combine.
+
+# Things to fix:
+- Currently, the logic in the hotbar is duplicated to the inventory. This should not be necessary. Simplify with inheritance or just use a single script file
+- The inventory should be a resource so it can be saved and loaded
+- When items collide with static objects, they can be picked up. The only static object at the moment is the floor, but in the future, there will be walls. 

@@ -102,6 +102,7 @@ public partial class Player : CharacterBody3D
         {
             if (overlappingBody is OverworldItem { CanPickUp: true } overworldItem)
             {
+                GD.Print("Picked up stack of ", overworldItem.ItemStackResource.Amount);
                 InventorySingleton.Instance.AddItem(overworldItem.ItemStackResource);
                 overworldItem.QueueFree();
             }
@@ -140,6 +141,8 @@ public partial class Player : CharacterBody3D
 
         // UP => Y=1
         // Rotate direction vector by the direction the camera is facing
+        // TODO: Does it make more sense to rotate the player's basis such that its Z is in the direction of the SpringArm? 
+        // Do we risk that looking up or down with the camera affects the forwards movement speed?
         direction = direction.Rotated(Vector3.Up, _playerSpringArm.Rotation.Y);
 
         if (direction != Vector3.Zero)
@@ -218,13 +221,5 @@ public partial class Player : CharacterBody3D
 
         Node3D pivot = GetNode<Node3D>("Pivot");
         pivot.Rotation = new Vector3(Mathf.Pi / 6.0f * Velocity.Y / JumpImpulse, pivot.Rotation.Y, pivot.Rotation.Z);
-    }
-    
-    public void TossItem(ItemStackResource itemStackResource)
-    {
-        OverworldItem overworldItem = OverworldItemScene.Instantiate<OverworldItem>();
-        overworldItem.ItemStackResource = itemStackResource;
-        GlobalObjectsContainer.Instance.Game.AddChild(overworldItem);
-        overworldItem.LaunchFromPlayer();
     }
 }

@@ -160,18 +160,22 @@ script = ExtResource("5_7mycd")
 [node name="OverworldItem" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.76123, 23.6205)
 ItemStackResource = SubResource("Resource_yaehf")
+OverworldItemScene = ExtResource("8_kek77")
 
 [node name="OverworldItem2" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.144, 1.83059, 0)
 ItemStackResource = SubResource("Resource_074og")
+OverworldItemScene = ExtResource("8_kek77")
 
 [node name="OverworldItem3" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.53561, 2.50881, -26.5101)
 ItemStackResource = SubResource("Resource_cegan")
+OverworldItemScene = ExtResource("8_kek77")
 
 [node name="OverworldItem4" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.1277, 2.35158, 0)
 ItemStackResource = SubResource("Resource_getpj")
+OverworldItemScene = ExtResource("8_kek77")
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]

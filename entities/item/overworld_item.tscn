@@ -1,6 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://c6ts0k6wj3s1u"]
+[gd_scene load_steps=8 format=3 uid="uid://c6ts0k6wj3s1u"]
 
 [ext_resource type="Script" uid="uid://bawkuu5cfrdia" path="res://entities/item/OverworldItem.cs" id="1_a0s5l"]
+[ext_resource type="Script" uid="uid://cqb8fpfa7pppt" path="res://globals/resources/ItemStackResource.cs" id="2_wsk4c"]
+
+[sub_resource type="Resource" id="Resource_ij02l"]
+resource_local_to_scene = true
+script = ExtResource("2_wsk4c")
+Amount = 0
+metadata/_custom_type_script = "uid://cqb8fpfa7pppt"
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0s5l"]
 radius = 0.775805
@@ -14,6 +21,9 @@ billboard_mode = 1
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_ffdaq")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_ffdaq"]
+radius = 7.21681
+
 [node name="OverworldItem" type="RigidBody3D"]
 collision_layer = 8
 collision_mask = 4
@@ -21,10 +31,21 @@ gravity_scale = 4.5
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_a0s5l")
+ItemStackResource = SubResource("Resource_ij02l")
 LaunchVector = Vector3(0, 32, -16)
+OverworldItemScene = null
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_a0s5l")
 
 [node name="ItemMesh" type="MeshInstance3D" parent="."]
 mesh = SubResource("QuadMesh_ffdaq")
+
+[node name="NearbyItemDetector" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NearbyItemDetector"]
+shape = SubResource("SphereShape3D_ffdaq")
+
+[connection signal="body_entered" from="NearbyItemDetector" to="." method="OnOverlappingStackZoneEntered"]

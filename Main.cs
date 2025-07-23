@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using ZooBuilder.globals;
+using ZooBuilder.util;
 
 public partial class Main : Node
 {
@@ -11,6 +12,7 @@ public partial class Main : Node
 	public override void _Ready()
 	{
 		GlobalObjectsContainer.Instance.Game = this;
+		DrawLine3D.Instance.PrepareDebugLines(this);
 	}
 	
 	private void OnMobTimerTimeout()

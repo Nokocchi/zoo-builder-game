@@ -18,6 +18,8 @@ config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 
 InventorySingleton="*res://globals/InventorySingleton.cs"
 GlobalObjectsContainer="*res://globals/GlobalObjectsContainer.cs"
+DrawLine3DScript="*res://globals/util/DrawLine3D.gd"
+DrawLine3D="*res://globals/util/DrawLine3D.cs"
 
 [dotnet]
 

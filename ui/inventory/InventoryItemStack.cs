@@ -81,8 +81,7 @@ public partial class InventoryItemStack : Panel
     {
         EmitSignal(SignalName.ItemStackPressed, this);
     }
-
-    // TODO: This technically "works", but ideally I should switch between two predefined resources
+    
     private void OnSelectedHotbarSlotChanged(int oldIndex, int newIndex)
     {
         // This stack should now be highlighted

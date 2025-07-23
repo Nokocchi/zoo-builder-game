@@ -52,8 +52,8 @@ public partial class MouseWithItemMarker : Control
             // How does MouseWithItemMarker throw the item into the overworld? With a signal?
             // When an item is down to 0 amount, who is in charge of removing it from the inventorySingleton and the visual inventories? 
             _itemStackInstance.DecrementAndRerender();
-            Player player = GlobalObjectsContainer.Instance.Player;
-            player.TossItem(new ItemStackResource(_itemStackInstance.ItemStackResource.ItemData, 1));
+            OverworldItem.SpawnItemAndLaunchFromPlayer(
+                new ItemStackResource(_itemStackInstance.ItemStackResource.ItemData, 1));
         }
     }
 }

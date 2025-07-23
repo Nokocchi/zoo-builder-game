@@ -35,8 +35,7 @@ public partial class HotBarGridContainer : GridContainer
     public override void _Process(double delta)
     {
     }
-
-    // TODO: Refactor the hotbar and inventory so they don't need all this duplicated logic.
+    
     private void OnItemClicked(InventoryItemStack clickedSlot)
     {
         // We are holding an item. We want to either drop it, if the clicked slot is empty, or swap items
@@ -93,6 +92,7 @@ public partial class HotBarGridContainer : GridContainer
     // Change selected hotbar slot with mouse scrolling
     public override void _Input(InputEvent @event)
     {
+        int currentHotBarIndex = _inventorySingleton.SelectedHotbarSlotIndex;
         if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.IsPressed())
         {
             bool wheelDown = eventMouseButton.ButtonIndex == MouseButton.WheelDown;
@@ -108,16 +108,23 @@ public partial class HotBarGridContainer : GridContainer
             int newIndex = 0;
             if (wheelDown ^ _settings.HotbarScrollDirectionFlipped)
             {
-                newIndex = (_inventorySingleton.SelectedHotbarSlotIndex + 1) % InventorySingleton.HotBarSize;
+                newIndex = (currentHotBarIndex + 1) % InventorySingleton.HotBarSize;
             }
 
             if (wheelUp ^ _settings.HotbarScrollDirectionFlipped)
             {
-                newIndex = ((_inventorySingleton.SelectedHotbarSlotIndex - 1) + InventorySingleton.HotBarSize) %
+                newIndex = ((currentHotBarIndex - 1) + InventorySingleton.HotBarSize) %
                            InventorySingleton.HotBarSize;
             }
 
             _inventorySingleton.SelectedHotbarSlotIndex = newIndex;
+        }
+        
+        if (@event.IsActionPressed("toss_single_item"))
+        {
+            InventoryItemStack currentSelectedStack = GetChild<InventoryItemStack>(currentHotBarIndex);
+            currentSelectedStack.DecrementAndRerender();
+            OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.ItemStackResource.ItemData, 1));
         }
     }
 }

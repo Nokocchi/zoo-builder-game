@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using ZooBuilder.globals;
+using ZooBuilder.util;
 
 public partial class PlayerSpringArm : SpringArm3D
 {
@@ -11,6 +12,8 @@ public partial class PlayerSpringArm : SpringArm3D
 	private const float MouseSpeedScale = 100f;
 	private SettingsSingleton _settings;
 	private InventorySingleton _inventory;
+	private GlobalObjectsContainer _globals;
+	
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -21,8 +24,9 @@ public partial class PlayerSpringArm : SpringArm3D
 		SpringLength = _camera.Position.Z;
 		_rotation = RotationDegrees;
 		Input.MouseMode = Input.MouseModeEnum.Captured;
-		GlobalObjectsContainer.Instance.PlayerSpringArm = this;
-		GlobalObjectsContainer.Instance.PlayerCamera = _camera;
+		_globals = GlobalObjectsContainer.Instance;
+		_globals.PlayerSpringArm = this;
+		_globals.PlayerCamera = _camera;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
