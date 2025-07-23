@@ -37,7 +37,7 @@ public partial class MouseWithItemMarker : Control
 
     public override void _Input(InputEvent @event)
     {
-        if (@event is InputEventMouseMotion eventMouseMotion)
+        if (HoldsItem && @event is InputEventMouseMotion eventMouseMotion)
         {
             // Itemstack's bottom left corner follows mouse. When clicking, you technically click the InventoryItemStack, but this is marked as mouse = ignore. 
             Position = new Vector2(eventMouseMotion.Position.X, (eventMouseMotion.Position.Y - _itemStackInstance.Size.Y));

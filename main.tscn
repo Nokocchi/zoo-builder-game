@@ -1,10 +1,11 @@
-[gd_scene load_steps=29 format=3 uid="uid://dccrigx4avpxq"]
+[gd_scene load_steps=31 format=3 uid="uid://dccrigx4avpxq"]
 
 [ext_resource type="Script" uid="uid://bhprgr5jxyobx" path="res://Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cct7dqifva85s" path="res://entities/player/player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cqejvmqcgsyw4" path="res://entities/mob/mob.tscn" id="2_1bvp3"]
 [ext_resource type="FontFile" uid="uid://cyxhh7ddkn62q" path="res://fonts/Montserrat-Medium.ttf" id="4_lquwl"]
 [ext_resource type="Script" uid="uid://ehw2a7dxyavb" path="res://ScoreLabel.cs" id="5_7mycd"]
+[ext_resource type="Script" uid="uid://isfg8cuaye8x" path="res://ui/inventory/OverworldDropListenerPanel.cs" id="5_074og"]
 [ext_resource type="PackedScene" uid="uid://cj1sh7dasg33y" path="res://ui/inventory/hotbar/hot_bar_view.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://d6u50yq3mt8o" path="res://ui/inventory/inventory.tscn" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://c6ts0k6wj3s1u" path="res://entities/item/overworld_item.tscn" id="8_kek77"]
@@ -40,6 +41,9 @@ point_count = 4
 
 [sub_resource type="Theme" id="Theme_272bh"]
 default_font = ExtResource("4_lquwl")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_074og"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="Resource" id="Resource_yaehf"]
 script = ExtResource("12_2cqfq")
@@ -135,7 +139,19 @@ grow_vertical = 2
 theme = SubResource("Theme_272bh")
 metadata/_edit_use_anchors_ = true
 
+[node name="OverworldDropListener" type="CanvasLayer" parent="UserInterface"]
+
+[node name="OverworldDropListenerPanel" type="Panel" parent="UserInterface/OverworldDropListener"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_074og")
+script = ExtResource("5_074og")
+
 [node name="Minimap" parent="UserInterface" instance=ExtResource("9_vivmo")]
+visible = false
 
 [node name="ScoreLabel" type="Label" parent="UserInterface"]
 layout_mode = 0
@@ -160,22 +176,19 @@ script = ExtResource("5_7mycd")
 [node name="OverworldItem" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.76123, 23.6205)
 ItemStackResource = SubResource("Resource_yaehf")
-OverworldItemScene = ExtResource("8_kek77")
 
 [node name="OverworldItem2" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.144, 1.83059, 0)
 ItemStackResource = SubResource("Resource_074og")
-OverworldItemScene = ExtResource("8_kek77")
 
 [node name="OverworldItem3" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.53561, 2.50881, -26.5101)
 ItemStackResource = SubResource("Resource_cegan")
-OverworldItemScene = ExtResource("8_kek77")
 
 [node name="OverworldItem4" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.1277, 2.35158, 0)
 ItemStackResource = SubResource("Resource_getpj")
-OverworldItemScene = ExtResource("8_kek77")
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]
+[connection signal="gui_input" from="UserInterface/OverworldDropListener/OverworldDropListenerPanel" to="UserInterface/OverworldDropListener/OverworldDropListenerPanel" method="OnGuiInput"]

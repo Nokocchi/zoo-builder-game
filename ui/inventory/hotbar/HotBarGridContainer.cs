@@ -57,10 +57,12 @@ public partial class HotBarGridContainer : GridContainer
         // We are not currently holding anything, but the slot we clicked does have an item. Pick it up
         else if (clickedSlotItemResource != null)
         {
+            // TODO: Issue: Here we set the itemStackResource to be null, circumventing the InventorySingleton.
+            // Then, when the item stack (or some of it) has been dropped from the inventory, how does this class know about it?
+            // Maybe the InventorySingleton should handle all this, and simply mark slots as "being held"?
             GlobalObjectsContainer.Instance.MouseWithMarker.HoldItemStack(clickedSlot);
             clickedSlot.ItemStackResource = null;
         }
-        
     }
 
     public void OnInventoryUpdated()

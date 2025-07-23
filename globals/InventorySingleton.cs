@@ -56,6 +56,12 @@ public partial class InventorySingleton : Node
         EmitSignal(SignalName.SelectedHotbarSlotUpdated, oldIndex, _selectedHotbarSlotIndex);
     }
 
+    public void RemoveStackFromInventory(int index)
+    {
+        Inventory[index] = null;
+        EmitSignal(SignalName.InventoryUpdated);
+    }
+
     public void AddItem(ItemStackResource itemStack)
     {
         ItemStackResource existingStack = null;
