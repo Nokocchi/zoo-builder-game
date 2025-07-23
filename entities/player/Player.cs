@@ -100,12 +100,11 @@ public partial class Player : CharacterBody3D
         Array<Node3D> overlappingBodies = _itemPickupZone.GetOverlappingBodies();
         foreach (Node3D overlappingBody in overlappingBodies)
         {
-            if (overlappingBody is OverworldItem { CanPickUp: true } overworldItem)
-            {
-                GD.Print("Picked up stack of ", overworldItem.ItemStackResource.Amount);
-                InventorySingleton.Instance.AddItem(overworldItem.ItemStackResource);
-                overworldItem.QueueFree();
-            }
+            if (overlappingBody is not OverworldItem { CanPickUp: true } overworldItem) continue;
+            // This check is to avoid picking up the same item multiple times
+            if(overworldItem.IsQueuedForDeletion()) continue;
+            InventorySingleton.Instance.AddItem(overworldItem.ItemStackResource);
+            overworldItem.QueueFree();
         }
     }
 

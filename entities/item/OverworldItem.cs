@@ -82,7 +82,6 @@ public partial class OverworldItem() : RigidBody3D
 
     public static void SpawnItemAndLaunchFromPlayer(ItemStackResource itemStackResource)
     {
-        GD.Print("Spawned stack of ", itemStackResource.Amount);
         PackedScene overworldItemScene = GD.Load<PackedScene>("res://entities/item/overworld_item.tscn");
         OverworldItem overworldItem = overworldItemScene.Instantiate<OverworldItem>();
         overworldItem.ItemStackResource = itemStackResource;
@@ -98,12 +97,17 @@ public partial class OverworldItem() : RigidBody3D
         }
     }
 
-    private void OnOverlappingStackZoneEntered(Node3D node)
+    // This is using a timer because using collisions don't work well when quickly dropping multiple items in a row.
+    // They don't seem to trigger the collision, presumably because they spawn inside each other's Area3D?
+    // Either way, stack merging can be deferred and is not time critical. 
+    private void OnNearbyStackMergeTimerTimeout()
     {
         Array<Node3D> overlappingBodies = _nearbyItemDetector.GetOverlappingBodies();
         foreach (Node3D overlappingBody in overlappingBodies)
         {
             if (overlappingBody is not OverworldItem overworldItem) continue;
+            // The Area3D can apparently collide with its own parent. Ignore this collision
+            if (overworldItem == this) continue;
             if (!overworldItem.CanPickUp || overworldItem.ItemStackResource.ItemData !=
                 ItemStackResource.ItemData) continue;
             // TODO: Could we get a concurrency issue here where two items overlap, and both call this method, and one calls QueueFree while the other one expects it to still exist?

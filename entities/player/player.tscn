@@ -132,11 +132,6 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ItemImmediatePickupZone"]
 shape = SubResource("SphereShape3D_bls4j")
 
-[node name="ItemPickupTimer" type="Timer" parent="."]
-autostart = true
-
 [connection signal="body_entered" from="MobDetector" to="." method="OnMobDetectorBodyEntered"]
 [connection signal="body_entered" from="ItemPullZone" to="." method="ItemPullZoneBodyEntered"]
 [connection signal="body_entered" from="ItemImmediatePickupZone" to="." method="ItemImmediatePickupZoneBodyEntered"]
-[connection signal="timeout" from="ItemPickupTimer" to="." method="PickupNearbyItems"]
-[connection signal="timeout" from="ItemPickupTimer" to="." method="MoveNearbyItemsToPlayer"]

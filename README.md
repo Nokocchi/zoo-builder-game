@@ -100,10 +100,9 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 # Known bugs
 - Hotbar selection keeps disappearing, like when changing scroll direction or hiding minimap
-- Have item in hotbar slot 5, and rest of inventory is empty. Pick up a new item of different type. The new item should go to slot 0 and leave the item in slot 5, but instead it moves both items to slot 0 and 1. Respect current indices! 
-- When tossing multiple items quickly, too many stacks are created. Quickly tossing 2 items results in 3x "picked up stack of 1" => total of 3 items. They also don't combine.
+- Have item in hotbar slot 5, and rest of inventory is empty. Pick up a new item of different type. The new item should go to slot 0 and leave the item in slot 5, but instead it moves both items to slot 0 and 1. Respect current indices!
 
 # Things to fix:
 - Currently, the logic in the hotbar is duplicated to the inventory. This should not be necessary. Simplify with inheritance or just use a single script file
 - The inventory should be a resource so it can be saved and loaded
-- When items collide with static objects, they can be picked up. The only static object at the moment is the floor, but in the future, there will be walls. 
+- When items collide with static objects, they can be picked up. The only static object at the moment is the floor, but in the future, there will be walls.
