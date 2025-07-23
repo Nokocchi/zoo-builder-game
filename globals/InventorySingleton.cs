@@ -13,13 +13,21 @@ public partial class InventorySingleton : Node
     
     [Signal]
     public delegate void SelectedHotbarSlotUpdatedEventHandler(int oldIndex, int newIndex);
+    
+    [Signal]
+    public delegate void InventoryItemStackHeldEventHandler(int heldItemIndex);
 
     [Export] public int InventorySize = 20;
 
     public const int HotBarSize = 8;
-    
+
+
     public List<ItemStackResource> Inventory;
 
+    public bool HoldsItem => Inventory.Exists(stack => stack is { BeingHeld: true });
+    public ItemStackResource HeldItem => Inventory.Find(stack => stack is { BeingHeld: true} );
+    public int HeldItemIndex => Inventory.FindIndex(stack => stack is { BeingHeld: true} );
+    
     public bool MenuOpen { get; set; }
 
     private int _selectedHotbarSlotIndex;
@@ -50,7 +58,6 @@ public partial class InventorySingleton : Node
     
     private void SetHotbarSlotIndex(int newIndex)
     {
-        GD.Print("New selected index is ", newIndex);
         int oldIndex = _selectedHotbarSlotIndex;
         _selectedHotbarSlotIndex = Math.Abs(newIndex) % HotBarSize;
         EmitSignal(SignalName.SelectedHotbarSlotUpdated, oldIndex, _selectedHotbarSlotIndex);
@@ -83,7 +90,6 @@ public partial class InventorySingleton : Node
 
         if (existingStack != null)
         {
-            GD.Print("Increase stack");
             existingStack.IncreaseStackSize(itemStack.Amount);
             EmitSignal(SignalName.InventoryUpdated);
             return;
@@ -101,4 +107,28 @@ public partial class InventorySingleton : Node
     }
 
 
+    public void SetHeldItem(int heldItemIndex, bool held)
+    {
+        Inventory[heldItemIndex].BeingHeld = held;
+        EmitSignal(SignalName.InventoryItemStackHeld, heldItemIndex);
+    }
+
+    public void ClearHeldItem()
+    {
+        SetHeldItem(HeldItemIndex, false);
+        EmitSignal(SignalName.InventoryItemStackHeld, -1);
+    }
+
+    public void SwapItems(int item1, int item2)
+    {
+        (Inventory[item1], Inventory[item2]) = (Inventory[item2], Inventory[item1]);
+        EmitSignal(SignalName.InventoryUpdated);
+    }
+
+    public void MoveItem(int fromIndex, int toIndex)
+    {
+        Inventory[toIndex] = Inventory[fromIndex];
+        Inventory[fromIndex] = null;
+        EmitSignal(SignalName.InventoryUpdated);
+    }
 }

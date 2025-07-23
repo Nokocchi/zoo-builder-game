@@ -33,7 +33,6 @@ max_contacts_reported = 1
 script = ExtResource("1_a0s5l")
 ItemStackResource = SubResource("Resource_ij02l")
 LaunchVector = Vector3(0, 32, -16)
-OverworldItemScene = null
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_a0s5l")

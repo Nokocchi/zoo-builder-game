@@ -40,28 +40,28 @@ public partial class HotBarGridContainer : GridContainer
     {
         // We are holding an item. We want to either drop it, if the clicked slot is empty, or swap items
         ItemStackResource clickedSlotItemResource = clickedSlot.ItemStackResource;
-        if (_globals.MouseWithMarker.HoldsItem)
+        if (_inventorySingleton.HoldsItem)
         {
-            ItemStackResource currentlyHeldItemStackResource = _globals.MouseWithMarker.ItemStackInstance.ItemStackResource;
-            int currentlyHeldItemStackIndex = _globals.MouseWithMarker.ItemStackInstance.InventoryIndex;
-            clickedSlot.ItemStackResource = currentlyHeldItemStackResource;
-            // Clicked slot has item, swap
-            if (clickedSlotItemResource != null)
+            int heldItemIndex = _inventorySingleton.HeldItemIndex;
+            // Clicked slot is empty, drop item here
+            if (clickedSlotItemResource == null)
             {
-                InventoryItemStack slotItemCameFrom = GetChild<InventoryItemStack>(currentlyHeldItemStackIndex);
-                slotItemCameFrom.ItemStackResource = clickedSlotItemResource;
+                _inventorySingleton.MoveItem(heldItemIndex, clickedSlot.InventoryIndex);
             }
 
-            _globals.MouseWithMarker.ClearItemStack();
+            // Clicked slot has item, swap
+            else
+            {
+                _inventorySingleton.SwapItems(clickedSlot.InventoryIndex, heldItemIndex);
+            }
+            
+            // In any case, we are no longer holding an item
+            _inventorySingleton.ClearHeldItem();
         }
         // We are not currently holding anything, but the slot we clicked does have an item. Pick it up
         else if (clickedSlotItemResource != null)
         {
-            // TODO: Issue: Here we set the itemStackResource to be null, circumventing the InventorySingleton.
-            // Then, when the item stack (or some of it) has been dropped from the inventory, how does this class know about it?
-            // Maybe the InventorySingleton should handle all this, and simply mark slots as "being held"?
-            GlobalObjectsContainer.Instance.MouseWithMarker.HoldItemStack(clickedSlot);
-            clickedSlot.ItemStackResource = null;
+            _inventorySingleton.SetHeldItem(clickedSlot.InventoryIndex, true);
         }
     }
 

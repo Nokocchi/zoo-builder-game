@@ -29,11 +29,6 @@ public partial class InventoryGridContainer : GridContainer
 
     private void OnItemClicked(InventoryItemStack slot)
     {
-        if (slot != null)
-        {
-            GlobalObjectsContainer.Instance.MouseWithMarker.HoldItemStack(slot);
-            slot.ItemStackResource = null;
-        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

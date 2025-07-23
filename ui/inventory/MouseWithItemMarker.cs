@@ -8,16 +8,29 @@ public partial class MouseWithItemMarker : Control
     private InventoryItemStack _itemStackInstance;
 
     public InventoryItemStack ItemStackInstance => _itemStackInstance;
-    public bool HoldsItem => _itemStackInstance.ItemStackResource != null;
     
     public override void _Ready()
     {
         GlobalObjectsContainer.Instance.MouseWithMarker = this;
         _itemStackInstance = GetNode<InventoryItemStack>("InventoryItemStack");
         Visible = false;
+        InventorySingleton.Instance.InventoryItemStackHeld += OnItemHeld;
     }
 
-    public void HoldItemStack(InventoryItemStack holdStack)
+    private void OnItemHeld(int indexHeld)
+    {
+        if (indexHeld == -1)
+        {
+            ClearItemStack();
+        }
+        else
+        {
+            ItemStackResource itemStackResource = InventorySingleton.Instance.Inventory[indexHeld];
+            HoldItemStack(itemStackResource, indexHeld);
+        }
+    }
+
+    public void HoldItemStack(ItemStackResource holdStack, int indexHeld)
     {
         if (holdStack == null)
         {
@@ -25,8 +38,8 @@ public partial class MouseWithItemMarker : Control
         }
 
         Visible = true;
-        _itemStackInstance.ItemStackResource = holdStack.ItemStackResource;
-        _itemStackInstance.InventoryIndex = holdStack.InventoryIndex;
+        _itemStackInstance.ItemStackResource = holdStack;
+        _itemStackInstance.InventoryIndex = indexHeld;
     }
     
     public void ClearItemStack()
@@ -37,14 +50,14 @@ public partial class MouseWithItemMarker : Control
 
     public override void _Input(InputEvent @event)
     {
-        if (HoldsItem && @event is InputEventMouseMotion eventMouseMotion)
+        if (@event is InputEventMouseMotion eventMouseMotion)
         {
             // Itemstack's bottom left corner follows mouse. When clicking, you technically click the InventoryItemStack, but this is marked as mouse = ignore. 
             Position = new Vector2(eventMouseMotion.Position.X, (eventMouseMotion.Position.Y - _itemStackInstance.Size.Y));
             // get_viewport().get_mouse_position() ?
         }
 
-        if (@event.IsActionPressed("toss_single_item") && HoldsItem)
+        if (@event.IsActionPressed("toss_single_item") && InventorySingleton.Instance.HoldsItem)
         {
             
             // TODO:
