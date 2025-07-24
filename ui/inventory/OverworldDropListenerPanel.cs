@@ -9,10 +9,12 @@ public partial class OverworldDropListenerPanel : Panel
         if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.IsPressed() &&
             eventMouseButton.ButtonIndex == MouseButton.Left && InventorySingleton.Instance.HoldsItem)
         {
+            
             ItemStackResource itemStack = InventorySingleton.Instance.HeldItem;
-            InventorySingleton.Instance.RemoveStackFromInventory(InventorySingleton.Instance.HeldItemIndex);
-            OverworldItem.SpawnItemAndLaunchFromPlayer(itemStack);
+            int heldItemIndex = InventorySingleton.Instance.HeldItemIndex;
             InventorySingleton.Instance.ClearHeldItem();
+            InventorySingleton.Instance.RemoveStackFromInventory(heldItemIndex);
+            OverworldItem.SpawnItemAndLaunchFromPlayer(itemStack);
         }
     }
 }

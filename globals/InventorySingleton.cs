@@ -111,6 +111,7 @@ public partial class InventorySingleton : Node
     {
         Inventory[heldItemIndex].BeingHeld = held;
         EmitSignal(SignalName.InventoryItemStackHeld, heldItemIndex);
+        EmitSignal(SignalName.InventoryUpdated);
     }
 
     public void ClearHeldItem()

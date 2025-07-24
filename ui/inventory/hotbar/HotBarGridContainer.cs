@@ -84,7 +84,7 @@ public partial class HotBarGridContainer : GridContainer
             ItemStackResource stackAtIndex = inventory[i];
             InventoryItemStack slot = GetChild<InventoryItemStack>(i);
 
-            if (stackAtIndex != null)
+            if (stackAtIndex is { BeingHeld: false })
             {
                 slot.ItemStackResource = stackAtIndex;
             }

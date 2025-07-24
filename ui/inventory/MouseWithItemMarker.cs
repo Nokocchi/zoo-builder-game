@@ -21,6 +21,7 @@ public partial class MouseWithItemMarker : Control
     {
         if (indexHeld == -1)
         {
+            GD.Print("Clear");
             ClearItemStack();
         }
         else
