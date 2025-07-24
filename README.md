@@ -101,6 +101,8 @@ Actual storyline details, specific features or game mechanics will be added afte
 # Known bugs
 - Hotbar selection keeps disappearing, like when changing scroll direction or hiding minimap
 - Have item in hotbar slot 5, and rest of inventory is empty. Pick up a new item of different type. The new item should go to slot 0 and leave the item in slot 5, but instead it moves both items to slot 0 and 1. Respect current indices!
+- Held item, Q until stack is empty - held item doesn't disappear from UI
+- Two items in inventory, hold second item and Q until stack is empty. First item now disappears from inventory 
 
 # Things to fix:
 - Currently, the logic in the hotbar is duplicated to the inventory. This should not be necessary. Simplify with inheritance or just use a single script file

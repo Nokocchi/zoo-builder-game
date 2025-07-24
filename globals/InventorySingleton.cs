@@ -102,7 +102,7 @@ public partial class InventorySingleton : Node
         }
 
         GD.Print("Add new stack");
-        Inventory.Insert(firstEmptySlot, itemStack);
+        Inventory[firstEmptySlot] = itemStack;
         EmitSignal(SignalName.InventoryUpdated);
     }
 
@@ -110,7 +110,16 @@ public partial class InventorySingleton : Node
     public void SetHeldItem(int heldItemIndex, bool held)
     {
         Inventory[heldItemIndex].BeingHeld = held;
-        EmitSignal(SignalName.InventoryItemStackHeld, heldItemIndex);
+        if (held)
+        {
+            EmitSignal(SignalName.InventoryItemStackHeld, heldItemIndex);
+        }
+        else
+        {
+            // TODO: Just make a separate signal for this instead of giving -1 special meaning..
+            EmitSignal(SignalName.InventoryItemStackHeld, -1);
+        }
+
         EmitSignal(SignalName.InventoryUpdated);
     }
 

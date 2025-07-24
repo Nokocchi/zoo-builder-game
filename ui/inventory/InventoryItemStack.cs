@@ -68,11 +68,15 @@ public partial class InventoryItemStack : Panel
         _stackSizeLabel.Text = "" + stackSize;
     }
 
-    public int DecrementAndRerender()
+    public void DecrementRerenderAndRemoveIfZero()
     {
         ItemStackResource.Amount -= 1;
+        if (ItemStackResource.Amount <= 0)
+        {
+            InventorySingleton.Instance.RemoveStackFromInventory(InventoryIndex);
+        }
+
         Render();
-        return ItemStackResource.Amount;
     }
 
 

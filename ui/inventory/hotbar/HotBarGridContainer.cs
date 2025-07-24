@@ -43,13 +43,18 @@ public partial class HotBarGridContainer : GridContainer
         if (_inventorySingleton.HoldsItem)
         {
             int heldItemIndex = _inventorySingleton.HeldItemIndex;
-            // Clicked slot is empty, drop item here
+            
+            // Clicked slot is empty. 
             if (clickedSlotItemResource == null)
             {
-                _inventorySingleton.MoveItem(heldItemIndex, clickedSlot.InventoryIndex);
+                // We want to move our held item here if it's not the slot we are currently holding
+                // TODO: Maybe just update MoveItem to not do anything if the indexes are the same?
+                if (clickedSlot.InventoryIndex != heldItemIndex)
+                {
+                    _inventorySingleton.MoveItem(heldItemIndex, clickedSlot.InventoryIndex);
+                }
             }
-
-            // Clicked slot has item, swap
+            // Clicked slot has item. Swap
             else
             {
                 _inventorySingleton.SwapItems(clickedSlot.InventoryIndex, heldItemIndex);
@@ -125,8 +130,12 @@ public partial class HotBarGridContainer : GridContainer
         if (@event.IsActionPressed("toss_single_item"))
         {
             InventoryItemStack currentSelectedStack = GetChild<InventoryItemStack>(currentHotBarIndex);
-            currentSelectedStack.DecrementAndRerender();
-            OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.ItemStackResource.ItemData, 1));
+            if (!InventorySingleton.Instance.HoldsItem && currentSelectedStack.ItemStackResource is { Amount: >= 0, BeingHeld: false })
+            {
+                // TODO: This needs a cleanup maybe? Some places we are calling methods on the itemstack node, some places on the ItemStackResource itself, and other times in the InventorySingleton. 
+                OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.ItemStackResource.ItemData, 1));
+                currentSelectedStack.DecrementRerenderAndRemoveIfZero();
+            }
         }
     }
 }

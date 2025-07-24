@@ -5,9 +5,9 @@ using ZooBuilder.globals;
 // Is control so that it renders on top of other menus, like Inventory
 public partial class MouseWithItemMarker : Control
 {
+    // TODO: This InventoryItemStack is purely for show. The real item resource is in the InventorySingleton. Make this more clear? Or maybe it's okay if it's copied by refeence?
     private InventoryItemStack _itemStackInstance;
-
-    public InventoryItemStack ItemStackInstance => _itemStackInstance;
+    private int _heldIndex = -1;
     
     public override void _Ready()
     {
@@ -17,33 +17,28 @@ public partial class MouseWithItemMarker : Control
         InventorySingleton.Instance.InventoryItemStackHeld += OnItemHeld;
     }
 
-    private void OnItemHeld(int indexHeld)
+    private void OnItemHeld(int heldIndex)
     {
-        if (indexHeld == -1)
+        if (heldIndex < 0)
         {
-            GD.Print("Clear");
             ClearItemStack();
         }
         else
         {
-            ItemStackResource itemStackResource = InventorySingleton.Instance.Inventory[indexHeld];
-            HoldItemStack(itemStackResource, indexHeld);
+            _heldIndex = heldIndex;
+            ShowItemStack();
         }
     }
 
-    public void HoldItemStack(ItemStackResource holdStack, int indexHeld)
+    private void ShowItemStack()
     {
-        if (holdStack == null)
-        {
-            return;
-        }
-
+        if (_heldIndex < 0) return;
+        ItemStackResource itemStackResource = InventorySingleton.Instance.Inventory[_heldIndex];
         Visible = true;
-        _itemStackInstance.ItemStackResource = holdStack;
-        _itemStackInstance.InventoryIndex = indexHeld;
+        _itemStackInstance.ItemStackResource = itemStackResource;
     }
     
-    public void ClearItemStack()
+    private void ClearItemStack()
     {
         Visible = false;
         _itemStackInstance.ItemStackResource = null;
@@ -61,13 +56,13 @@ public partial class MouseWithItemMarker : Control
         if (@event.IsActionPressed("toss_single_item") && InventorySingleton.Instance.HoldsItem)
         {
             
-            // TODO:
-            // When picking up an item, should the inventory list in InventorySingleton be changed? Or do we leave it until an action has been taken?
-            // How does MouseWithItemMarker throw the item into the overworld? With a signal?
-            // When an item is down to 0 amount, who is in charge of removing it from the inventorySingleton and the visual inventories? 
-            _itemStackInstance.DecrementAndRerender();
-            OverworldItem.SpawnItemAndLaunchFromPlayer(
-                new ItemStackResource(_itemStackInstance.ItemStackResource.ItemData, 1));
+            ItemStackResource itemStackResource = InventorySingleton.Instance.Inventory[_heldIndex];
+            if (itemStackResource != null && itemStackResource.BeingHeld && itemStackResource.Amount > 0)
+            {
+                _itemStackInstance.DecrementRerenderAndRemoveIfZero();
+                OverworldItem.SpawnItemAndLaunchFromPlayer(
+                    new ItemStackResource(_itemStackInstance.ItemStackResource.ItemData, 1));
+            }
         }
     }
 }
