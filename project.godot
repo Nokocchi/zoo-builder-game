@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ZooBuilder"
-run/main_scene="uid://dccrigx4avpxq"
+run/main_scene="uid://ik8yu5uaqtg2"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 
 [autoload]

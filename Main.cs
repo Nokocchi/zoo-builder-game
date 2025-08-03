@@ -11,7 +11,7 @@ public partial class Main : Node
 
 	public override void _Ready()
 	{
-		GlobalObjectsContainer.Instance.Game = this;
+		GlobalObjectsContainer.Instance.GameScene = this;
 		DrawLine3D.Instance.PrepareDebugLines(this);
 	}
 	

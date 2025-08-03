@@ -31,9 +31,6 @@ public partial class Player : CharacterBody3D
     private SpringArm3D _playerSpringArm;
     private Area3D _itemPullZone;
     private Area3D _itemPickupZone;
-    private ItemDataResource _appleResource;
-    private ItemDataResource _orangeResource;
-    private ItemDataResource _bananaResource;
     private InventorySingleton _inventorySingleton;
     private Camera3D _playerCamera;
 
@@ -52,9 +49,6 @@ public partial class Player : CharacterBody3D
         _itemPullZone = GetNode<Area3D>("ItemPullZone");
         _itemPickupZone = GetNode<Area3D>("ItemImmediatePickupZone");
         _playerCamera = GetNode<Camera3D>("PlayerSpringArm/PlayerCamera");
-        _appleResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_apple.tres");
-        _orangeResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_orange.tres");
-        _bananaResource = ResourceLoader.Load<ItemDataResource>("res://entities/item/item_banana.tres");
         _settings = SettingsSingleton.Load();
         _inventorySingleton = InventorySingleton.Instance;
         GlobalObjectsContainer.Instance.Player = this;
@@ -103,8 +97,16 @@ public partial class Player : CharacterBody3D
             if (overlappingBody is not OverworldItem { CanPickUp: true } overworldItem) continue;
             // This check is to avoid picking up the same item multiple times
             if(overworldItem.IsQueuedForDeletion()) continue;
-            InventorySingleton.Instance.AddItem(overworldItem.ItemStackResource);
-            overworldItem.QueueFree();
+            bool pickedUp = InventorySingleton.Instance.AddItem(overworldItem.ItemStackResource);
+            if (pickedUp)
+            {
+                overworldItem.QueueFree();
+            }
+            else
+            {
+                // Could not pick up item. Stop moving the item towards the player.
+                overworldItem.MoveToPlayer = false;
+            }
         }
     }
 
@@ -195,22 +197,6 @@ public partial class Player : CharacterBody3D
                 {
                     // If so, we squash it and bounce.
                     mob.Squash();
-                    int item = new Random().Next(3);
-
-                    switch (item)
-                    {
-                        case 1:
-                            _inventorySingleton.AddItem(new ItemStackResource(_appleResource, 1));
-                            break;
-                        case 2:
-                            _inventorySingleton.AddItem(new ItemStackResource(_orangeResource, 1));
-                            break;
-                        default:
-                            _inventorySingleton.AddItem(new ItemStackResource(_bananaResource, 1));
-                            break;
-                    }
-
-
                     _targetVelocity.Y = BounceImpulse;
                     // Prevent further duplicate calls.
                     break;

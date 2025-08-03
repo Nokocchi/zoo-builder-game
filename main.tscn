@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dccrigx4avpxq"]
+[gd_scene load_steps=32 format=3 uid="uid://dccrigx4avpxq"]
 
 [ext_resource type="Script" uid="uid://bhprgr5jxyobx" path="res://Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cct7dqifva85s" path="res://entities/player/player.tscn" id="1_ig7tw"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://globals/resources/ItemDataResource.cs" id="12_w48qg"]
 [ext_resource type="Resource" uid="uid://ut7reqal1pue" path="res://entities/item/item_orange.tres" id="13_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://6rbicaxbnvcl" path="res://ui/inventory/mouse_with_item_marker.tscn" id="17_yaehf"]
+[ext_resource type="AudioStream" uid="uid://c5qpnfga41t4p" path="res://art/House In a Forest Loop.ogg" id="19_cegan"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
 size = Vector3(60, 2, 60)
@@ -188,6 +189,11 @@ ItemStackResource = SubResource("Resource_cegan")
 [node name="OverworldItem4" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.1277, 2.35158, 0)
 ItemStackResource = SubResource("Resource_getpj")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_cegan")
+autoplay = true
+bus = &"BgMusic"
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]

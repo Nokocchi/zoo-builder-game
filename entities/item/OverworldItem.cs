@@ -85,7 +85,7 @@ public partial class OverworldItem() : RigidBody3D
         PackedScene overworldItemScene = GD.Load<PackedScene>("res://entities/item/overworld_item.tscn");
         OverworldItem overworldItem = overworldItemScene.Instantiate<OverworldItem>();
         overworldItem.ItemStackResource = itemStackResource;
-        GlobalObjectsContainer.Instance.Game.AddChild(overworldItem);
+        GlobalObjectsContainer.Instance.GameScene.AddChild(overworldItem);
         overworldItem.LaunchFromPlayer();
     }
 

@@ -8,6 +8,7 @@ using Godot;
 public partial class SettingsSingleton : Resource
 {
     [Export] public float MouseSensitivity = 50;
+    [Export] public float BackgroundAudioVolume = 100;
     [Export] public bool MouseUpDownFlipped;
     [Export] public bool HotbarScrollDirectionFlipped;
     [Export] public bool HideMinimap;

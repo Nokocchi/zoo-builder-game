@@ -1,4 +1,4 @@
-﻿# Zoo Builder
+# Zoo Builder
 
 Explore the world, gather materials, collect animals, grow food, and build your zoo.
 
@@ -41,8 +41,9 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ Change up/down direction of mouse
   - ✅ Hide minimap
   - Save and load game buttons
-  - Adjust audio
+  - ✅ Adjust audio
   - ✅ Hotbar scrolling direction
+  - Only save when save button is clicked
 - **Quest view**
   - Show 3 tabs. Active quests, completed quests, all quests
   - Completed quests greyed out with checkmark icon
@@ -51,8 +52,8 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 ## HUD
   - ✅ Minimap
-    - ✅ Minimap showing the player from above
-    - ✅ Minimap's up direction should always be where the camera is facing
+	- ✅ Minimap showing the player from above
+	- ✅ Minimap's up direction should always be where the camera is facing
   - Digital clock
 
 ## Overworld entities
