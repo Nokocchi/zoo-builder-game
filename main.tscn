@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dccrigx4avpxq"]
+[gd_scene load_steps=35 format=3 uid="uid://dccrigx4avpxq"]
 
 [ext_resource type="Script" uid="uid://bhprgr5jxyobx" path="res://Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cct7dqifva85s" path="res://entities/player/player.tscn" id="1_ig7tw"]
@@ -14,11 +14,14 @@
 [ext_resource type="Texture2D" uid="uid://cpf58p7pinxex" path="res://art/samplepic.png" id="9_ycdy4"]
 [ext_resource type="Resource" uid="uid://bpxkd43kvlasp" path="res://entities/item/item_apple.tres" id="11_w48qg"]
 [ext_resource type="Script" uid="uid://cqb8fpfa7pppt" path="res://globals/resources/ItemStackResource.cs" id="12_2cqfq"]
+[ext_resource type="PackedScene" uid="uid://2duqhekyh7y2" path="res://ui/menus/hud_clock.tscn" id="12_82xsv"]
 [ext_resource type="Resource" uid="uid://c444dyocwbmho" path="res://entities/item/item_banana.tres" id="12_vivmo"]
 [ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://globals/resources/ItemDataResource.cs" id="12_w48qg"]
 [ext_resource type="Resource" uid="uid://ut7reqal1pue" path="res://entities/item/item_orange.tres" id="13_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://6rbicaxbnvcl" path="res://ui/inventory/mouse_with_item_marker.tscn" id="17_yaehf"]
 [ext_resource type="AudioStream" uid="uid://c5qpnfga41t4p" path="res://art/House In a Forest Loop.ogg" id="19_cegan"]
+[ext_resource type="PackedScene" uid="uid://7rcneeanh4i7" path="res://ui/menus/time_keeper.tscn" id="21_getpj"]
+[ext_resource type="Resource" uid="uid://6o32d08km7ea" path="res://globals/resources/TimeResource.tres" id="22_ryguw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
 size = Vector3(60, 2, 60)
@@ -140,6 +143,8 @@ grow_vertical = 2
 theme = SubResource("Theme_272bh")
 metadata/_edit_use_anchors_ = true
 
+[node name="HUDClock" parent="UserInterface" instance=ExtResource("12_82xsv")]
+
 [node name="OverworldDropListener" type="CanvasLayer" parent="UserInterface"]
 
 [node name="OverworldDropListenerPanel" type="Panel" parent="UserInterface/OverworldDropListener"]
@@ -195,6 +200,10 @@ stream = ExtResource("19_cegan")
 autoplay = true
 bus = &"BgMusic"
 
+[node name="TimeKeeper" parent="." instance=ExtResource("21_getpj")]
+TimeResource = ExtResource("22_ryguw")
+
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]
 [connection signal="gui_input" from="UserInterface/OverworldDropListener/OverworldDropListenerPanel" to="UserInterface/OverworldDropListener/OverworldDropListenerPanel" method="OnGuiInput"]
+[connection signal="TimeUpdated" from="TimeKeeper" to="UserInterface/HUDClock" method="OnTimeUpdated"]

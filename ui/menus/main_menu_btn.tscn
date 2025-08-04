@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmil47r6p2a33"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5oih7"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.514325, 0.633298, 0.628707, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2nn8q"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.637468, 0.746778, 0.742277, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 5
+
+[node name="ContinueButton" type="Button"]
+mouse_default_cursor_shape = 2
+theme_override_colors/font_outline_color = Color(0.0747956, 0.183849, 0.175364, 1)
+theme_override_constants/outline_size = 6
+theme_override_styles/focus = SubResource("StyleBoxFlat_5oih7")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_5oih7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2nn8q")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5oih7")
+theme_override_styles/normal = SubResource("StyleBoxFlat_5oih7")
+text = "Continue"

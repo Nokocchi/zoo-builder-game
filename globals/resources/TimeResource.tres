@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TimeResource" load_steps=2 format=3 uid="uid://6o32d08km7ea"]
+
+[ext_resource type="Script" uid="uid://cb24ri6r8a3tb" path="res://globals/resources/TimeResource.cs" id="1_otapl"]
+
+[resource]
+script = ExtResource("1_otapl")
+GameTime = 0
+metadata/_custom_type_script = "uid://cb24ri6r8a3tb"

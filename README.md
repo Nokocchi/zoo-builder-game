@@ -27,6 +27,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ When holding an item and clicking outside inventory, drop whole stack in overworld
   - ✅ When not inventory not open and item is selected in hotbar and you press Q, drop one from stack in overworld
   - Right click item to split stack in half
+  - Reuse the same script for hotbar, inventory and chests (or at least avoid duplication when possible)
 - **Simple Hotbar**
   - ✅ Show some of your most used items
   - ✅ One item in the hotbar is always highlighted - can be switched by scrolling with mouse
@@ -54,7 +55,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ Minimap
 	- ✅ Minimap showing the player from above
 	- ✅ Minimap's up direction should always be where the camera is facing
-  - Digital clock
+  - ✅ Digital clock
 
 ## Overworld entities
 - A chest with infinite storage, scroll
@@ -83,10 +84,10 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 ## Intro
 - **Menu**
-  - New Game button
+  - ✅ New Game button
   - Continue button
   - Settings button (Should open same settings as in inventory)
-  - Background music
+  - ✅ Background music
   - Animated background
 - **Character creation screen**
   - Simple naked character, with a few different hairs and clothes to pick between.
@@ -101,7 +102,6 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 # Known bugs
 - Hotbar selection keeps disappearing, like when changing scroll direction or hiding minimap
-- Have item in hotbar slot 5, and rest of inventory is empty. Pick up a new item of different type. The new item should go to slot 0 and leave the item in slot 5, but instead it moves both items to slot 0 and 1. Respect current indices!
 - Held item, Q until stack is empty - held item doesn't disappear from UI
 - Two items in inventory, hold second item and Q until stack is empty. First item now disappears from inventory 
 

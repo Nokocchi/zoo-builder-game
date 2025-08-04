@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://7yl76bchmsj0" path="res://ui/menus/MainMenu.cs" id="1_5ssi0"]
 [ext_resource type="PackedScene" uid="uid://dccrigx4avpxq" path="res://main.tscn" id="2_1njj5"]
 [ext_resource type="AudioStream" uid="uid://cyp0e40wbfagw" path="res://art/CozyCrackleNight2.mp3" id="4_1njj5"]
+[ext_resource type="PackedScene" uid="uid://bmil47r6p2a33" path="res://ui/menus/main_menu_btn.tscn" id="4_h223f"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qc8qn"]
 texture = ExtResource("1_5oih7")
@@ -14,16 +15,6 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5oih7"]
-content_margin_top = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(0.514325, 0.633298, 0.628707, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_size = 5
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_5ssi0")
@@ -75,24 +66,23 @@ layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 20
 
-[node name="ContinueButton" type="Button" parent="Panel/MarginContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer"]
+[node name="ContinueButton" parent="Panel/MarginContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" instance=ExtResource("4_h223f")]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_5oih7")
-text = "Continue"
 
-[node name="NewGameButton" type="Button" parent="Panel/MarginContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer"]
+[node name="NewGameButton" parent="Panel/MarginContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" instance=ExtResource("4_h223f")]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_5oih7")
-text = "New game"
+text = "New Game"
 
-[node name="SettingsButton" type="Button" parent="Panel/MarginContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer"]
+[node name="SettingsButton" parent="Panel/MarginContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" instance=ExtResource("4_h223f")]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_5oih7")
 text = "Settings"
 
-[node name="QuitButton" type="Button" parent="Panel/MarginContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer"]
+[node name="QuitButton" parent="Panel/MarginContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" instance=ExtResource("4_h223f")]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_5oih7")
 text = "Quit"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Panel/MarginContainer/HBoxContainer/Panel/MarginContainer"]
