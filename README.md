@@ -80,7 +80,6 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 ## Storyline, gameplay
 - Simple quest system. Activated by talking to an NPC. Pick up apple and give to NPC. Next quest, pick up 2 oranges and give to NPC.
-- Time system. Clock starts at 06:00 and ticks until 24:00 when it resets.
 
 ## Intro
 - **Menu**
@@ -88,7 +87,6 @@ Actual storyline details, specific features or game mechanics will be added afte
   - Continue button
   - Settings button (Should open same settings as in inventory)
   - ✅ Background music
-  - Animated background
 - **Character creation screen**
   - Simple naked character, with a few different hairs and clothes to pick between.
 
@@ -102,8 +100,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 # Known bugs
 - Hotbar selection keeps disappearing, like when changing scroll direction or hiding minimap
-- Held item, Q until stack is empty - held item doesn't disappear from UI
-- Two items in inventory, hold second item and Q until stack is empty. First item now disappears from inventory 
+- Two items in inventory, have item 1 selected in the hotbar, hold second item and Q until stack is empty. First item now disappears from inventory. The reason is that the Q input is handled by the MouseWithItemMarker class which drops the item and marks it as no longer being held. Q is then handled by the hotbar which now thinks we are no longer holding an item, and therefore drops the item that is selected. 
 
 # Things to fix:
 - Currently, the logic in the hotbar is duplicated to the inventory. This should not be necessary. Simplify with inheritance or just use a single script file

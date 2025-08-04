@@ -16,6 +16,9 @@ public partial class InventorySingleton : Node
     
     [Signal]
     public delegate void InventoryItemStackHeldEventHandler(int heldItemIndex);
+    
+    [Signal]
+    public delegate void InventoryItemStackNoLongerHeldEventHandler(int heldItemIndex);
 
     [Export] public int InventorySize = 20;
 
@@ -57,6 +60,10 @@ public partial class InventorySingleton : Node
 
     public void RemoveStackFromInventory(int index)
     {
+        if (Inventory[index].BeingHeld)
+        {
+            ClearHeldItem(index);
+        }
         Inventory[index] = null;
         EmitSignal(SignalName.InventoryUpdated);
     }
@@ -104,26 +111,23 @@ public partial class InventorySingleton : Node
     }
 
 
-    public void SetHeldItem(int heldItemIndex, bool held)
+    public void SetHeldItem(int heldItemIndex)
     {
-        Inventory[heldItemIndex].BeingHeld = held;
-        if (held)
-        {
-            EmitSignal(SignalName.InventoryItemStackHeld, heldItemIndex);
-        }
-        else
-        {
-            // TODO: Just make a separate signal for this instead of giving -1 special meaning..
-            EmitSignal(SignalName.InventoryItemStackHeld, -1);
-        }
-
+        Inventory[heldItemIndex].BeingHeld = true;
+        EmitSignal(SignalName.InventoryItemStackHeld, heldItemIndex);
         EmitSignal(SignalName.InventoryUpdated);
     }
 
+    public void ClearHeldItem(int heldItemIndex)
+    {
+        Inventory[heldItemIndex].BeingHeld = false;
+        EmitSignal(SignalName.InventoryItemStackNoLongerHeld, heldItemIndex);
+        EmitSignal(SignalName.InventoryUpdated);
+    }
+    
     public void ClearHeldItem()
     {
-        SetHeldItem(HeldItemIndex, false);
-        EmitSignal(SignalName.InventoryItemStackHeld, -1);
+        ClearHeldItem(HeldItemIndex);
     }
 
     public void SwapItems(int item1, int item2)

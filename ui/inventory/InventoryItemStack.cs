@@ -70,7 +70,9 @@ public partial class InventoryItemStack : Panel
 
     public void DecrementRerenderAndRemoveIfZero()
     {
-        ItemStackResource.Amount -= 1;
+        GD.Print("Decrementing " ,ItemStackResource.ItemData.ItemName, " ",  InventoryIndex);
+        // TODO: Would it be better to decrement the amount via the API in InventorySingleton which then emits an InventoryUpdated signal, which causes this InventoryItemStack to re-render?
+        ItemStackResource.Amount--;
         if (ItemStackResource.Amount <= 0)
         {
             InventorySingleton.Instance.RemoveStackFromInventory(InventoryIndex);

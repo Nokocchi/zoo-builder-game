@@ -12,7 +12,6 @@ public partial class OverworldDropListenerPanel : Panel
             
             ItemStackResource itemStack = InventorySingleton.Instance.HeldItem;
             int heldItemIndex = InventorySingleton.Instance.HeldItemIndex;
-            InventorySingleton.Instance.ClearHeldItem();
             InventorySingleton.Instance.RemoveStackFromInventory(heldItemIndex);
             OverworldItem.SpawnItemAndLaunchFromPlayer(itemStack);
         }

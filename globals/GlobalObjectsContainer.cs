@@ -8,7 +8,6 @@ public partial class GlobalObjectsContainer : Node
     public static GlobalObjectsContainer Instance { get; private set; }
     public Player Player { get; set; }
     public PlayerSpringArm PlayerSpringArm { get; set; }
-    public MouseWithItemMarker MouseWithMarker { get; set; }
     public Main GameScene { get; set; }
     public Camera3D PlayerCamera { get; set; }
 

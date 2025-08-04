@@ -60,13 +60,14 @@ public partial class HotBarGridContainer : GridContainer
                 _inventorySingleton.SwapItems(clickedSlot.InventoryIndex, heldItemIndex);
             }
             
-            // In any case, we are no longer holding an item
+            // In any case, we are no longer holding an item. The item might have been moved or swapped, so we can no longer rely on the previously fetched heldItemIndex
             _inventorySingleton.ClearHeldItem();
         }
         // We are not currently holding anything, but the slot we clicked does have an item. Pick it up
         else if (clickedSlotItemResource != null)
         {
-            _inventorySingleton.SetHeldItem(clickedSlot.InventoryIndex, true);
+            GD.Print("Picked up ", clickedSlotItemResource.ItemData.ItemName, " ",  clickedSlot.InventoryIndex);
+            _inventorySingleton.SetHeldItem(clickedSlot.InventoryIndex);
         }
     }
 
@@ -130,10 +131,11 @@ public partial class HotBarGridContainer : GridContainer
         if (@event.IsActionPressed("toss_single_item"))
         {
             InventoryItemStack currentSelectedStack = GetChild<InventoryItemStack>(currentHotBarIndex);
-            if (!InventorySingleton.Instance.HoldsItem && currentSelectedStack.ItemStackResource is { Amount: >= 0, BeingHeld: false })
+            if (!InventorySingleton.Instance.HoldsItem && currentSelectedStack.ItemStackResource is { Amount: >= 0 })
             {
                 // TODO: This needs a cleanup maybe? Some places we are calling methods on the itemstack node, some places on the ItemStackResource itself, and other times in the InventorySingleton. 
                 OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.ItemStackResource.ItemData, 1));
+                GD.Print("Q from HotBar");
                 currentSelectedStack.DecrementRerenderAndRemoveIfZero();
             }
         }
