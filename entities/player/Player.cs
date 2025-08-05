@@ -33,6 +33,7 @@ public partial class Player : CharacterBody3D
     private Area3D _itemPickupZone;
     private InventorySingleton _inventorySingleton;
     private Camera3D _playerCamera;
+    private AudioStreamPlayer _itemPickupAudioPlayer;
 
     [Export]
     public PackedScene OverworldItemScene { get; set; }
@@ -45,6 +46,7 @@ public partial class Player : CharacterBody3D
     public override void _Ready()
     {
         _state = State.WALKING;
+        _itemPickupAudioPlayer = GetNode<AudioStreamPlayer>("ItemPickupAudioPlayer");
         _playerSpringArm = GetNode<SpringArm3D>("PlayerSpringArm");
         _itemPullZone = GetNode<Area3D>("ItemPullZone");
         _itemPickupZone = GetNode<Area3D>("ItemImmediatePickupZone");
@@ -100,6 +102,7 @@ public partial class Player : CharacterBody3D
             bool pickedUp = InventorySingleton.Instance.AddItem(overworldItem.ItemStackResource);
             if (pickedUp)
             {
+                _itemPickupAudioPlayer.Playing = true;
                 overworldItem.QueueFree();
             }
             else

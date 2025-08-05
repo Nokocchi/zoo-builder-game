@@ -52,7 +52,7 @@ public partial class OverworldItem() : RigidBody3D
         }
     }
 
-    public void LaunchFromPlayer()
+    private void LaunchFromPlayer()
     {
         // Move to player, and a little up to not trigger the floor collision yet
         Vector3 startPosition =

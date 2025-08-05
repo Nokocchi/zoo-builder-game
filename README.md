@@ -68,7 +68,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ Image always facing the player
   - ✅ Move items towards player if nearby
   - ✅ Combine into one stack if multiple of the same item are near each other
-  - Play sound when picked up
+  - ✅ Play sound when picked up
 
 ## Save / Loadq
 - Save achievements
