@@ -4,14 +4,14 @@ using ZooBuilder.globals;
 
 public partial class Minimap : CanvasLayer
 {
-    private SettingsSingleton _settings;
+    private SettingsResource _settings;
     private GlobalObjectsContainer _globals;
     private Node3D _cameraPivot;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        _settings = SettingsSingleton.Load();
+        _settings = SettingsResource.Load();
         _globals = GlobalObjectsContainer.Instance;
         _cameraPivot = GetNode<Node3D>("%MinimapCameraPivot");
     }

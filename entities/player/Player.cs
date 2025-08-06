@@ -27,7 +27,8 @@ public partial class Player : CharacterBody3D
     }
 
     private State _state;
-    private SettingsSingleton _settings;
+    private SettingsResource _settings;
+    private GameStatsResource _gameStats;
     private SpringArm3D _playerSpringArm;
     private Area3D _itemPullZone;
     private Area3D _itemPickupZone;
@@ -51,7 +52,8 @@ public partial class Player : CharacterBody3D
         _itemPullZone = GetNode<Area3D>("ItemPullZone");
         _itemPickupZone = GetNode<Area3D>("ItemImmediatePickupZone");
         _playerCamera = GetNode<Camera3D>("PlayerSpringArm/PlayerCamera");
-        _settings = SettingsSingleton.Load();
+        _settings = SettingsResource.Load();
+        _gameStats = GameStatsResource.Load();
         _inventorySingleton = InventorySingleton.Instance;
         GlobalObjectsContainer.Instance.Player = this;
     }
@@ -182,7 +184,8 @@ public partial class Player : CharacterBody3D
         }
 
         MoveAndSlide();
-
+        
+        _gameStats.DistanceWalked += _targetVelocity.Length();
         
         // Iterate through all collisions that occurred this frame.
         for (int index = 0; index < GetSlideCollisionCount(); index++)

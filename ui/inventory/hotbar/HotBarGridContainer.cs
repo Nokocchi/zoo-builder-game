@@ -7,7 +7,7 @@ using ZooBuilder.globals;
 public partial class HotBarGridContainer : GridContainer
 {
     private PackedScene _inventoryItemStackScene;
-    private SettingsSingleton _settings;
+    private SettingsResource _settings;
     private InventorySingleton _inventorySingleton;
     private GlobalObjectsContainer _globals;
 
@@ -26,7 +26,7 @@ public partial class HotBarGridContainer : GridContainer
 
         OnInventoryUpdated();
         _inventorySingleton.SelectedHotbarSlotIndex = 0;
-        _settings = SettingsSingleton.Load();
+        _settings = SettingsResource.Load();
         _globals = GlobalObjectsContainer.Instance;
     }
 

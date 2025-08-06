@@ -100,7 +100,6 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 # Known bugs
 - Hotbar selection keeps disappearing, like when changing scroll direction or hiding minimap
-- Two items in inventory, have item 1 selected in the hotbar, hold second item and Q until stack is empty. First item now disappears from inventory. The reason is that the Q input is handled by the MouseWithItemMarker class which drops the item and marks it as no longer being held. Q is then handled by the hotbar which now thinks we are no longer holding an item, and therefore drops the item that is selected. 
 
 # Things to fix:
 - Currently, the logic in the hotbar is duplicated to the inventory. This should not be necessary. Simplify with inheritance or just use a single script file

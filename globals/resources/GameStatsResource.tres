@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="GameStatsResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://globals/resources/GameStatsResource.cs" id="1_gu20m"]
+
+[resource]
+script = ExtResource("1_gu20m")
+DistanceWalked = 26291.2
+metadata/_custom_type_script = "uid://dkpy7mmxgf7yr"

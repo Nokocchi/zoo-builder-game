@@ -47,5 +47,7 @@ public partial class MouseWithItemMarker : Control
         OverworldItem.SpawnItemAndLaunchFromPlayer(
             new ItemStackResource(_itemStackInstance.ItemStackResource.ItemData, 1));
         _itemStackInstance.DecrementRerenderAndRemoveIfZero();
+        // Consuming the event to avoid the HotBar thinking it's time to drop the item that is in focus, just because this class has dropped the last of its stack
+        GetWindow().SetInputAsHandled();
     }
 }

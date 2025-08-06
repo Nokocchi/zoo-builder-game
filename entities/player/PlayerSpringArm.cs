@@ -10,7 +10,7 @@ public partial class PlayerSpringArm : SpringArm3D
 	private Vector2 _mouseRelative;
 	private float _mouseSensitivityBaseline = 0.1f;
 	private const float MouseSpeedScale = 100f;
-	private SettingsSingleton _settings;
+	private SettingsResource _settings;
 	private InventorySingleton _inventory;
 	private GlobalObjectsContainer _globals;
 	
@@ -19,7 +19,7 @@ public partial class PlayerSpringArm : SpringArm3D
 	public override void _Ready()
 	{
 		_camera = GetNode<Camera3D>("PlayerCamera");
-		_settings = SettingsSingleton.Load();
+		_settings = SettingsResource.Load();
 		_inventory = InventorySingleton.Instance;
 		SpringLength = _camera.Position.Z;
 		_rotation = RotationDegrees;

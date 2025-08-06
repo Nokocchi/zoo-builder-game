@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://dccrigx4avpxq"]
+[gd_scene load_steps=37 format=3 uid="uid://dccrigx4avpxq"]
 
 [ext_resource type="Script" uid="uid://bhprgr5jxyobx" path="res://Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cct7dqifva85s" path="res://entities/player/player.tscn" id="1_ig7tw"]
@@ -13,10 +13,12 @@
 [ext_resource type="PackedScene" uid="uid://bekc2wv2d7dyu" path="res://ui/minimap/minimap.tscn" id="9_vivmo"]
 [ext_resource type="Texture2D" uid="uid://cpf58p7pinxex" path="res://art/samplepic.png" id="9_ycdy4"]
 [ext_resource type="Resource" uid="uid://bpxkd43kvlasp" path="res://entities/item/item_apple.tres" id="11_w48qg"]
+[ext_resource type="PackedScene" uid="uid://b188e020fy2c8" path="res://ui/game_save_label.tscn" id="12_1u8w0"]
 [ext_resource type="Script" uid="uid://cqb8fpfa7pppt" path="res://globals/resources/ItemStackResource.cs" id="12_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://2duqhekyh7y2" path="res://ui/menus/hud_clock.tscn" id="12_82xsv"]
 [ext_resource type="Resource" uid="uid://c444dyocwbmho" path="res://entities/item/item_banana.tres" id="12_vivmo"]
 [ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://globals/resources/ItemDataResource.cs" id="12_w48qg"]
+[ext_resource type="Script" uid="uid://mijcq21r47nf" path="res://ui/GameSaveLabel.cs" id="13_0odxb"]
 [ext_resource type="Resource" uid="uid://ut7reqal1pue" path="res://entities/item/item_orange.tres" id="13_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://6rbicaxbnvcl" path="res://ui/inventory/mouse_with_item_marker.tscn" id="17_yaehf"]
 [ext_resource type="AudioStream" uid="uid://c5qpnfga41t4p" path="res://art/House In a Forest Loop.ogg" id="19_cegan"]
@@ -175,6 +177,10 @@ script = ExtResource("5_7mycd")
 
 [node name="Settings" parent="UserInterface" instance=ExtResource("8_w48qg")]
 
+[node name="GameSaveLabel" parent="UserInterface" instance=ExtResource("12_1u8w0")]
+unique_name_in_owner = true
+script = ExtResource("13_0odxb")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="UserInterface"]
 
 [node name="MouseWithItemMarker" parent="UserInterface/CanvasLayer" instance=ExtResource("17_yaehf")]
@@ -203,7 +209,12 @@ bus = &"BgMusic"
 [node name="TimeKeeper" parent="." instance=ExtResource("21_getpj")]
 TimeResource = ExtResource("22_ryguw")
 
+[node name="GameStatsSaveTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]
 [connection signal="gui_input" from="UserInterface/OverworldDropListener/OverworldDropListenerPanel" to="UserInterface/OverworldDropListener/OverworldDropListenerPanel" method="OnGuiInput"]
 [connection signal="TimeUpdated" from="TimeKeeper" to="UserInterface/HUDClock" method="OnTimeUpdated"]
+[connection signal="timeout" from="GameStatsSaveTimer" to="." method="OnGameSaveTimerTimeout"]

@@ -11,7 +11,7 @@ public partial class Settings : CanvasLayer
 	private CheckBox _mouseUpDownFlipped;
 	private CheckBox _hotbarScrollDirectionFlipped;
 	private CheckBox _hideMinimap;
-	private SettingsSingleton _settings;
+	private SettingsResource _settings;
 	private int _audioBusIndexMaster;
 	private int _audioBusIndexBgMusic;
 	private int _audioBusIndexSfx;
@@ -29,7 +29,7 @@ public partial class Settings : CanvasLayer
 
 		Visible = false;
 		
-		_settings = SettingsSingleton.Load();
+		_settings = SettingsResource.Load();
 		
 		_settings.SettingsOpen = false;
 		
@@ -54,14 +54,14 @@ public partial class Settings : CanvasLayer
 	{
 		_mouseSensitivityText.Value = mouseSensitivity;
 		_settings.MouseSensitivity = mouseSensitivity;
-		Save();
+		_settings.Save();
 	}
 	
 	private void OnMouseSensitivityTextUpdated(float mouseSensitivity)
 	{
 		_mouseSensitivitySlider.Value = mouseSensitivity;
 		_settings.MouseSensitivity = mouseSensitivity;
-		Save();
+		_settings.Save();
 	}
 	
 	private void OnBackgroundAudioVolumeSliderUpdated(float audioVolume)
@@ -69,7 +69,7 @@ public partial class Settings : CanvasLayer
 		//_audioLevelText.Value = audioVolumeAdjusted;
 		_settings.BackgroundAudioVolume = audioVolume;
 		AudioServer.SetBusVolumeLinear(_audioBusIndexMaster,  audioVolume / 100);
-		Save();
+		_settings.Save();
 	}
 	
 	private void OnBackgroundAudioVolumeTextUpdated(float audioVolume)
@@ -77,37 +77,34 @@ public partial class Settings : CanvasLayer
 		//_audioLevelSlider.Value = audioVolumeAdjusted;
 		_settings.BackgroundAudioVolume = audioVolume;
 		AudioServer.SetBusVolumeLinear(_audioBusIndexMaster,  audioVolume / 100);
-		Save();
+		_settings.Save();
 	}
 
 	private void OnMouseUpDownFlippedUpdated(bool mouseUpDownFlipped)
 	{
 		_settings.MouseUpDownFlipped = mouseUpDownFlipped;
-		Save();
+		_settings.Save();
 	}
 	
 	private void OnHotbarScrollDirectionFlipped(bool scrollbarDirectionFlipped)
 	{
 		_settings.HotbarScrollDirectionFlipped = scrollbarDirectionFlipped;
-		Save();
+		_settings.Save();
 	}
 	
 	private void OnHideMinimap(bool hideMinimap)
 	{
 		_settings.HideMinimap = hideMinimap;
-		Save();
+		_settings.Save();
 	}
 	
 	private void OnNorthFacingMinimap(bool northFacingMinimap)
 	{
 		_settings.NorthFacingMinimap = northFacingMinimap;
-		Save();
+		_settings.Save();
 	}
 
-	private void Save()
-	{
-		ResourceSaver.Save(_settings, _settings.GetPath());
-	}
+
 	
 	public override void _Input(InputEvent @event)
 	{
