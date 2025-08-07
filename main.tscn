@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://dccrigx4avpxq"]
+[gd_scene load_steps=38 format=3 uid="uid://dccrigx4avpxq"]
 
 [ext_resource type="Script" uid="uid://bhprgr5jxyobx" path="res://Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cct7dqifva85s" path="res://entities/player/player.tscn" id="1_ig7tw"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://globals/resources/ItemDataResource.cs" id="12_w48qg"]
 [ext_resource type="Script" uid="uid://mijcq21r47nf" path="res://ui/GameSaveLabel.cs" id="13_0odxb"]
 [ext_resource type="Resource" uid="uid://ut7reqal1pue" path="res://entities/item/item_orange.tres" id="13_2cqfq"]
+[ext_resource type="PackedScene" uid="uid://b540mmg0nlwub" path="res://ui/achievement/achievements.tscn" id="15_lswn8"]
 [ext_resource type="PackedScene" uid="uid://6rbicaxbnvcl" path="res://ui/inventory/mouse_with_item_marker.tscn" id="17_yaehf"]
 [ext_resource type="AudioStream" uid="uid://c5qpnfga41t4p" path="res://art/House In a Forest Loop.ogg" id="19_cegan"]
 [ext_resource type="PackedScene" uid="uid://7rcneeanh4i7" path="res://ui/menus/time_keeper.tscn" id="21_getpj"]
@@ -184,6 +185,8 @@ script = ExtResource("13_0odxb")
 [node name="CanvasLayer" type="CanvasLayer" parent="UserInterface"]
 
 [node name="MouseWithItemMarker" parent="UserInterface/CanvasLayer" instance=ExtResource("17_yaehf")]
+
+[node name="Achievements" parent="UserInterface" instance=ExtResource("15_lswn8")]
 
 [node name="OverworldItem" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.76123, 23.6205)
