@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using Godot.Collections;
+using GodotSteam;
+using ZooBuilder.data.stats;
 using ZooBuilder.globals;
 
 public partial class Player : CharacterBody3D
@@ -28,7 +30,6 @@ public partial class Player : CharacterBody3D
 
     private State _state;
     private SettingsResource _settings;
-    private GameStatsResource _gameStats;
     private SpringArm3D _playerSpringArm;
     private Area3D _itemPullZone;
     private Area3D _itemPickupZone;
@@ -53,7 +54,6 @@ public partial class Player : CharacterBody3D
         _itemPickupZone = GetNode<Area3D>("ItemImmediatePickupZone");
         _playerCamera = GetNode<Camera3D>("PlayerSpringArm/PlayerCamera");
         _settings = SettingsResource.Load();
-        _gameStats = GameStatsResource.Load();
         _inventorySingleton = InventorySingleton.Instance;
         GlobalObjectsContainer.Instance.Player = this;
     }
@@ -184,8 +184,11 @@ public partial class Player : CharacterBody3D
         }
 
         MoveAndSlide();
-        
-        _gameStats.DistanceWalked += _targetVelocity.Length();
+
+        // There seems to be some residual Y value from previous frames when we landed on the ground. 
+        // Either way, I assume we only want to count the XZ distance covered..
+        GameStats.DistanceWalked += new Vector3(_targetVelocity.X, 0.0f, _targetVelocity.Z).Length();
+        Steam.SetStatFloat(SteamStatNames.FloatStats.DistanceWalkedStatName, GameStats.DistanceWalked);
         
         // Iterate through all collisions that occurred this frame.
         for (int index = 0; index < GetSlideCollisionCount(); index++)

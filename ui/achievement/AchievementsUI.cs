@@ -2,9 +2,10 @@ using Godot;
 using System;
 using Godot.Collections;
 using GodotSteam;
+using ZooBuilder.data.stats;
 using ZooBuilder.ui.achievement.AchievementsList;
 
-public partial class Achievements : CanvasLayer
+public partial class AchievementsUI : CanvasLayer
 {
 
 	private VBoxContainer _achievementsListVertical;
@@ -24,6 +25,19 @@ public partial class Achievements : CanvasLayer
 		}
 		
 		AchievementList.AchievementLines.ForEach(AddAchievementLineToUi);
+		HBoxContainer hBoxContainer = new HBoxContainer();
+
+		float stat = Steam.GetStatFloat(SteamStatNames.FloatStats.DistanceWalkedStatName);
+		Label label = new Label();
+		label.Text = "FeetTraveled: " + stat;
+		hBoxContainer.AddChild(label);
+		
+		float stat2 = Steam.GetStatInt(SteamStatNames.IntStats.NumGames);
+		Label label2 = new Label();
+		label2.Text = "NumGames: " + stat2;
+		hBoxContainer.AddChild(label2);
+		
+		_achievementsListVertical.AddChild(hBoxContainer);
 	}
 
 	private void AddAchievementLineToUi(IAchievementLine al)

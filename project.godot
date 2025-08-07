@@ -20,7 +20,7 @@ InventorySingleton="*res://globals/InventorySingleton.cs"
 GlobalObjectsContainer="*res://globals/GlobalObjectsContainer.cs"
 DrawLine3DScript="*res://globals/util/DrawLine3D.gd"
 DrawLine3D="*res://globals/util/DrawLine3D.cs"
-SteamSetup="*res://SteamSetup.cs"
+SteamSetup="*res://globals/SteamSetup.cs"
 
 [dotnet]
 

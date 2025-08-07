@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cepapv538ecu6"]
+[gd_scene load_steps=2 format=3 uid="uid://b540mmg0nlwub"]
 
-[ext_resource type="Script" uid="uid://de7af6wo0nbpa" path="res://ui/achievement/AchievementsUI.cs" id="1_ww8k0"]
+[ext_resource type="Script" uid="uid://de7af6wo0nbpa" path="res://ui/achievement/Achievements.cs" id="1_ww8k0"]
 
 [node name="Achievements" type="CanvasLayer"]
 script = ExtResource("1_ww8k0")

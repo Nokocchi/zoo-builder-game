@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using GodotSteam;
+using ZooBuilder.data.stats;
 
 public partial class SteamSetup : Node
 {
@@ -22,8 +23,15 @@ public partial class SteamSetup : Node
             GD.Print("Steam is not running.");
             return;
         }
-        
+
         ulong steamId = Steam.GetSteamID();
         string name = Steam.GetFriendPersonaName(steamId);
+        InitializeTempGameDataFromSteam();
+    }
+
+    private void InitializeTempGameDataFromSteam()
+    {
+        GameStats.DistanceWalked = Steam.GetStatFloat(SteamStatNames.FloatStats.DistanceWalkedStatName);
+        GameStats.GamesPlayed = Steam.GetStatInt(SteamStatNames.IntStats.NumGames);
     }
 }

@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using GodotSteam;
+using ZooBuilder.data.stats;
 using ZooBuilder.globals;
 using ZooBuilder.util;
 
@@ -9,15 +11,16 @@ public partial class Main : Node
 	[Export]
 	public PackedScene MobScene { get; set; }
 	
-	private GameStatsResource _gameStats;
 	private GameSaveLabel _gameSaveLabel;
 
 	public override void _Ready()
 	{
 		GlobalObjectsContainer.Instance.GameScene = this;
 		DrawLine3D.Instance.PrepareDebugLines(this);
-		_gameStats = GameStatsResource.Load();
 		_gameSaveLabel = GetNode<GameSaveLabel>("%GameSaveLabel");
+		GameStats.GamesPlayed += 1;
+		Steam.SetStatInt(SteamStatNames.IntStats.NumGames, GameStats.GamesPlayed);
+		Steam.StoreStats();
 	}
 	
 	private void OnMobTimerTimeout()
@@ -41,7 +44,7 @@ public partial class Main : Node
 
 	private void OnGameSaveTimerTimeout()
 	{
-		_gameSaveLabel.ShowText(() => _gameStats.Save());
+		Steam.StoreStats();
 	}
 
 
