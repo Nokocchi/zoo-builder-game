@@ -35,8 +35,8 @@ Actual storyline details, specific features or game mechanics will be added afte
   - Keep track of which items the player has picked up
   - Show ? if never seen, black box is seen but not picked up, image if picked up
 - **Achievements view**
-  - Keep track of game stats, like number of items picked up, meters walked
-  - Show achievement here if some number is reached
+  - ✅ Keep track of game stats, like number of items picked up, meters walked
+  - ✅ Show achievement here if some number is reached
 - **Settings view**
   - ✅ Change mouse sensitivity
   - ✅ Change up/down direction of mouse
@@ -71,7 +71,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ Play sound when picked up
 
 ## Save / Loadq
-- Save achievements
+- ✅ Save achievements
 - ✅ Save settings
 - Save character customization
 - Save quest progression
@@ -91,10 +91,11 @@ Actual storyline details, specific features or game mechanics will be added afte
   - Simple naked character, with a few different hairs and clothes to pick between.
 
 ## Rendering, visuals
-- Sun moves through the sky as time passes
-- Moon moves through the sky as time passes (night)
-- Warmer light during morning and evening
-- Shadows based on sun position
+- ✅ Sun moves through the sky as time passes
+- ✅ Moon moves through the sky as time passes (night)
+- ✅ Warmer light during morning and evening
+- ✅ Shadows based on sun position
+- Hook up the animation time/speed to match the in-game time. Especially important once the time of day is saved when the game saves.
 
 ---
 
@@ -105,3 +106,6 @@ Actual storyline details, specific features or game mechanics will be added afte
 - Currently, the logic in the hotbar is duplicated to the inventory. This should not be necessary. Simplify with inheritance or just use a single script file
 - The inventory should be a resource so it can be saved and loaded
 - When items collide with static objects, they can be picked up. The only static object at the moment is the floor, but in the future, there will be walls.
+
+# Things to figure out:
+- When starting a new game, the player would expect all their achievements and stats to be reset for that save file. Maybe you can have multiple save files with different progress. How does that work with Steam stats and achievements which seem to be "global" on the user's steam account?

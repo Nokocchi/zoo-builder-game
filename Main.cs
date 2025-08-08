@@ -10,7 +10,8 @@ public partial class Main : Node
 
 	[Export]
 	public PackedScene MobScene { get; set; }
-	
+
+	private AnimationPlayer _skyBoxAnimationPlayer;
 	private GameSaveLabel _gameSaveLabel;
 
 	public override void _Ready()
@@ -18,6 +19,7 @@ public partial class Main : Node
 		GlobalObjectsContainer.Instance.GameScene = this;
 		DrawLine3D.Instance.PrepareDebugLines(this);
 		_gameSaveLabel = GetNode<GameSaveLabel>("%GameSaveLabel");
+		_skyBoxAnimationPlayer = GetNode<AnimationPlayer>("SkyBoxAnimationPlayer");
 		GameStats.GamesPlayed += 1;
 		Steam.SetStatInt(SteamStatNames.IntStats.NumGames, GameStats.GamesPlayed);
 		Steam.StoreStats();

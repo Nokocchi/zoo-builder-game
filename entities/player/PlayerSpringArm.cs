@@ -5,6 +5,9 @@ using ZooBuilder.util;
 
 public partial class PlayerSpringArm : SpringArm3D
 {
+	[Export] public int LookUpDownMin = -70;
+	[Export] public int LookUpDownMax = -25;
+	
 	private Vector3 _rotation;
 	private Camera3D _camera;
 	private Vector2 _mouseRelative;
@@ -34,7 +37,7 @@ public partial class PlayerSpringArm : SpringArm3D
 	{
 		_rotation.X += _mouseRelative.Y * (_settings.MouseUpDownFlipped ? -1 : 1);
 		_rotation.Y += _mouseRelative.X;
-		_rotation.X = Mathf.Clamp(_rotation.X, -70, -25);
+		_rotation.X = Mathf.Clamp(_rotation.X, LookUpDownMin, LookUpDownMax);
 		RotationDegrees = _rotation;
 		_mouseRelative = new Vector2();
 	}

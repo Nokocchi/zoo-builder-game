@@ -113,6 +113,7 @@ autoplay = "float"
 [node name="PlayerSpringArm" type="SpringArm3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.51973, 0)
 script = ExtResource("3_i3pqv")
+LookUpDownMax = 25
 
 [node name="PlayerCamera" type="Camera3D" parent="PlayerSpringArm" groups=["global_camera"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
