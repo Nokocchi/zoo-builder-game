@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DayNightCycleResource" load_steps=2 format=3 uid="uid://c8gtfq4el17x7"]
+
+[ext_resource type="Script" uid="uid://lrmt0hpbfw6r" path="res://globals/resources/DayNightCycleResource.cs" id="1_hg7w6"]
+
+[resource]
+script = ExtResource("1_hg7w6")
+DayNightTotalLengthSeconds = 2
+metadata/_custom_type_script = "uid://lrmt0hpbfw6r"

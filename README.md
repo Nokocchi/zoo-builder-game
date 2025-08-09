@@ -27,6 +27,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ When holding an item and clicking outside inventory, drop whole stack in overworld
   - ✅ When not inventory not open and item is selected in hotbar and you press Q, drop one from stack in overworld
   - Right click item to split stack in half
+  - Hold selected hotbar item in hand in overworld
   - Reuse the same script for hotbar, inventory and chests (or at least avoid duplication when possible)
 - **Simple Hotbar**
   - ✅ Show some of your most used items
@@ -77,6 +78,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 - Save quest progression
 - Save inventory
 - Save current location(?)
+- Multiple save files, selectable from Continue button on main menu
 
 ## Storyline, gameplay
 - Simple quest system. Activated by talking to an NPC. Pick up apple and give to NPC. Next quest, pick up 2 oranges and give to NPC.
@@ -109,3 +111,4 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 # Things to figure out:
 - When starting a new game, the player would expect all their achievements and stats to be reset for that save file. Maybe you can have multiple save files with different progress. How does that work with Steam stats and achievements which seem to be "global" on the user's steam account?
+- Look into Inventory System extension.. 

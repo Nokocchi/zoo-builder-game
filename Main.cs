@@ -10,9 +10,13 @@ public partial class Main : Node
 
 	[Export]
 	public PackedScene MobScene { get; set; }
+	
+	[Export]
+	public DayNightCycleResource DayNightCycleResource { get; set; }
 
 	private AnimationPlayer _skyBoxAnimationPlayer;
 	private GameSaveLabel _gameSaveLabel;
+	private const float DayNightCycleAnimationLengthSeconds = 40f;
 
 	public override void _Ready()
 	{
@@ -23,6 +27,9 @@ public partial class Main : Node
 		GameStats.GamesPlayed += 1;
 		Steam.SetStatInt(SteamStatNames.IntStats.NumGames, GameStats.GamesPlayed);
 		Steam.StoreStats();
+		_skyBoxAnimationPlayer.SpeedScale =
+			DayNightCycleAnimationLengthSeconds / DayNightCycleResource.DayNightTotalLengthSeconds;
+		
 	}
 	
 	private void OnMobTimerTimeout()
