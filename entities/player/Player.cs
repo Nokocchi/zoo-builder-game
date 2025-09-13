@@ -36,6 +36,8 @@ public partial class Player : CharacterBody3D
     private InventorySingleton _inventorySingleton;
     private Camera3D _playerCamera;
     private AudioStreamPlayer _itemPickupAudioPlayer;
+    private Node3D _pivot;
+    private GlobalObjectsContainer _globals;
 
     [Export]
     public PackedScene OverworldItemScene { get; set; }
@@ -47,6 +49,7 @@ public partial class Player : CharacterBody3D
 
     public override void _Ready()
     {
+        _globals = GlobalObjectsContainer.Instance;
         _state = State.WALKING;
         _itemPickupAudioPlayer = GetNode<AudioStreamPlayer>("ItemPickupAudioPlayer");
         _playerSpringArm = GetNode<SpringArm3D>("PlayerSpringArm");
@@ -55,7 +58,10 @@ public partial class Player : CharacterBody3D
         _playerCamera = GetNode<Camera3D>("PlayerSpringArm/PlayerCamera");
         _settings = SettingsResource.Load();
         _inventorySingleton = InventorySingleton.Instance;
-        GlobalObjectsContainer.Instance.Player = this;
+        _pivot = GetNode<Node3D>("Pivot");
+        _globals.Player = this;
+        GlobalPosition = _globals.GameData.PlayerGlobalPosition;
+        _pivot.Rotation = _globals.GameData.PlayerRotation;
     }
 
     private void Die()
@@ -117,6 +123,9 @@ public partial class Player : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
+        _globals.GameData.PlayerGlobalPosition = GlobalPosition;
+
+        GD.Print(_pivot.Basis);
         // We create a local variable to store the input direction.
         Vector3 direction = Vector3.Zero;
 
@@ -155,7 +164,8 @@ public partial class Player : CharacterBody3D
         {
             direction = direction.Normalized();
             // Setting the basis property will affect the rotation of the node.
-            GetNode<Node3D>("Pivot").Basis = Basis.LookingAt(direction);
+            _pivot.Basis = Basis.LookingAt(direction);
+            _globals.GameData.PlayerRotation = _pivot.Rotation;
             GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 4;
         }
         else
@@ -187,8 +197,8 @@ public partial class Player : CharacterBody3D
 
         // There seems to be some residual Y value from previous frames when we landed on the ground. 
         // Either way, I assume we only want to count the XZ distance covered..
-        GameStats.DistanceWalked += new Vector3(_targetVelocity.X, 0.0f, _targetVelocity.Z).Length();
-        Steam.SetStatFloat(SteamStatNames.FloatStats.DistanceWalkedStatName, GameStats.DistanceWalked);
+        TempStats.DistanceWalked += new Vector3(_targetVelocity.X, 0.0f, _targetVelocity.Z).Length();
+        Steam.SetStatFloat(SteamStatNames.FloatStats.DistanceWalkedStatName, TempStats.DistanceWalked);
         
         // Iterate through all collisions that occurred this frame.
         for (int index = 0; index < GetSlideCollisionCount(); index++)

@@ -1,7 +1,6 @@
 using Godot;
-using System;
 using ZooBuilder.globals;
-using ZooBuilder.util;
+
 
 public partial class PlayerSpringArm : SpringArm3D
 {
@@ -25,21 +24,24 @@ public partial class PlayerSpringArm : SpringArm3D
 		_settings = SettingsResource.Load();
 		_inventory = InventorySingleton.Instance;
 		SpringLength = _camera.Position.Z;
-		_rotation = RotationDegrees;
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		_globals = GlobalObjectsContainer.Instance;
 		_globals.PlayerSpringArm = this;
 		_globals.PlayerCamera = _camera;
+		// TODO: Why do we have a _rotation variable?
+		RotationDegrees = GlobalObjectsContainer.Instance.GameData.CameraRotation;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		_rotation.X += _mouseRelative.Y * (_settings.MouseUpDownFlipped ? -1 : 1);
-		_rotation.Y += _mouseRelative.X;
-		_rotation.X = Mathf.Clamp(_rotation.X, LookUpDownMin, LookUpDownMax);
-		RotationDegrees = _rotation;
+		Vector3 newRotation = RotationDegrees;
+		newRotation.X += _mouseRelative.Y * (_settings.MouseUpDownFlipped ? -1 : 1);
+		newRotation.Y += _mouseRelative.X;
+		newRotation.X = Mathf.Clamp(newRotation.X, LookUpDownMin, LookUpDownMax);
+		RotationDegrees = newRotation;
 		_mouseRelative = new Vector2();
+		GlobalObjectsContainer.Instance.GameData.CameraRotation = RotationDegrees;
 	}
 
 	public override void _Input(InputEvent @event)

@@ -16,11 +16,10 @@ public partial class HudClock : CanvasLayer
 	{
 	}
 
-	private void OnTimeUpdated(TimeResource timeResource)
+	public void OnTimeUpdated(int gameTimeSeconds)
 	{
-		int totalTimeSeconds = timeResource.GameTime;
-		int timeSecondsPart = totalTimeSeconds % 60;
-		double timeMinutesPart = Math.Floor(totalTimeSeconds / 60d);
+		int timeSecondsPart = gameTimeSeconds % 60;
+		double timeMinutesPart = Math.Floor(gameTimeSeconds / 60d);
 		_label.Text = $"{timeMinutesPart}:{timeSecondsPart}";
 	}
 }

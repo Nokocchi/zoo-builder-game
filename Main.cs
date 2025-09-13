@@ -1,9 +1,7 @@
 using Godot;
-using System;
 using GodotSteam;
 using ZooBuilder.data.stats;
 using ZooBuilder.globals;
-using ZooBuilder.util;
 
 public partial class Main : Node
 {
@@ -15,30 +13,44 @@ public partial class Main : Node
 	public DayNightCycleResource DayNightCycleResource { get; set; }
 
 	private AnimationPlayer _skyBoxAnimationPlayer;
-	private GameSaveLabel _gameSaveLabel;
-	private const float DayNightCycleAnimationLengthSeconds = 40f;
+	private UserInterface _userInterface;
+	private Player _player;
 
 	public override void _Ready()
 	{
 		GlobalObjectsContainer.Instance.GameScene = this;
-		DrawLine3D.Instance.PrepareDebugLines(this);
-		_gameSaveLabel = GetNode<GameSaveLabel>("%GameSaveLabel");
+		//DrawLine3D.Instance.PrepareDebugLines(this);
+		_userInterface = GetNode<UserInterface>("UserInterface");
 		_skyBoxAnimationPlayer = GetNode<AnimationPlayer>("SkyBoxAnimationPlayer");
-		GameStats.GamesPlayed += 1;
-		Steam.SetStatInt(SteamStatNames.IntStats.NumGames, GameStats.GamesPlayed);
-		Steam.StoreStats();
-		_skyBoxAnimationPlayer.SpeedScale =
-			DayNightCycleAnimationLengthSeconds / DayNightCycleResource.DayNightTotalLengthSeconds;
+		_player = GetNode<Player>("Player");
 		
+		// TODO: How can I guarantee that TempStats is set by the SteamSetup before this is run? 
+		TempStats.GamesPlayed += 1;
+		Steam.SetStatInt(SteamStatNames.IntStats.NumGames, TempStats.GamesPlayed);
+		Steam.StoreStats();
+		
+		// TODO: Check if _skyBoxAnimationPlayer.CurrentAnimationLength is indeed 40
+		
+		_skyBoxAnimationPlayer.SpeedScale = (float)
+			_skyBoxAnimationPlayer.CurrentAnimationLength / DayNightCycleResource.DayNightTotalLengthSeconds;
+		
+		// Initializing the day-night cycle animation to be in sync with the loaded time of day
+		int howManySecondsIntoDayNightAnimation = GlobalObjectsContainer.Instance.GameData.GameTime % DayNightCycleResource.DayNightTotalLengthSeconds;
+		_skyBoxAnimationPlayer.Advance(howManySecondsIntoDayNightAnimation);
 	}
-	
+
+	public override void _ExitTree()
+	{
+		//DrawLine3D.Instance.Test(this);
+	}
+
 	private void OnMobTimerTimeout()
 	{
 		Mob mob = MobScene.Instantiate<Mob>();
 		PathFollow3D mobSpawnLocation = GetNode<PathFollow3D>("SpawnPath/SpawnLocation");
 		mobSpawnLocation.ProgressRatio = GD.Randf();
 
-		Vector3 playerPosition = GetNode<Player>("Player").Position;
+		Vector3 playerPosition = _player.Position;
 		mob.Initialize(mobSpawnLocation.Position, playerPosition);
 		
 		AddChild(mob);
@@ -53,7 +65,14 @@ public partial class Main : Node
 
 	private void OnGameSaveTimerTimeout()
 	{
-		Steam.StoreStats();
+		_userInterface.ShowGameSaveText(SaveAction);
+		return;
+
+		void SaveAction()
+		{
+			Steam.StoreStats();
+			GlobalObjectsContainer.Instance.GameData.Save();
+		}
 	}
 
 

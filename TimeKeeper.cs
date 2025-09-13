@@ -1,16 +1,23 @@
 using Godot;
 using System;
+using ZooBuilder.globals;
+using ZooBuilder.globals.resources;
 
 public partial class TimeKeeper : Node
 {
+    [Signal] public delegate void TimeUpdatedEventHandler(int gameTimeSeconds);
 
-    [Export] public TimeResource TimeResource;
+    private GameData _gameData;
 
-    [Signal] public delegate void TimeUpdatedEventHandler(TimeResource timeResource);
-    
+    public override void _Ready()
+    {
+        _gameData = GlobalObjectsContainer.Instance.GameData;
+    }
+
+    // Connected to Child timer's timeout
     private void OnSecondPassed()
     {
-        TimeResource.GameTime++;
-        EmitSignal(SignalName.TimeUpdated, TimeResource);
+        _gameData.GameTime++;
+        EmitSignal(SignalName.TimeUpdated, _gameData.GameTime);
     }
 }

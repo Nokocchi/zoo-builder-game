@@ -71,7 +71,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ Combine into one stack if multiple of the same item are near each other
   - ✅ Play sound when picked up
 
-## Save / Loadq
+## Save / Load
 - ✅ Save achievements
 - ✅ Save settings
 - Save character customization

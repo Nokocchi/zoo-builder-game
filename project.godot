@@ -18,13 +18,19 @@ config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 
 InventorySingleton="*res://globals/InventorySingleton.cs"
 GlobalObjectsContainer="*res://globals/GlobalObjectsContainer.cs"
-DrawLine3DScript="*res://globals/util/DrawLine3D.gd"
-DrawLine3D="*res://globals/util/DrawLine3D.cs"
 SteamSetup="*res://globals/SteamSetup.cs"
+
+[debug]
+
+settings/stdout/verbose_stdout=true
 
 [dotnet]
 
 project/assembly_name="ZooBuilder"
+
+[editor]
+
+run/main_run_args="--verbose"
 
 [filesystem]
 

@@ -29,9 +29,9 @@ public partial class SteamSetup : Node
         InitializeTempGameDataFromSteam();
     }
 
-    private void InitializeTempGameDataFromSteam()
+    private static void InitializeTempGameDataFromSteam()
     {
-        GameStats.DistanceWalked = Steam.GetStatFloat(SteamStatNames.FloatStats.DistanceWalkedStatName);
-        GameStats.GamesPlayed = Steam.GetStatInt(SteamStatNames.IntStats.NumGames);
+        TempStats.DistanceWalked = Steam.GetStatFloat(SteamStatNames.FloatStats.DistanceWalkedStatName);
+        TempStats.GamesPlayed = Steam.GetStatInt(SteamStatNames.IntStats.NumGames);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Godot;
+using ZooBuilder.globals.resources;
 
 namespace ZooBuilder.globals;
 
+// Probably doesn't make a lot of sense to use Instance/singleton logic when this is a global node in Godot..
 public partial class GlobalObjectsContainer : Node
 {
     // KISS = Keep it Singleton, Screwit!
@@ -10,6 +12,8 @@ public partial class GlobalObjectsContainer : Node
     public PlayerSpringArm PlayerSpringArm { get; set; }
     public Main GameScene { get; set; }
     public Camera3D PlayerCamera { get; set; }
+    public SettingsResource Settings { get; private set; }
+    public GameData GameData { get; private set; }
 
     public override void _EnterTree()
     {
@@ -19,5 +23,8 @@ public partial class GlobalObjectsContainer : Node
         }
 
         Instance = this;
+        GameData = GameData.Load();
+        GD.Print("Set in global objects container");
+        Settings = SettingsResource.Load();
     }
 }

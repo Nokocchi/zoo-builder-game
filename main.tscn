@@ -1,31 +1,20 @@
-[gd_scene load_steps=55 format=3 uid="uid://dccrigx4avpxq"]
+[gd_scene load_steps=42 format=3 uid="uid://dccrigx4avpxq"]
 
 [ext_resource type="Script" uid="uid://bhprgr5jxyobx" path="res://Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cct7dqifva85s" path="res://entities/player/player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cqejvmqcgsyw4" path="res://entities/mob/mob.tscn" id="2_1bvp3"]
 [ext_resource type="Resource" uid="uid://c8gtfq4el17x7" path="res://globals/resources/DayNightCycleResource.tres" id="3_kq58d"]
-[ext_resource type="FontFile" uid="uid://cyxhh7ddkn62q" path="res://fonts/Montserrat-Medium.ttf" id="4_lquwl"]
-[ext_resource type="Script" uid="uid://ehw2a7dxyavb" path="res://ScoreLabel.cs" id="5_7mycd"]
-[ext_resource type="Script" uid="uid://isfg8cuaye8x" path="res://ui/inventory/OverworldDropListenerPanel.cs" id="5_074og"]
-[ext_resource type="PackedScene" uid="uid://cj1sh7dasg33y" path="res://ui/inventory/hotbar/hot_bar_view.tscn" id="6_7mycd"]
-[ext_resource type="PackedScene" uid="uid://d6u50yq3mt8o" path="res://ui/inventory/inventory.tscn" id="7_272bh"]
+[ext_resource type="PackedScene" uid="uid://cu2u1if3nxhi" path="res://user_interface.tscn" id="5_074og"]
+[ext_resource type="Script" uid="uid://ifnnmars022x" path="res://ui/UserInterface.cs" id="6_cegan"]
 [ext_resource type="PackedScene" uid="uid://c6ts0k6wj3s1u" path="res://entities/item/overworld_item.tscn" id="8_kek77"]
-[ext_resource type="PackedScene" uid="uid://cv4awdbqqm0k7" path="res://ui/settings/settings.tscn" id="8_w48qg"]
-[ext_resource type="PackedScene" uid="uid://bekc2wv2d7dyu" path="res://ui/minimap/minimap.tscn" id="9_vivmo"]
 [ext_resource type="Texture2D" uid="uid://cpf58p7pinxex" path="res://art/samplepic.png" id="9_ycdy4"]
 [ext_resource type="Resource" uid="uid://bpxkd43kvlasp" path="res://entities/item/item_apple.tres" id="11_w48qg"]
-[ext_resource type="PackedScene" uid="uid://b188e020fy2c8" path="res://ui/game_save_label.tscn" id="12_1u8w0"]
 [ext_resource type="Script" uid="uid://cqb8fpfa7pppt" path="res://globals/resources/ItemStackResource.cs" id="12_2cqfq"]
-[ext_resource type="PackedScene" uid="uid://2duqhekyh7y2" path="res://ui/menus/hud_clock.tscn" id="12_82xsv"]
 [ext_resource type="Resource" uid="uid://c444dyocwbmho" path="res://entities/item/item_banana.tres" id="12_vivmo"]
 [ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://globals/resources/ItemDataResource.cs" id="12_w48qg"]
-[ext_resource type="Script" uid="uid://mijcq21r47nf" path="res://ui/GameSaveLabel.cs" id="13_0odxb"]
 [ext_resource type="Resource" uid="uid://ut7reqal1pue" path="res://entities/item/item_orange.tres" id="13_2cqfq"]
-[ext_resource type="PackedScene" uid="uid://cepapv538ecu6" path="res://ui/achievement/achievements.tscn" id="15_lswn8"]
-[ext_resource type="PackedScene" uid="uid://6rbicaxbnvcl" path="res://ui/inventory/mouse_with_item_marker.tscn" id="17_yaehf"]
 [ext_resource type="AudioStream" uid="uid://c5qpnfga41t4p" path="res://art/House In a Forest Loop.ogg" id="19_cegan"]
 [ext_resource type="PackedScene" uid="uid://7rcneeanh4i7" path="res://ui/menus/time_keeper.tscn" id="21_getpj"]
-[ext_resource type="Resource" uid="uid://6o32d08km7ea" path="res://globals/resources/TimeResource.tres" id="22_ryguw"]
 [ext_resource type="Shader" uid="uid://c8c3gm7fv52e" path="res://skybox.gdshader" id="26_lswn8"]
 [ext_resource type="Texture2D" uid="uid://braamgawmb3li" path="res://art/sun-48190.png" id="27_a6jrf"]
 [ext_resource type="Texture2D" uid="uid://ble217x32stmb" path="res://art/orange.png" id="28_xuqvo"]
@@ -50,12 +39,6 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0)
 }
 point_count = 4
-
-[sub_resource type="Theme" id="Theme_272bh"]
-default_font = ExtResource("4_lquwl")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_074og"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="Resource" id="Resource_yaehf"]
 script = ExtResource("12_2cqfq")
@@ -544,57 +527,8 @@ transform = Transform3D(-0.00765488, -0.000162995, -0.999971, 0, 1, -0.000163, 0
 wait_time = 0.5
 autostart = true
 
-[node name="UserInterface" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_272bh")
-metadata/_edit_use_anchors_ = true
-
-[node name="HUDClock" parent="UserInterface" instance=ExtResource("12_82xsv")]
-
-[node name="OverworldDropListener" type="CanvasLayer" parent="UserInterface"]
-
-[node name="OverworldDropListenerPanel" type="Panel" parent="UserInterface/OverworldDropListener"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_074og")
-script = ExtResource("5_074og")
-
-[node name="Minimap" parent="UserInterface" instance=ExtResource("9_vivmo")]
-visible = false
-
-[node name="ScoreLabel" type="Label" parent="UserInterface"]
-layout_mode = 0
-offset_left = 66.0
-offset_top = 58.0
-offset_right = 130.0
-offset_bottom = 81.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Score: 0"
-script = ExtResource("5_7mycd")
-
-[node name="InventoryView" parent="UserInterface" instance=ExtResource("7_272bh")]
-
-[node name="HotBar" parent="UserInterface" instance=ExtResource("6_7mycd")]
-
-[node name="Settings" parent="UserInterface" instance=ExtResource("8_w48qg")]
-
-[node name="GameSaveLabel" parent="UserInterface" instance=ExtResource("12_1u8w0")]
-unique_name_in_owner = true
-script = ExtResource("13_0odxb")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="UserInterface"]
-
-[node name="MouseWithItemMarker" parent="UserInterface/CanvasLayer" instance=ExtResource("17_yaehf")]
-
-[node name="Achievements" parent="UserInterface" instance=ExtResource("15_lswn8")]
+[node name="UserInterface" parent="." instance=ExtResource("5_074og")]
+script = ExtResource("6_cegan")
 
 [node name="OverworldItem" parent="." instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.76123, 23.6205)
@@ -618,7 +552,6 @@ autoplay = true
 bus = &"BgMusic"
 
 [node name="TimeKeeper" parent="." instance=ExtResource("21_getpj")]
-TimeResource = ExtResource("22_ryguw")
 
 [node name="GameStatsSaveTimer" type="Timer" parent="."]
 wait_time = 10.0
@@ -641,6 +574,5 @@ autoplay = "SkyboxDayNightCycle"
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]
-[connection signal="gui_input" from="UserInterface/OverworldDropListener/OverworldDropListenerPanel" to="UserInterface/OverworldDropListener/OverworldDropListenerPanel" method="OnGuiInput"]
-[connection signal="TimeUpdated" from="TimeKeeper" to="UserInterface/HUDClock" method="OnTimeUpdated"]
+[connection signal="TimeUpdated" from="TimeKeeper" to="UserInterface" method="OnTimeUpdated"]
 [connection signal="timeout" from="GameStatsSaveTimer" to="." method="OnGameSaveTimerTimeout"]

@@ -6,4 +6,7 @@
   <ItemGroup>
     <Content Include="README.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="globals\util\" />
+  </ItemGroup>
 </Project>

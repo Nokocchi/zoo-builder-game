@@ -16,12 +16,7 @@ public partial class MainMenu : CanvasLayer
 	{
 	}
 
-	private void OnContinuePressed()
-	{
-		GetTree().ChangeSceneToPacked(GameScene);
-	}
-	
-	private void OnNewGamePressed()
+	private void OnPlayPressed()
 	{
 		GetTree().ChangeSceneToPacked(GameScene);
 	}
