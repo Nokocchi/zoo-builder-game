@@ -116,6 +116,9 @@ Actual storyline details, specific features or game mechanics will be added afte
 ---
 
 # Others
+Draw diagram on ItemStackResource, InventoryItemStack, ItemDataResource, Inventory, Hotbar etc., and what they contain
+Maybe consider having a HeldItem class which contains both an ItemStackResource and an originatesFromIndex? Or move the index from InventoryItemStack to ItemStackResource?
+
 At the moment, HotBarGridContainer handles scroll and tells InventorySingleton directly that the selected hotbar index has changed. InventorySingleton then seems to be 
 in charge of sending signals for whenever the hotbar selection changes. 
 Then, all InventoryItemStacks listen to this signal to figure out if they should become highlighted or not.

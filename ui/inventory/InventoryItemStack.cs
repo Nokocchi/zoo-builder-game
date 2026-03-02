@@ -30,11 +30,8 @@ public partial class InventoryItemStack : Panel
     {
         _itemIcon = GetNode<TextureRect>("%ItemIcon");
         _stackSizeLabel = GetNode<Label>("%StackSize");
-        _selectedStyle =
-            ResourceLoader.Load<StyleBoxFlat>("res://ui/inventory/hotbar/item_stack_panel_theme_selected.tres");
-        _unselectedStyle =
-            ResourceLoader.Load<StyleBoxFlat>("res://ui/inventory/hotbar/item_stack_panel_theme_unselected.tres");
-        InventorySingleton.Instance.SelectedHotbarSlotUpdated += OnSelectedHotbarSlotChanged;
+        _selectedStyle = ResourceLoader.Load<StyleBoxFlat>("res://ui/inventory/hotbar/item_stack_panel_theme_selected.tres");
+        _unselectedStyle = ResourceLoader.Load<StyleBoxFlat>("res://ui/inventory/hotbar/item_stack_panel_theme_unselected.tres");
         Render();
     }
 
@@ -70,7 +67,7 @@ public partial class InventoryItemStack : Panel
 
     public void DecrementRerenderAndRemoveIfZero()
     {
-        // TODO: Would it be better to decrement the amount via the API in InventorySingleton which then emits an InventoryUpdated signal, which causes this InventoryItemStack to re-render?
+        // TODO Inv: Would it be better to decrement the amount via the API in InventorySingleton which then emits an InventoryUpdated signal, which causes this InventoryItemStack to re-render?
         ItemStackResource.Amount--;
         if (ItemStackResource.Amount <= 0)
         {
@@ -86,18 +83,14 @@ public partial class InventoryItemStack : Panel
     {
         EmitSignal(SignalName.ItemStackPressed, this);
     }
-    
-    private void OnSelectedHotbarSlotChanged(int oldIndex, int newIndex)
+
+    public void HighlightSlot()
     {
-        // This stack should now be highlighted
-        if (InventoryIndex == newIndex)
-        {
-            AddThemeStyleboxOverride("panel", _selectedStyle);
-        }
-        else
-        {
-            // This stack should no longer be highlighted
-            AddThemeStyleboxOverride("panel", _unselectedStyle);
-        }
+        AddThemeStyleboxOverride("panel", _selectedStyle);
+    }
+
+    public void RemoveHighlight()
+    {
+        AddThemeStyleboxOverride("panel", _unselectedStyle);
     }
 }

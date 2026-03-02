@@ -10,6 +10,7 @@ public partial class HotBarGridContainer : GridContainer
     private SettingsResource _settings;
     private InventorySingleton _inventorySingleton;
     private GlobalObjectsContainer _globals;
+    private int _selectedHotbarIndex;
 
     public override void _Ready()
     {
@@ -25,45 +26,18 @@ public partial class HotBarGridContainer : GridContainer
         }
 
         OnInventoryUpdated();
-        _inventorySingleton.SelectedHotbarSlotIndex = 0;
         _settings = SettingsResource.Load();
         _globals = GlobalObjectsContainer.Instance;
     }
 
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    
     public override void _Process(double delta)
     {
     }
     
     private void OnItemClicked(InventoryItemStack clickedSlot)
-    {
-        // We are holding an item. We want to either drop it, if the clicked slot is empty, or swap items
-        ItemStackResource clickedSlotItemResource = clickedSlot.ItemStackResource;
-        if (_inventorySingleton.HoldsItem)
-        {
-            int heldItemIndex = _inventorySingleton.HeldItemIndex;
-            
-            // Clicked slot is empty. 
-            if (clickedSlotItemResource == null)
-            {
-                // TODO: Maybe move and swap should be handled the same way with one function that takes care of both cases?
-                _inventorySingleton.MoveItem(heldItemIndex, clickedSlot.InventoryIndex);
-            }
-            // Clicked slot has item. Swap
-            else
-            {
-                _inventorySingleton.SwapItems(clickedSlot.InventoryIndex, heldItemIndex);
-            }
-            
-            // In any case, we are no longer holding an item. The item might have been moved or swapped, so we can no longer rely on the previously fetched heldItemIndex
-            _inventorySingleton.ClearHeldItem();
-        }
-        // We are not currently holding anything, but the slot we clicked does have an item. Pick it up
-        else if (clickedSlotItemResource != null)
-        {
-            _inventorySingleton.SetHeldItem(clickedSlot.InventoryIndex);
-        }
+    { 
+        _inventorySingleton.ItemClicked(clickedSlot.InventoryIndex);
     }
 
     public void OnInventoryUpdated()
@@ -95,7 +69,6 @@ public partial class HotBarGridContainer : GridContainer
     // Change selected hotbar slot with mouse scrolling
     public override void _Input(InputEvent @event)
     {
-        int currentHotBarIndex = _inventorySingleton.SelectedHotbarSlotIndex;
         if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.IsPressed())
         {
             bool wheelDown = eventMouseButton.ButtonIndex == MouseButton.WheelDown;
@@ -108,31 +81,35 @@ public partial class HotBarGridContainer : GridContainer
             }
 
 
-            int newIndex = 0;
+            int previousIndex = _selectedHotbarIndex;
             if (wheelDown ^ _settings.HotbarScrollDirectionFlipped)
             {
-                newIndex = (currentHotBarIndex + 1) % InventorySingleton.HotBarSize;
+                _selectedHotbarIndex = (_selectedHotbarIndex + 1) % InventorySingleton.HotBarSize;
             }
 
             if (wheelUp ^ _settings.HotbarScrollDirectionFlipped)
             {
-                newIndex = ((currentHotBarIndex - 1) + InventorySingleton.HotBarSize) %
-                           InventorySingleton.HotBarSize;
+                _selectedHotbarIndex = ((_selectedHotbarIndex - 1) + InventorySingleton.HotBarSize) %
+                                       InventorySingleton.HotBarSize;
             }
-
-            _inventorySingleton.SelectedHotbarSlotIndex = newIndex;
+            
+            GetChild<InventoryItemStack>(previousIndex).RemoveHighlight();
+            GetChild<InventoryItemStack>(_selectedHotbarIndex).HighlightSlot();
         }
         
         if (@event.IsActionPressed("toss_single_item"))
         {
+            // TODO Inv:
+            /*
             InventoryItemStack currentSelectedStack = GetChild<InventoryItemStack>(currentHotBarIndex);
             if (!InventorySingleton.Instance.HoldsItem && currentSelectedStack.ItemStackResource is { Amount: >= 0 })
             {
-                // TODO: This needs a cleanup maybe? Some places we are calling methods on the itemstack node, some places on the ItemStackResource itself, and other times in the InventorySingleton. 
+                // TODO Inv: This needs a cleanup maybe? Some places we are calling methods on the itemstack node, some places on the ItemStackResource itself, and other times in the InventorySingleton. 
                 OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.ItemStackResource.ItemData, 1));
                 GD.Print("Q from HotBar");
                 currentSelectedStack.DecrementRerenderAndRemoveIfZero();
             }
+            */
         }
     }
 }

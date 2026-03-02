@@ -65,6 +65,7 @@ public partial class Player : CharacterBody3D
         _itemHeldInHandMesh = GetNode<MeshInstance3D>("%ItemHeldInHandMesh");
         QuadMesh quadMesh = (QuadMesh)_itemHeldInHandMesh.Mesh;
         _itemHeldInHandMaterial = (StandardMaterial3D)quadMesh.Material;
+        // TODO Inv: Change to listen to HotbarGrid, or reroute through InventorySingleton?
         _inventorySingleton.SelectedHotbarSlotUpdated += ShowSelectedHotbarItemNextToPlayer;
         // Or should I use these? Maybe SelectedHotbarSlotUpdated should be renamed to "hotbarScroll", because it is probably not updated when picking up and dropping items?
         //InventorySingleton.Instance.InventoryItemStackHeld += OnItemHeld;
@@ -129,7 +130,7 @@ public partial class Player : CharacterBody3D
             if (overlappingBody is not OverworldItem { CanPickUp: true } overworldItem) continue;
             // This check is to avoid picking up the same item multiple times
             if(overworldItem.IsQueuedForDeletion()) continue;
-            bool pickedUp = InventorySingleton.Instance.AddItem(overworldItem.ItemStackResource);
+            bool pickedUp = InventorySingleton.Instance.TryAddItem(overworldItem.ItemStackResource);
             if (pickedUp)
             {
                 _itemPickupAudioPlayer.Playing = true;
