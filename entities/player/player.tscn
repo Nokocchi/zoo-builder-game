@@ -1,10 +1,18 @@
-[gd_scene load_steps=13 format=3 uid="uid://cct7dqifva85s"]
+[gd_scene load_steps=15 format=3 uid="uid://cct7dqifva85s"]
 
 [ext_resource type="PackedScene" uid="uid://d0ypm0v45pwdv" path="res://art/player.glb" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://cyihatx8hsdcf" path="res://entities/player/Player.cs" id="1_onrkg"]
 [ext_resource type="PackedScene" uid="uid://c6ts0k6wj3s1u" path="res://entities/item/overworld_item.tscn" id="2_bls4j"]
 [ext_resource type="Script" uid="uid://csr4t1tl8ejdu" path="res://entities/player/PlayerSpringArm.cs" id="3_i3pqv"]
 [ext_resource type="AudioStream" uid="uid://cf5f1rbymjy0s" path="res://art/Ping1.mp3" id="5_fkugw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkugw"]
+transparency = 1
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_qiwj3"]
+material = SubResource("StandardMaterial3D_fkugw")
+size = Vector2(2, 2)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_onrkg"]
 radius = 1.0
@@ -91,6 +99,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.190053, 0)
 
 [node name="Character" parent="Pivot" instance=ExtResource("1_4flbx")]
 
+[node name="ItemHeldInHandMesh" type="MeshInstance3D" parent="Pivot"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.84362, 1, 0.19127)
+mesh = SubResource("QuadMesh_qiwj3")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("SphereShape3D_onrkg")
@@ -113,7 +126,6 @@ autoplay = "float"
 [node name="PlayerSpringArm" type="SpringArm3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.51973, 0)
 script = ExtResource("3_i3pqv")
-LookUpDownMax = 25
 
 [node name="PlayerCamera" type="Camera3D" parent="PlayerSpringArm" groups=["global_camera"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)

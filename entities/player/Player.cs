@@ -7,8 +7,6 @@ using ZooBuilder.globals;
 
 public partial class Player : CharacterBody3D
 {
-    // Don't forget to rebuild the project so the editor knows about the new export variable.
-
     // How fast the player moves in meters per second.
     [Export] public int Speed { get; set; } = 14;
     [Export] public int RunSpeed { get; set; } = 25;
@@ -38,6 +36,8 @@ public partial class Player : CharacterBody3D
     private AudioStreamPlayer _itemPickupAudioPlayer;
     private Node3D _pivot;
     private GlobalObjectsContainer _globals;
+    private MeshInstance3D _itemHeldInHandMesh;
+    private StandardMaterial3D _itemHeldInHandMaterial;
 
     [Export]
     public PackedScene OverworldItemScene { get; set; }
@@ -62,12 +62,34 @@ public partial class Player : CharacterBody3D
         _globals.Player = this;
         GlobalPosition = _globals.GameData.PlayerGlobalPosition;
         _pivot.Rotation = _globals.GameData.PlayerRotation;
+        _itemHeldInHandMesh = GetNode<MeshInstance3D>("%ItemHeldInHandMesh");
+        QuadMesh quadMesh = (QuadMesh)_itemHeldInHandMesh.Mesh;
+        _itemHeldInHandMaterial = (StandardMaterial3D)quadMesh.Material;
+        _inventorySingleton.SelectedHotbarSlotUpdated += ShowSelectedHotbarItemNextToPlayer;
+        // Or should I use these? Maybe SelectedHotbarSlotUpdated should be renamed to "hotbarScroll", because it is probably not updated when picking up and dropping items?
+        //InventorySingleton.Instance.InventoryItemStackHeld += OnItemHeld;
+        //InventorySingleton.Instance.InventoryItemStackNoLongerHeld += OnItemNoLongerHeld;
     }
 
     private void Die()
     {
         EmitSignal(SignalName.Hit);
         QueueFree();
+    }
+
+    private void ShowSelectedHotbarItemNextToPlayer(int previouslySelectedItemIndex, int selectedItemIndex)
+    {
+
+        ItemStackResource itemStackResource = _inventorySingleton.Inventory[selectedItemIndex];
+        if (itemStackResource == null)
+        {
+            _itemHeldInHandMesh.Visible = false;
+        }
+        else
+        {
+            _itemHeldInHandMesh.Visible = true;
+            _itemHeldInHandMaterial.AlbedoTexture = itemStackResource.ItemData.Texture;
+        }
     }
 
     // We also specified this function name in PascalCase in the editor's connection window.
@@ -123,9 +145,9 @@ public partial class Player : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
+        //DrawLine3D.Instance.DrawDebugLines_Basis(_pivot, delta);
         _globals.GameData.PlayerGlobalPosition = GlobalPosition;
-
-        GD.Print(_pivot.Basis);
+        
         // We create a local variable to store the input direction.
         Vector3 direction = Vector3.Zero;
 
@@ -197,8 +219,8 @@ public partial class Player : CharacterBody3D
 
         // There seems to be some residual Y value from previous frames when we landed on the ground. 
         // Either way, I assume we only want to count the XZ distance covered..
-        TempStats.DistanceWalked += new Vector3(_targetVelocity.X, 0.0f, _targetVelocity.Z).Length();
-        Steam.SetStatFloat(SteamStatNames.FloatStats.DistanceWalkedStatName, TempStats.DistanceWalked);
+        SteamDataCache.DistanceWalked += new Vector3(_targetVelocity.X, 0.0f, _targetVelocity.Z).Length();
+        Steam.SetStatFloat(SteamStatNames.FloatStats.DistanceWalkedStatName, SteamDataCache.DistanceWalked);
         
         // Iterate through all collisions that occurred this frame.
         for (int index = 0; index < GetSlideCollisionCount(); index++)

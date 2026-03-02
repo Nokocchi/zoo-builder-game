@@ -9,9 +9,6 @@ public partial class OverworldItem() : RigidBody3D
     [Export] public Vector3 LaunchVector { get; set; } = new(0.0f, 20.0f, -8.0f);
     [Export] public PackedScene OverworldItemScene { get; set; }
 
-    private static readonly PackedScene OverworldItemScene2 =
-        GD.Load<PackedScene>("res://entities/item/overworld_item.tscn");
-
     public bool MoveToPlayer { get; set; }
     private Player Player { get; set; }
 
@@ -33,12 +30,12 @@ public partial class OverworldItem() : RigidBody3D
         Player = GlobalObjectsContainer.Instance.Player;
         BodyEntered += OnContact;
     }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    
     public override void _PhysicsProcess(double delta)
     {
         if (MoveToPlayer && CanPickUp)
         {
+            // TODO: Probably shouldn't create a 1 second tween every frame?
             Tween tween = CreateTween();
             tween.TweenProperty(this, new NodePath("position"), Player.Position, 1.0);
         }

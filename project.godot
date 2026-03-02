@@ -19,6 +19,8 @@ config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 InventorySingleton="*res://globals/InventorySingleton.cs"
 GlobalObjectsContainer="*res://globals/GlobalObjectsContainer.cs"
 SteamSetup="*res://globals/SteamSetup.cs"
+DrawLine3DMono="*res://globals/util/DrawLine3D.cs"
+DrawLine3D="*res://globals/util/DrawLine3D.gd"
 
 [debug]
 

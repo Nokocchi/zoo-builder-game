@@ -4,9 +4,10 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="globals\util\DrawLine3D.gd" />
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="globals\util\" />
+    <Folder Include="globals\resources\saveable\" />
   </ItemGroup>
 </Project>

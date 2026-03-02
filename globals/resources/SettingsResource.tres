@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_6jb0x")
 MouseSensitivity = 100.0
-BackgroundAudioVolume = 100.0
+BackgroundAudioVolume = 19.0
 MouseUpDownFlipped = false
 HotbarScrollDirectionFlipped = false
 HideMinimap = false

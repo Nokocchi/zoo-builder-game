@@ -18,6 +18,7 @@ public partial class ItemStackResource : Resource
     [Export] public ItemDataResource ItemData { get; set; }
     [Export] public int Amount { get; set; }
     public bool BeingHeld { get; set; }
+    public bool HotbarItemSelected { get; set; }
 
     public void IncreaseStackSize(int amount)
     {

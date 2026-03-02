@@ -43,7 +43,7 @@ public partial class MouseWithItemMarker : Control
         ItemStackResource itemStackResource = InventorySingleton.Instance.Inventory[_itemStackInstance.InventoryIndex];
 
         if (itemStackResource is not { BeingHeld: true } || itemStackResource.Amount <= 0) return;
-        GD.Print("Q from HeldItem");
+ 
         OverworldItem.SpawnItemAndLaunchFromPlayer(
             new ItemStackResource(_itemStackInstance.ItemStackResource.ItemData, 1));
         _itemStackInstance.DecrementRerenderAndRemoveIfZero();

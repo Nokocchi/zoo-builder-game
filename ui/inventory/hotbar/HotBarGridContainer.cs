@@ -47,12 +47,8 @@ public partial class HotBarGridContainer : GridContainer
             // Clicked slot is empty. 
             if (clickedSlotItemResource == null)
             {
-                // We want to move our held item here if it's not the slot we are currently holding
-                // TODO: Maybe just update MoveItem to not do anything if the indexes are the same?
-                if (clickedSlot.InventoryIndex != heldItemIndex)
-                {
-                    _inventorySingleton.MoveItem(heldItemIndex, clickedSlot.InventoryIndex);
-                }
+                // TODO: Maybe move and swap should be handled the same way with one function that takes care of both cases?
+                _inventorySingleton.MoveItem(heldItemIndex, clickedSlot.InventoryIndex);
             }
             // Clicked slot has item. Swap
             else
@@ -66,7 +62,6 @@ public partial class HotBarGridContainer : GridContainer
         // We are not currently holding anything, but the slot we clicked does have an item. Pick it up
         else if (clickedSlotItemResource != null)
         {
-            GD.Print("Picked up ", clickedSlotItemResource.ItemData.ItemName, " ",  clickedSlot.InventoryIndex);
             _inventorySingleton.SetHeldItem(clickedSlot.InventoryIndex);
         }
     }

@@ -19,14 +19,14 @@ public partial class Main : Node
 	public override void _Ready()
 	{
 		GlobalObjectsContainer.Instance.GameScene = this;
-		//DrawLine3D.Instance.PrepareDebugLines(this);
+		DrawLine3D.Instance.PrepareDebugLines(this);
 		_userInterface = GetNode<UserInterface>("UserInterface");
 		_skyBoxAnimationPlayer = GetNode<AnimationPlayer>("SkyBoxAnimationPlayer");
 		_player = GetNode<Player>("Player");
 		
 		// TODO: How can I guarantee that TempStats is set by the SteamSetup before this is run? 
-		TempStats.GamesPlayed += 1;
-		Steam.SetStatInt(SteamStatNames.IntStats.NumGames, TempStats.GamesPlayed);
+		SteamDataCache.GamesPlayed += 1;
+		Steam.SetStatInt(SteamStatNames.IntStats.NumGames, SteamDataCache.GamesPlayed);
 		Steam.StoreStats();
 		
 		// TODO: Check if _skyBoxAnimationPlayer.CurrentAnimationLength is indeed 40
