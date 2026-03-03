@@ -15,7 +15,7 @@ public partial class MouseWithItemMarker : Control
         InventorySingleton.Instance.InventoryItemStackHeld += OnItemHeld;
     }
 
-    private void OnItemHeld(InventoryItemStack heldItem)
+    private void OnItemHeld(HeldItem heldItem)
     {
         if (heldItem == null)
         {
@@ -23,7 +23,7 @@ public partial class MouseWithItemMarker : Control
         }
         else
         {
-            _itemStackInstance.InventoryIndex = heldItem.InventoryIndex;
+            _itemStackInstance.InventoryIndex = heldItem.OriginatesFromInventoryIndex;
             _itemStackInstance.ItemStackResource = heldItem.ItemStackResource;
             Visible = true;
         }

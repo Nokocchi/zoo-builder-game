@@ -25,6 +25,7 @@ public partial class HotBarGridContainer : GridContainer
             AddChild(hotbarSlot);
         }
 
+        GetChild<InventoryItemStack>(_selectedHotbarIndex).HighlightSlot();
         OnInventoryUpdated();
         _settings = SettingsResource.Load();
         _globals = GlobalObjectsContainer.Instance;

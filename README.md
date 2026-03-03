@@ -111,7 +111,6 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 # Things to figure out:
 - When starting a new game, the player would expect all their achievements and stats to be reset for that save file. Maybe you can have multiple save files with different progress. How does that work with Steam stats and achievements which seem to be "global" on the user's steam account?
-- Look into Inventory System extension.. 
 
 ---
 

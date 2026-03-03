@@ -13,7 +13,7 @@ public partial class InventorySingleton : Node, IInventory
     public delegate void InventoryUpdatedEventHandler();
 
     [Signal]
-    public delegate void InventoryItemStackHeldEventHandler(InventoryItemStack heldItem);
+    public delegate void InventoryItemStackHeldEventHandler(HeldItem heldItem);
 
     // TODO Inv: Set inventory size via inventory resource
     [Export] public int InventorySize = 20;

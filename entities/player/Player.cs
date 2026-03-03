@@ -66,7 +66,7 @@ public partial class Player : CharacterBody3D
         QuadMesh quadMesh = (QuadMesh)_itemHeldInHandMesh.Mesh;
         _itemHeldInHandMaterial = (StandardMaterial3D)quadMesh.Material;
         // TODO Inv: Change to listen to HotbarGrid, or reroute through InventorySingleton?
-        _inventorySingleton.SelectedHotbarSlotUpdated += ShowSelectedHotbarItemNextToPlayer;
+        //_inventorySingleton.SelectedHotbarSlotUpdated += ShowSelectedHotbarItemNextToPlayer;
         // Or should I use these? Maybe SelectedHotbarSlotUpdated should be renamed to "hotbarScroll", because it is probably not updated when picking up and dropping items?
         //InventorySingleton.Instance.InventoryItemStackHeld += OnItemHeld;
         //InventorySingleton.Instance.InventoryItemStackNoLongerHeld += OnItemNoLongerHeld;

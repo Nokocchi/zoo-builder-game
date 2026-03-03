@@ -76,8 +76,7 @@ public partial class InventoryItemStack : Panel
 
         Render();
     }
-
-
+    
     // Called by the button child, propagated as new signal that the inventory can listen to
     private void OnPressed()
     {
