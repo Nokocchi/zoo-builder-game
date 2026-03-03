@@ -2,35 +2,22 @@
     subgraph inventory[Inventory]
         inventory_singleton[Inventory Singleton]
         subgraph inventoryapi [API]
-            api_add_item["AddItem(ItemStackResource itemStack)"]
-            api_remove_item_stack["RemoveStackFromInventory(int index)"]
-            api_move_item_stack["MoveItemStack(int fromIndex, int toIndex)"]
-            api_move_decrement_item_stack["DecrementItemStack(int index)"]
+            api_try_add_item["bool TryAddItem(ItemStackResource itemStack)"]
+            api_remove_item_stack["void RemoveStackFromInventory(int index)"]
+            api_item_stack_clicked["void ItemClicked(int fromIndex)"]
+            api_drop_held_item["void DropHeldItem()"]
         end
-        api_add_item --> inventory_singleton
-        api_remove_item_stack --> inventory_singleton
-        api_move_item_stack --> inventory_singleton
-        api_move_decrement_item_stack --> inventory_singleton
+        api_try_add_item -- "Add in first available space" --> inventory_singleton
+        api_remove_item_stack -- "Sets item at index to null" --> inventory_singleton
+        api_item_stack_clicked -- "Holds item or swaps if already holding" --> inventory_singleton
+        api_drop_held_item -- "Drops held item and sets it to null" --> inventory_singleton
     end
-        Player -- "Pick up item" --> api_add_item
-        Player -- "Drop item stack" --> api_remove_item_stack
-        Player -- "Move item in inventory" --> api_move_item_stack
-        Player -- "Press Q in hotbar" --> api_move_decrement_item_stack
-    subgraph hotbar[Hotbar]
-        on_scroll[Scroll Action]
+    Player -- "Pick up item" --> api_try_add_item
+    Player -- "Drop item stack" --> api_remove_item_stack
+    Player -- "Click item in inventory" --> api_item_stack_clicked
+    Player -- "Hold item and click outside inventory, or close inventory" --> api_drop_held_item
 
-    end
-
-    %% DOCUMENTATION:
-    %% When items are picked up with the mouse from the inventory, they are no longer considered to be in the inventory. The space becomes free.
-    %% But if we place the item on a slot with an item already in it, we should try to swap the two items if the held item's slot has not already been occupied by another item.
-    %% If it has, pick up the item from the slot you dropped the item into.
-
-    %% It would be weird to call into InventorySingleton and then rely on signal back to update the current item stack
-    %% Hold item stack and Q -> decrease. 
-    %% Select hotbar stack and Q --> decrease
-    %% Held items should not require any interaction with InventorySingleton as they are not in the inventory
-
-    %% Item held in hand
-    %% Picked up item with mouse
-    %% Should items be "marked as held" when clicked on and held in the mouse? Why not just consider them removed from inventory?
+    %% When dropping items with Q, it would be weird to call into InventorySingleton and then rely on signal back to update the current item stack
+    %% Should inventory views only hold an index and fetch the item resource from the InventorySingleton?
+    %% Or should an inventory view square hold a reference to the object stored in the InventorySingleton?
+   

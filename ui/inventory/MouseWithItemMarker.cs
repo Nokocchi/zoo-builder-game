@@ -7,6 +7,7 @@ public partial class MouseWithItemMarker : Control
 {
     // TODO Inv: By reference so that any change to this also takes effect in InventorySingleton?
     private InventoryItemStack _itemStackInstance;
+    private PackedScene _inventoryItemStackScene;
 
     public override void _Ready()
     {
@@ -19,6 +20,7 @@ public partial class MouseWithItemMarker : Control
     {
         if (heldItem == null)
         {
+            _itemStackInstance.ItemStackResource = null;
             Visible = false;
         }
         else
@@ -31,13 +33,14 @@ public partial class MouseWithItemMarker : Control
 
     public override void _Input(InputEvent @event)
     {
-        if (@event is InputEventMouseMotion eventMouseMotion)
+        if (@event is InputEventMouseMotion eventMouseMotion && _itemStackInstance != null)
         {
             // Itemstack's bottom left corner follows mouse. When clicking, you technically click the InventoryItemStack, but this is marked as mouse = ignore. 
             Position = new Vector2(eventMouseMotion.Position.X, (eventMouseMotion.Position.Y - _itemStackInstance.Size.Y));
             // get_viewport().get_mouse_position() ?
         }
 
+        // TODO Inv
         /*
         if (!@event.IsActionPressed("toss_single_item") || !InventorySingleton.Instance.HoldsItem) return;
 

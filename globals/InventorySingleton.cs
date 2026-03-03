@@ -23,7 +23,7 @@ public partial class InventorySingleton : Node, IInventory
     public List<ItemStackResource> Inventory;
     
     // Should be kept in InventorySingleton so it can be saved.. Maybe?
-    private HeldItem _heldItem;
+    public HeldItem HeldItem { get; private set; }
 
     public bool MenuOpen { get; set; }
 
@@ -88,11 +88,11 @@ public partial class InventorySingleton : Node, IInventory
 
     public void ItemClicked(int itemIndex)
     {
-        if (_heldItem != null)
+        if (HeldItem != null)
         {
             InsertHeldItem(itemIndex);
             EmitSignal(SignalName.InventoryUpdated);
-            EmitSignal(SignalName.InventoryItemStackHeld, _heldItem);
+            EmitSignal(SignalName.InventoryItemStackHeld, HeldItem);
         }
 
         // We are not currently holding anything, but the slot we clicked does have an item. Pick it up
@@ -100,8 +100,16 @@ public partial class InventorySingleton : Node, IInventory
         {
             HoldItem(itemIndex);
             EmitSignal(SignalName.InventoryUpdated);
-            EmitSignal(SignalName.InventoryItemStackHeld, _heldItem);
+            EmitSignal(SignalName.InventoryItemStackHeld, HeldItem);
         }
+    }
+
+    public void DropHeldItem()
+    {
+        if (HeldItem == null) return;
+        OverworldItem.SpawnItemAndLaunchFromPlayer(HeldItem.ItemStackResource);
+        HeldItem = null;
+        EmitSignal(SignalName.InventoryItemStackHeld, HeldItem);
     }
 
     // Internals
@@ -109,18 +117,18 @@ public partial class InventorySingleton : Node, IInventory
     // TODO Inv: Clean up
     private void InsertHeldItem(int insertIntoIndex)
     {
-        if (_heldItem == null)
+        if (HeldItem == null)
         {
             return;
         }
 
-        ItemStackResource heldItemItemStackResource = _heldItem.ItemStackResource;
-        int heldItemOriginatesFromInventoryIndex = _heldItem.OriginatesFromInventoryIndex;
+        ItemStackResource heldItemItemStackResource = HeldItem.ItemStackResource;
+        int heldItemOriginatesFromInventoryIndex = HeldItem.OriginatesFromInventoryIndex;
         ItemStackResource itemOnInsertIndex = Inventory[insertIntoIndex];
         if (itemOnInsertIndex == null)
         {
             Inventory[insertIntoIndex] = heldItemItemStackResource;
-            _heldItem = null;
+            HeldItem = null;
         }
         else
         {
@@ -128,13 +136,13 @@ public partial class InventorySingleton : Node, IInventory
             if (Inventory[heldItemOriginatesFromInventoryIndex] == null)
             {
                 Inventory[heldItemOriginatesFromInventoryIndex] = Inventory[insertIntoIndex];
-                Inventory[insertIntoIndex] = _heldItem.ItemStackResource;
-                _heldItem = null;
+                Inventory[insertIntoIndex] = HeldItem.ItemStackResource;
+                HeldItem = null;
             }
             else
             {
-                Inventory[insertIntoIndex] = _heldItem.ItemStackResource;
-                _heldItem = new HeldItem(Inventory[insertIntoIndex], insertIntoIndex);
+                Inventory[insertIntoIndex] = HeldItem.ItemStackResource;
+                HeldItem = new HeldItem(Inventory[insertIntoIndex], insertIntoIndex);
             }
         }
 
@@ -143,7 +151,7 @@ public partial class InventorySingleton : Node, IInventory
 
     private void HoldItem(int index)
     {
-        _heldItem = new HeldItem(Inventory[index], index);
+        HeldItem = new HeldItem(Inventory[index], index);
         Inventory[index] = null;
     }
 }

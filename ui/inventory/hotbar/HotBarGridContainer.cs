@@ -90,27 +90,17 @@ public partial class HotBarGridContainer : GridContainer
 
             if (wheelUp ^ _settings.HotbarScrollDirectionFlipped)
             {
-                _selectedHotbarIndex = ((_selectedHotbarIndex - 1) + InventorySingleton.HotBarSize) %
-                                       InventorySingleton.HotBarSize;
+                _selectedHotbarIndex = ((_selectedHotbarIndex - 1) + InventorySingleton.HotBarSize) % InventorySingleton.HotBarSize;
             }
             
             GetChild<InventoryItemStack>(previousIndex).RemoveHighlight();
             GetChild<InventoryItemStack>(_selectedHotbarIndex).HighlightSlot();
         }
-        
-        if (@event.IsActionPressed("toss_single_item"))
-        {
-            // TODO Inv:
-            /*
-            InventoryItemStack currentSelectedStack = GetChild<InventoryItemStack>(currentHotBarIndex);
-            if (!InventorySingleton.Instance.HoldsItem && currentSelectedStack.ItemStackResource is { Amount: >= 0 })
-            {
-                // TODO Inv: This needs a cleanup maybe? Some places we are calling methods on the itemstack node, some places on the ItemStackResource itself, and other times in the InventorySingleton. 
-                OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.ItemStackResource.ItemData, 1));
-                GD.Print("Q from HotBar");
-                currentSelectedStack.DecrementRerenderAndRemoveIfZero();
-            }
-            */
-        }
+
+        if (!@event.IsActionPressed("toss_single_item")) return;
+        InventoryItemStack currentSelectedStack = GetChild<InventoryItemStack>(_selectedHotbarIndex);
+        if (InventorySingleton.Instance.HeldItem != null || currentSelectedStack.ItemStackResource is not { Amount: >= 0 }) return;
+        OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.ItemStackResource.ItemData, 1));
+        currentSelectedStack.DecrementRerenderAndRemoveIfZero();
     }
 }

@@ -6,17 +6,7 @@ public partial class OverworldDropListenerPanel : Panel
 {
     public void OnGuiInput(InputEvent @event)
     {
-        // TODO: Inv
-        /*
-        if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.IsPressed() &&
-            eventMouseButton.ButtonIndex == MouseButton.Left && InventorySingleton.Instance.HoldsItem)
-        {
-            
-            ItemStackResource itemStack = InventorySingleton.Instance.HeldItem;
-            int heldItemIndex = InventorySingleton.Instance.HeldItemIndex;
-            InventorySingleton.Instance.RemoveStackFromInventory(heldItemIndex);
-            OverworldItem.SpawnItemAndLaunchFromPlayer(itemStack);
-        }
-        */
+        if (@event is not InputEventMouseButton eventMouseButton || !eventMouseButton.IsPressed() || eventMouseButton.ButtonIndex != MouseButton.Left) return;
+        InventorySingleton.Instance.DropHeldItem();
     }
 }
