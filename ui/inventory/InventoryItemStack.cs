@@ -7,7 +7,6 @@ public partial class InventoryItemStack : Panel
     public delegate void ItemStackPressedEventHandler(InventoryItemStack stack);
 
     private ItemStackResource _itemStackResource;
-    //private InventorySingleton _inventorySingleton;
 
     public ItemStackResource ItemStackResource
     {
@@ -67,7 +66,6 @@ public partial class InventoryItemStack : Panel
 
     public void DecrementRerenderAndRemoveIfZero()
     {
-        // TODO Inv: Would it be better to decrement the amount via the API in InventorySingleton which then emits an InventoryUpdated signal, which causes this InventoryItemStack to re-render?
         ItemStackResource.Amount--;
         if (ItemStackResource.Amount <= 0)
         {

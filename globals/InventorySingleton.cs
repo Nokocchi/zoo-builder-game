@@ -9,6 +9,7 @@ public partial class InventorySingleton : Node, IInventory
 {
     public static InventorySingleton Instance { get; private set; }
 
+    // Update the inventory when new stacks are added, stacks are removed or stacks are swapped. Not for increment/decrement/split, as this is handled in the InventoryItemStack itself.
     [Signal]
     public delegate void InventoryUpdatedEventHandler();
 
@@ -42,8 +43,16 @@ public partial class InventorySingleton : Node, IInventory
 
     public void RemoveStackFromInventory(int index)
     {
-        Inventory[index] = null;
-        EmitSignal(SignalName.InventoryUpdated);
+        if (HeldItem.OriginatesFromInventoryIndex == index)
+        {
+            HeldItem = null;
+            EmitSignal(SignalName.InventoryItemStackHeld, HeldItem);
+        }
+        else
+        {
+            Inventory[index] = null;
+            EmitSignal(SignalName.InventoryUpdated);
+        }
     }
 
     // Returns true if item could be added. False if item could not be added
@@ -111,7 +120,7 @@ public partial class InventorySingleton : Node, IInventory
         HeldItem = null;
         EmitSignal(SignalName.InventoryItemStackHeld, HeldItem);
     }
-
+    
     // Internals
 
     // TODO Inv: Clean up
