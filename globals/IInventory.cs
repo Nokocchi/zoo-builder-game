@@ -7,6 +7,6 @@ public interface IInventory
     void ItemClicked(int itemIndex);
     void DropHeldItem();
 
-    // TODO: It's not possible to define signals here. Consider converting to pure C# events instead of signals, but then it's necessary to manually unsubscribe on ExitTree
-    // https://github.com/godotengine/godot/issues/70414
+    // TODO inv: Use EventBus to define signals, and convert all usages of the inventory singleton to just use the interface
+    //  Could I somehow show the events in this interface?
 }

@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://cct7dqifva85s"]
+[gd_scene load_steps=16 format=3 uid="uid://cct7dqifva85s"]
 
 [ext_resource type="PackedScene" uid="uid://d0ypm0v45pwdv" path="res://art/player.glb" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://cyihatx8hsdcf" path="res://entities/player/Player.cs" id="1_onrkg"]
 [ext_resource type="PackedScene" uid="uid://c6ts0k6wj3s1u" path="res://entities/item/overworld_item.tscn" id="2_bls4j"]
 [ext_resource type="Script" uid="uid://csr4t1tl8ejdu" path="res://entities/player/PlayerSpringArm.cs" id="3_i3pqv"]
+[ext_resource type="Script" uid="uid://c0n6n4gpxxkfd" path="res://entities/player/ItemHeldInHandMesh.cs" id="4_8fjmc"]
 [ext_resource type="AudioStream" uid="uid://cf5f1rbymjy0s" path="res://art/Ping1.mp3" id="5_fkugw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkugw"]
@@ -103,6 +104,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.190053, 0)
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.84362, 1, 0.19127)
 mesh = SubResource("QuadMesh_qiwj3")
+script = ExtResource("4_8fjmc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

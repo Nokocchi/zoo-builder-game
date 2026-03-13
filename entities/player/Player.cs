@@ -28,7 +28,7 @@ public partial class Player : CharacterBody3D
 
     private State _state;
     private SettingsResource _settings;
-    private SpringArm3D _playerSpringArm;
+    private PlayerSpringArm _playerSpringArm;
     private Area3D _itemPullZone;
     private Area3D _itemPickupZone;
     private InventorySingleton _inventorySingleton;
@@ -36,8 +36,7 @@ public partial class Player : CharacterBody3D
     private AudioStreamPlayer _itemPickupAudioPlayer;
     private Node3D _pivot;
     private GlobalObjectsContainer _globals;
-    private MeshInstance3D _itemHeldInHandMesh;
-    private StandardMaterial3D _itemHeldInHandMaterial;
+    private ItemHeldInHandMesh _itemHeldInHandMesh;
 
     [Export]
     public PackedScene OverworldItemScene { get; set; }
@@ -52,54 +51,19 @@ public partial class Player : CharacterBody3D
         _globals = GlobalObjectsContainer.Instance;
         _state = State.WALKING;
         _itemPickupAudioPlayer = GetNode<AudioStreamPlayer>("ItemPickupAudioPlayer");
-        _playerSpringArm = GetNode<SpringArm3D>("PlayerSpringArm");
+        _playerSpringArm = GetNode<PlayerSpringArm>("PlayerSpringArm");
         _itemPullZone = GetNode<Area3D>("ItemPullZone");
         _itemPickupZone = GetNode<Area3D>("ItemImmediatePickupZone");
-        _playerCamera = GetNode<Camera3D>("PlayerSpringArm/PlayerCamera");
         _settings = SettingsResource.Load();
         _inventorySingleton = InventorySingleton.Instance;
         _pivot = GetNode<Node3D>("Pivot");
         _globals.Player = this;
         GlobalPosition = _globals.GameData.PlayerGlobalPosition;
         _pivot.Rotation = _globals.GameData.PlayerRotation;
-        _itemHeldInHandMesh = GetNode<MeshInstance3D>("%ItemHeldInHandMesh");
-        QuadMesh quadMesh = (QuadMesh)_itemHeldInHandMesh.Mesh;
-        _itemHeldInHandMaterial = (StandardMaterial3D)quadMesh.Material;
-        // TODO Inv: Change to listen to HotbarGrid, or reroute through InventorySingleton?
-        //_inventorySingleton.SelectedHotbarSlotUpdated += ShowSelectedHotbarItemNextToPlayer;
-        // Or should I use these? Maybe SelectedHotbarSlotUpdated should be renamed to "hotbarScroll", because it is probably not updated when picking up and dropping items?
-        //InventorySingleton.Instance.InventoryItemStackHeld += OnItemHeld;
-        //InventorySingleton.Instance.InventoryItemStackNoLongerHeld += OnItemNoLongerHeld;
+        _itemHeldInHandMesh = GetNode<ItemHeldInHandMesh>("%ItemHeldInHandMesh");
     }
 
-    private void Die()
-    {
-        EmitSignal(SignalName.Hit);
-        QueueFree();
-    }
-
-    private void ShowSelectedHotbarItemNextToPlayer(int previouslySelectedItemIndex, int selectedItemIndex)
-    {
-
-        ItemStackResource itemStackResource = _inventorySingleton.Inventory[selectedItemIndex];
-        if (itemStackResource == null)
-        {
-            _itemHeldInHandMesh.Visible = false;
-        }
-        else
-        {
-            _itemHeldInHandMesh.Visible = true;
-            _itemHeldInHandMaterial.AlbedoTexture = itemStackResource.ItemData.Texture;
-        }
-    }
-
-    // We also specified this function name in PascalCase in the editor's connection window.
-    private void OnMobDetectorBodyEntered(Node3D body)
-    {
-        //Die();
-    }
-
-    private void ItemPullZoneBodyEntered(Node3D body)
+    private void ItemPullZoneBodyEntered(Node3D ignored)
     {
         MoveNearbyItemsToPlayer();
     }

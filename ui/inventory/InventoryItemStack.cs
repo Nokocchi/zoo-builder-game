@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using ZooBuilder.entities.player;
 
 public partial class InventoryItemStack : Panel
 {
@@ -7,6 +8,7 @@ public partial class InventoryItemStack : Panel
     public delegate void ItemStackPressedEventHandler(InventoryItemStack stack);
 
     private ItemStackResource _itemStackResource;
+    private bool _selected;
 
     public ItemStackResource ItemStackResource
     {
@@ -14,6 +16,13 @@ public partial class InventoryItemStack : Panel
         set
         {
             _itemStackResource = value;
+            if (_selected)
+            {
+                // TODO Inv: It's not quite clear that this method is called when an InventoryItemStack has been Q'ed enough that the item resource is removed
+                //  Also, do I actually want this setter to emit the event below, and ALSO the HotbarGridContainer to emit the same event when scrolling? 
+                EventBus.Publish(new SelectedHotbarSlotChangedItemEvent(InventoryIndex));
+            }
+
             Render();
         }
     }
@@ -84,10 +93,12 @@ public partial class InventoryItemStack : Panel
     public void HighlightSlot()
     {
         AddThemeStyleboxOverride("panel", _selectedStyle);
+        _selected = true;
     }
 
     public void RemoveHighlight()
     {
         AddThemeStyleboxOverride("panel", _unselectedStyle);
+        _selected = false;
     }
 }

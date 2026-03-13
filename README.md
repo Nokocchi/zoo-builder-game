@@ -100,6 +100,9 @@ Actual storyline details, specific features or game mechanics will be added afte
 - ✅ Shadows based on sun position
 - Hook up the animation time/speed to match the in-game time. Especially important once the time of day is saved when the game saves.
 
+## Others
+- Autoload signalbus instead of GUI-signals? (Or mabe C# events?)
+
 ---
 
 # Known bugs

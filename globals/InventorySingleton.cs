@@ -43,7 +43,7 @@ public partial class InventorySingleton : Node, IInventory
 
     public void RemoveStackFromInventory(int index)
     {
-        if (HeldItem.OriginatesFromInventoryIndex == index)
+        if (HeldItem?.OriginatesFromInventoryIndex == index)
         {
             HeldItem = null;
             EmitSignal(SignalName.InventoryItemStackHeld, HeldItem);

@@ -2,15 +2,17 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
+using ZooBuilder.entities.player;
 using ZooBuilder.globals;
 
 public partial class HotBarGridContainer : GridContainer
 {
+    
     private PackedScene _inventoryItemStackScene;
     private SettingsResource _settings;
     private InventorySingleton _inventorySingleton;
     private GlobalObjectsContainer _globals;
-    private int _selectedHotbarIndex;
+    public int SelectedHotbarIndex { get; private set; }
 
     public override void _Ready()
     {
@@ -25,10 +27,11 @@ public partial class HotBarGridContainer : GridContainer
             AddChild(hotbarSlot);
         }
 
-        GetChild<InventoryItemStack>(_selectedHotbarIndex).HighlightSlot();
+        GetChild<InventoryItemStack>(SelectedHotbarIndex).HighlightSlot();
         OnInventoryUpdated();
         _settings = SettingsResource.Load();
         _globals = GlobalObjectsContainer.Instance;
+        _globals.HotBarGridContainer = this;
     }
 
     
@@ -78,23 +81,24 @@ public partial class HotBarGridContainer : GridContainer
             }
 
 
-            int previousIndex = _selectedHotbarIndex;
+            int previousIndex = SelectedHotbarIndex;
             if (wheelDown ^ _settings.HotbarScrollDirectionFlipped)
             {
-                _selectedHotbarIndex = (_selectedHotbarIndex + 1) % InventorySingleton.HotBarSize;
+                SelectedHotbarIndex = (SelectedHotbarIndex + 1) % InventorySingleton.HotBarSize;
             }
 
             if (wheelUp ^ _settings.HotbarScrollDirectionFlipped)
             {
-                _selectedHotbarIndex = ((_selectedHotbarIndex - 1) + InventorySingleton.HotBarSize) % InventorySingleton.HotBarSize;
+                SelectedHotbarIndex = ((SelectedHotbarIndex - 1) + InventorySingleton.HotBarSize) % InventorySingleton.HotBarSize;
             }
             
             GetChild<InventoryItemStack>(previousIndex).RemoveHighlight();
-            GetChild<InventoryItemStack>(_selectedHotbarIndex).HighlightSlot();
+            GetChild<InventoryItemStack>(SelectedHotbarIndex).HighlightSlot();
+            EventBus.Publish(new SelectedHotbarSlotChangedItemEvent(SelectedHotbarIndex));
         }
 
         if (!@event.IsActionPressed("toss_single_item")) return;
-        InventoryItemStack currentSelectedStack = GetChild<InventoryItemStack>(_selectedHotbarIndex);
+        InventoryItemStack currentSelectedStack = GetChild<InventoryItemStack>(SelectedHotbarIndex);
         if (InventorySingleton.Instance.HeldItem != null || currentSelectedStack.ItemStackResource is not { Amount: >= 0 }) return;
         OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.ItemStackResource.ItemData, 1));
         currentSelectedStack.DecrementRerenderAndRemoveIfZero();
