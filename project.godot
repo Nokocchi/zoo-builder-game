@@ -16,11 +16,11 @@ config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 
 [autoload]
 
-InventorySingleton="*res://globals/InventorySingleton.cs"
-GlobalObjectsContainer="*res://globals/GlobalObjectsContainer.cs"
-SteamSetup="*res://globals/SteamSetup.cs"
-DrawLine3DMono="*res://globals/util/DrawLine3D.cs"
-DrawLine3D="*res://globals/util/DrawLine3D.gd"
+GlobalObjectsContainer="*res://src/globals/util/GlobalObjectsContainer.cs"
+InventorySingleton="*res://src/globals/inventory/InventorySingleton.cs"
+DrawLine3d="*res://src/globals/util/DrawLine3D.gd"
+DrawLine3dMono="*res://src/globals/util/DrawLine3D.cs"
+SteamSetup="*res://src/globals/util/SteamSetup.cs"
 
 [debug]
 
