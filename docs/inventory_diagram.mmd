@@ -1,0 +1,23 @@
+﻿flowchart LR
+    subgraph inventory[Inventory]
+        inventory_singleton[Inventory Singleton]
+        subgraph inventoryapi [API]
+            api_try_add_item["bool TryAddItem(ItemStackResource itemStack)"]
+            api_remove_item_stack["void RemoveStackFromInventory(int index)"]
+            api_item_stack_clicked["void ItemClicked(int fromIndex)"]
+            api_drop_held_item["void DropHeldItem()"]
+        end
+        api_try_add_item -- "Add in first available space" --> inventory_singleton
+        api_remove_item_stack -- "Sets item at index to null" --> inventory_singleton
+        api_item_stack_clicked -- "Holds item or swaps if already holding" --> inventory_singleton
+        api_drop_held_item -- "Drops held item and sets it to null" --> inventory_singleton
+    end
+    Player -- "Pick up item" --> api_try_add_item
+    Player -- "Drop item stack" --> api_remove_item_stack
+    Player -- "Click item in inventory" --> api_item_stack_clicked
+    Player -- "Hold item and click outside inventory, or close inventory" --> api_drop_held_item
+
+    %% When dropping items with Q, it would be weird to call into InventorySingleton and then rely on signal back to update the current item stack
+    %% Should inventory views only hold an index and fetch the item resource from the InventorySingleton?
+    %% Or should an inventory view square hold a reference to the object stored in the InventorySingleton?
+   

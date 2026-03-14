@@ -1,0 +1,164 @@
+[gd_scene load_steps=16 format=3 uid="uid://cct7dqifva85s"]
+
+[ext_resource type="Script" uid="uid://cyihatx8hsdcf" path="res://src/entities/player/Player.cs" id="1_0mfjg"]
+[ext_resource type="PackedScene" uid="uid://c6ts0k6wj3s1u" path="res://src/entities/item/overworld_item.tscn" id="2_oih67"]
+[ext_resource type="PackedScene" uid="uid://d0ypm0v45pwdv" path="res://art/player.glb" id="3_eb65w"]
+[ext_resource type="Script" uid="uid://c0n6n4gpxxkfd" path="res://src/entities/player/ItemHeldInHandMesh.cs" id="4_4f0qm"]
+[ext_resource type="Script" uid="uid://csr4t1tl8ejdu" path="res://src/entities/player/PlayerSpringArm.cs" id="5_tk761"]
+[ext_resource type="AudioStream" uid="uid://cf5f1rbymjy0s" path="res://art/Ping1.mp3" id="6_n7e5a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkugw"]
+transparency = 1
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_qiwj3"]
+material = SubResource("StandardMaterial3D_fkugw")
+size = Vector2(2, 2)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_onrkg"]
+radius = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_onrkg"]
+height = 0.155396
+radius = 1.25537
+
+[sub_resource type="Animation" id="Animation_i3pqv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Character:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/Character:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_onrkg"]
+resource_name = "float"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Character:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.7, 1.2),
+"transitions": PackedFloat32Array(0.420448, 2.07052, 1.07177),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.65, 0), Vector3(0, 0.35, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/Character:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.499856, 1.2),
+"transitions": PackedFloat32Array(0.420448, 0.435275, 1.07177),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.139626, 0, 0), Vector3(-0.15708, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hqtel"]
+_data = {
+&"RESET": SubResource("Animation_i3pqv"),
+&"float": SubResource("Animation_onrkg")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sglur"]
+radius = 11.1208
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bls4j"]
+radius = 3.94311
+
+[node name="Player" type="CharacterBody3D"]
+collision_mask = 4
+script = ExtResource("1_0mfjg")
+Speed = null
+RunSpeed = null
+FallAcceleration = null
+JumpImpulse = null
+BounceImpulse = null
+OverworldItemScene = ExtResource("2_oih67")
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.190053, 0)
+
+[node name="Character" parent="Pivot" instance=ExtResource("3_eb65w")]
+
+[node name="ItemHeldInHandMesh" type="MeshInstance3D" parent="Pivot"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.84362, 1, 0.19127)
+mesh = SubResource("QuadMesh_qiwj3")
+script = ExtResource("4_4f0qm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_onrkg")
+
+[node name="MobDetector" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MobDetector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.545885, 0)
+shape = SubResource("CylinderShape3D_onrkg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_hqtel")
+}
+autoplay = "float"
+
+[node name="PlayerSpringArm" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.51973, 0)
+script = ExtResource("5_tk761")
+LookUpDownMin = -80
+LookUpDownMax = 20
+
+[node name="PlayerCamera" type="Camera3D" parent="PlayerSpringArm" groups=["global_camera"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="ItemPullZone" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemPullZone"]
+shape = SubResource("SphereShape3D_sglur")
+
+[node name="ItemImmediatePickupZone" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemImmediatePickupZone"]
+shape = SubResource("SphereShape3D_bls4j")
+
+[node name="ItemPickupAudioPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_n7e5a")
+bus = &"SFX"
+
+[connection signal="body_entered" from="MobDetector" to="." method="OnMobDetectorBodyEntered"]
+[connection signal="body_entered" from="ItemPullZone" to="." method="ItemPullZoneBodyEntered"]
+[connection signal="body_entered" from="ItemImmediatePickupZone" to="." method="ItemImmediatePickupZoneBodyEntered"]

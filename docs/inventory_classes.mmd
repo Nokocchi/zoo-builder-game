@@ -1,0 +1,52 @@
+﻿classDiagram
+
+    class IInventory
+    <<interface>> IInventory
+    IInventory : bool TryAddItem(ItemStackResource itemStack)
+    IInventory : void RemoveStackFromInventory(int index)
+    IInventory : void ItemClicked(int itemIndex)
+    IInventory : void DropHeldItem()
+
+    class InventoryItemStack
+    <<Panel>> InventoryItemStack
+    InventoryItemStack : TextureRect itemIcon
+    InventoryItemStack : Label stackSizeLabel
+    InventoryItemStack : ItemStackResource itemStackResource
+
+    class InventorySingleton
+    <<Node>> InventorySingleton
+
+    class HotbarGridContainer
+    <<GridContainer>> HotbarGridContainer
+
+    class InventoryGridContainer
+    <<GridContainer>> InventoryGridContainer
+
+    class MouseWithItemMarker
+    <<Control>> MouseWithItemMarker
+
+    class HeldItem
+    <<Resource>> HeldItem
+    HeldItem : int originatesFromIndex
+    HeldItem : ItemStackResource itemStackResource
+
+    class ItemStackResource
+    <<Resource>> ItemStackResource
+    ItemStackResource : ItemDataResource itemData
+    ItemStackResource : int Amount
+
+    class ItemDataResource
+    <<Resource>> ItemDataResource
+    ItemDataResource : String itemName
+    ItemDataResource : Texture2D texture
+    ItemDataResource : String Description
+
+    IInventory <|-- InventorySingleton : implements
+    InventorySingleton o-- HeldItem
+    InventorySingleton o-- "48" ItemStackResource
+    HeldItem o-- ItemStackResource
+    ItemStackResource o-- ItemDataResource
+    InventoryGridContainer o-- "40" InventoryItemStack
+    HotbarGridContainer o-- "8" InventoryItemStack
+    MouseWithItemMarker o-- "0..1" InventoryItemStack
+    InventoryItemStack o-- ItemStackResource
