@@ -8,7 +8,7 @@ using ZooBuilder.ui.inventory;
 
 public partial class InventorySingleton : Node, IInventory
 {
-    public static InventorySingleton Instance { get; private set; }
+    public static IInventory Instance { get; private set; }
 
     // TODO Inv: Set inventory size via inventory resource
     [Export] public int InventorySize = 20;
@@ -114,7 +114,27 @@ public partial class InventorySingleton : Node, IInventory
         HeldItem = null;
         EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
     }
-    
+
+    public List<ItemStackResource> GetInventory()
+    {
+        return Inventory;
+    }
+
+    public bool IsMenuOpen()
+    {
+        return MenuOpen;
+    }
+
+    public void SetMenuOpen(bool menuOpen)
+    {
+        MenuOpen = menuOpen;
+    }
+
+    public HeldItem GetHeldItem()
+    {
+        return HeldItem;
+    }
+
     // Internals
 
     // TODO Inv: Clean up

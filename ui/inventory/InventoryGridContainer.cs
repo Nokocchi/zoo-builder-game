@@ -8,16 +8,18 @@ using ZooBuilder.ui.inventory;
 public partial class InventoryGridContainer : GridContainer
 {
     private PackedScene _inventoryItemStackScene;
+    private IInventory _inventory;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        _inventory = InventorySingleton.Instance;
         _inventoryItemStackScene = GD.Load<PackedScene>("res://ui/inventory/inventory_item_stack.tscn");
         EventBus.Subscribe<OnInventoryUpdatedEvent>(OnInventoryUpdated);
 
         // Of all InventorySingleton.InventorySize slots in the inventory,
         // the first InventorySingleton.HotBarSize are rendered by the hotbar. The remaining are rendered here
-        for (int i = 0; i < InventorySingleton.Instance.InventorySize - InventorySingleton.HotBarSize; i++)
+        for (int i = 0; i < _inventory.GetInventory().Count - InventorySingleton.HotBarSize; i++)
         {
             InventoryItemStack slot = _inventoryItemStackScene.Instantiate<InventoryItemStack>();
             slot.InventoryIndex = i + InventorySingleton.HotBarSize;
@@ -48,11 +50,10 @@ public partial class InventoryGridContainer : GridContainer
                 slot.ClearStackResource();
             }
         }
+        
+        List<ItemStackResource> inventory = _inventory.GetInventory();
 
-        InventorySingleton inventorySingleton = InventorySingleton.Instance;
-        List<ItemStackResource> inventory = inventorySingleton.Inventory;
-
-        for (int i = 0; i < inventorySingleton.InventorySize - InventorySingleton.HotBarSize; i++)
+        for (int i = 0; i < inventory.Count - InventorySingleton.HotBarSize; i++)
         {
             ItemStackResource stackAtIndex = inventory[i + InventorySingleton.HotBarSize];
             InventoryItemStack slot = GetChild<InventoryItemStack>(i);

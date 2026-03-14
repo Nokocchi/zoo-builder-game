@@ -11,7 +11,7 @@ public partial class HotBarGridContainer : GridContainer
     
     private PackedScene _inventoryItemStackScene;
     private SettingsResource _settings;
-    private InventorySingleton _inventorySingleton;
+    private IInventory _inventorySingleton;
     private GlobalObjectsContainer _globals;
     public int SelectedHotbarIndex { get; private set; }
 
@@ -57,7 +57,7 @@ public partial class HotBarGridContainer : GridContainer
             }
         }
         
-        List<ItemStackResource> inventory = _inventorySingleton.Inventory;
+        List<ItemStackResource> inventory = _inventorySingleton.GetInventory();
 
         for (int i = 0; i < InventorySingleton.HotBarSize; i++)
         {
@@ -100,7 +100,7 @@ public partial class HotBarGridContainer : GridContainer
 
         if (!@event.IsActionPressed("toss_single_item")) return;
         InventoryItemStack currentSelectedStack = GetChild<InventoryItemStack>(SelectedHotbarIndex);
-        if (InventorySingleton.Instance.HeldItem != null || currentSelectedStack.ItemStackResource is not { Amount: >= 0 }) return;
+        if (_inventorySingleton.GetHeldItem() != null || currentSelectedStack.ItemStackResource is not { Amount: >= 0 }) return;
         OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.ItemStackResource.ItemData, 1));
         currentSelectedStack.DecrementRerenderAndRemoveIfZero();
     }

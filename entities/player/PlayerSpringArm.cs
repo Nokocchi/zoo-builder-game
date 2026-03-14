@@ -13,7 +13,7 @@ public partial class PlayerSpringArm : SpringArm3D
 	private float _mouseSensitivityBaseline = 0.1f;
 	private const float MouseSpeedScale = 100f;
 	private SettingsResource _settings;
-	private InventorySingleton _inventory;
+	private IInventory _inventory;
 	private GlobalObjectsContainer _globals;
 	
 
@@ -46,7 +46,7 @@ public partial class PlayerSpringArm : SpringArm3D
 
 	public override void _Input(InputEvent @event)
 	{
-		if (!_inventory.MenuOpen && !_settings.SettingsOpen && @event is InputEventMouseMotion eventMouseMotion)
+		if (!_inventory.IsMenuOpen() && !_settings.SettingsOpen && @event is InputEventMouseMotion eventMouseMotion)
 		{
 			float speed = (_settings.MouseSensitivity / MouseSpeedScale) * _mouseSensitivityBaseline;
 			_mouseRelative = -eventMouseMotion.Relative * speed;

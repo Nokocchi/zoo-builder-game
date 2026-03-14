@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using Godot.Collections;
+using ZooBuilder.globals;
 
 public partial class Inventory : CanvasLayer
 {
@@ -19,10 +20,10 @@ public partial class Inventory : CanvasLayer
 	
 	public override void _Input(InputEvent @event)
 	{
-		InventorySingleton inventorySingleton = InventorySingleton.Instance;
+		IInventory inventorySingleton = InventorySingleton.Instance;
 		if (@event.IsActionPressed("open_inventory"))
 		{
-			inventorySingleton.MenuOpen = !inventorySingleton.MenuOpen;
+			inventorySingleton.SetMenuOpen(!inventorySingleton.IsMenuOpen());
 			Visible = !Visible;
 			Input.MouseMode = Visible ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
 			InventorySingleton.Instance.DropHeldItem();

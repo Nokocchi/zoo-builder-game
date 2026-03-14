@@ -31,7 +31,7 @@ public partial class Player : CharacterBody3D
     private PlayerSpringArm _playerSpringArm;
     private Area3D _itemPullZone;
     private Area3D _itemPickupZone;
-    private InventorySingleton _inventorySingleton;
+    private IInventory _inventorySingleton;
     private Camera3D _playerCamera;
     private AudioStreamPlayer _itemPickupAudioPlayer;
     private Node3D _pivot;
@@ -117,7 +117,7 @@ public partial class Player : CharacterBody3D
         Vector3 direction = Vector3.Zero;
 
         // We do not want to update the player's direction or speed while menu is open. Just animate and process physics
-        if (!_inventorySingleton.MenuOpen)
+        if (!_inventorySingleton.IsMenuOpen())
         {
             // We check for each move input and update the direction accordingly.
             if (Input.IsActionPressed("move_right"))

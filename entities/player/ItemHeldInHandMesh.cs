@@ -6,7 +6,7 @@ using ZooBuilder.globals;
 public partial class ItemHeldInHandMesh : MeshInstance3D
 {
 	private StandardMaterial3D _itemHeldInHandMaterial;
-	private InventorySingleton _inventory;
+	private IInventory _inventory;
 
 	public override void _EnterTree()
 	{
@@ -39,7 +39,7 @@ public partial class ItemHeldInHandMesh : MeshInstance3D
 			return;
 		}
 		
-		ItemStackResource itemStackResource = _inventory.Inventory[hotbarIndex];
+		ItemStackResource itemStackResource = _inventory.GetInventory()[hotbarIndex];
 		if (itemStackResource == null)
 		{
 			Visible = false;
