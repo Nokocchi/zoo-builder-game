@@ -4,6 +4,7 @@ using Godot;
 using Godot.Collections;
 using ZooBuilder.entities.player;
 using ZooBuilder.globals;
+using ZooBuilder.ui.inventory;
 
 public partial class HotBarGridContainer : GridContainer
 {
@@ -18,7 +19,7 @@ public partial class HotBarGridContainer : GridContainer
     {
         _inventoryItemStackScene = GD.Load<PackedScene>("res://ui/inventory/inventory_item_stack.tscn");
         _inventorySingleton = InventorySingleton.Instance;
-        _inventorySingleton.InventoryUpdated += OnInventoryUpdated;
+        EventBus.Subscribe<OnInventoryUpdatedEvent>(OnInventoryUpdated);
         for (int i = 0; i < InventorySingleton.HotBarSize; i++)
         {
             InventoryItemStack hotbarSlot = _inventoryItemStackScene.Instantiate<InventoryItemStack>();
@@ -28,7 +29,7 @@ public partial class HotBarGridContainer : GridContainer
         }
 
         GetChild<InventoryItemStack>(SelectedHotbarIndex).HighlightSlot();
-        OnInventoryUpdated();
+        OnInventoryUpdated(null);
         _settings = SettingsResource.Load();
         _globals = GlobalObjectsContainer.Instance;
         _globals.HotBarGridContainer = this;
@@ -44,7 +45,7 @@ public partial class HotBarGridContainer : GridContainer
         _inventorySingleton.ItemClicked(clickedSlot.InventoryIndex);
     }
 
-    public void OnInventoryUpdated()
+    public void OnInventoryUpdated(OnInventoryUpdatedEvent e)
     {
         // First clear all data from hotbar
         Array<Node> children = GetChildren();

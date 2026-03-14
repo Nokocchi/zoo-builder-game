@@ -4,17 +4,11 @@ using System.Collections.Immutable;
 using System.Linq;
 using Godot;
 using ZooBuilder.globals;
+using ZooBuilder.ui.inventory;
 
 public partial class InventorySingleton : Node, IInventory
 {
     public static InventorySingleton Instance { get; private set; }
-
-    // Update the inventory when new stacks are added, stacks are removed or stacks are swapped. Not for increment/decrement/split, as this is handled in the InventoryItemStack itself.
-    [Signal]
-    public delegate void InventoryUpdatedEventHandler();
-
-    [Signal]
-    public delegate void InventoryItemStackHeldEventHandler(HeldItem heldItem);
 
     // TODO Inv: Set inventory size via inventory resource
     [Export] public int InventorySize = 20;
@@ -46,12 +40,12 @@ public partial class InventorySingleton : Node, IInventory
         if (HeldItem?.OriginatesFromInventoryIndex == index)
         {
             HeldItem = null;
-            EmitSignal(SignalName.InventoryItemStackHeld, HeldItem);
+            EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
         }
         else
         {
             Inventory[index] = null;
-            EmitSignal(SignalName.InventoryUpdated);
+            EventBus.Publish(new OnInventoryUpdatedEvent());
         }
     }
 
@@ -80,7 +74,7 @@ public partial class InventorySingleton : Node, IInventory
         if (existingStack != null)
         {
             existingStack.IncreaseStackSize(itemStack.Amount);
-            EmitSignal(SignalName.InventoryUpdated);
+            EventBus.Publish(new OnInventoryUpdatedEvent());
             return true;
         }
 
@@ -91,7 +85,7 @@ public partial class InventorySingleton : Node, IInventory
         }
 
         Inventory[firstEmptySlot] = itemStack;
-        EmitSignal(SignalName.InventoryUpdated);
+        EventBus.Publish(new OnInventoryUpdatedEvent());
         return true;
     }
 
@@ -100,16 +94,16 @@ public partial class InventorySingleton : Node, IInventory
         if (HeldItem != null)
         {
             InsertHeldItem(itemIndex);
-            EmitSignal(SignalName.InventoryUpdated);
-            EmitSignal(SignalName.InventoryItemStackHeld, HeldItem);
+            EventBus.Publish(new OnInventoryUpdatedEvent());
+            EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
         }
 
         // We are not currently holding anything, but the slot we clicked does have an item. Pick it up
         else if (Inventory[itemIndex] != null)
         {
             HoldItem(itemIndex);
-            EmitSignal(SignalName.InventoryUpdated);
-            EmitSignal(SignalName.InventoryItemStackHeld, HeldItem);
+            EventBus.Publish(new OnInventoryUpdatedEvent());
+            EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
         }
     }
 
@@ -118,7 +112,7 @@ public partial class InventorySingleton : Node, IInventory
         if (HeldItem == null) return;
         OverworldItem.SpawnItemAndLaunchFromPlayer(HeldItem.ItemStackResource);
         HeldItem = null;
-        EmitSignal(SignalName.InventoryItemStackHeld, HeldItem);
+        EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
     }
     
     // Internals

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Godot.Collections;
 using ZooBuilder.globals;
+using ZooBuilder.ui.inventory;
 
 public partial class InventoryGridContainer : GridContainer
 {
@@ -12,7 +13,7 @@ public partial class InventoryGridContainer : GridContainer
     public override void _Ready()
     {
         _inventoryItemStackScene = GD.Load<PackedScene>("res://ui/inventory/inventory_item_stack.tscn");
-        InventorySingleton.Instance.InventoryUpdated += OnInventoryUpdated;
+        EventBus.Subscribe<OnInventoryUpdatedEvent>(OnInventoryUpdated);
 
         // Of all InventorySingleton.InventorySize slots in the inventory,
         // the first InventorySingleton.HotBarSize are rendered by the hotbar. The remaining are rendered here
@@ -24,7 +25,7 @@ public partial class InventoryGridContainer : GridContainer
             AddChild(slot);
         }
 
-        OnInventoryUpdated();
+        OnInventoryUpdated(null);
     }
 
     private void OnItemClicked(InventoryItemStack slot)
@@ -36,7 +37,7 @@ public partial class InventoryGridContainer : GridContainer
     {
     }
 
-    public void OnInventoryUpdated()
+    public void OnInventoryUpdated(OnInventoryUpdatedEvent e)
     {
         // First clear all data from hotbar
         Array<Node> children = GetChildren();
