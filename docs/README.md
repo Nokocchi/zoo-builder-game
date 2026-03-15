@@ -27,7 +27,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ When holding an item and clicking outside inventory, drop whole stack in overworld
   - ✅ When not inventory not open and item is selected in hotbar and you press Q, drop one from stack in overworld
   - Right click item to split stack in half
-  - Hold selected hotbar item in hand in overworld
+  - ✅ Hold selected hotbar item in hand in overworld
   - Item hover popup with information about the item
   - Reuse the same script for hotbar, inventory and chests (or at least avoid duplication when possible)
 - **Simple Hotbar**
@@ -101,31 +101,14 @@ Actual storyline details, specific features or game mechanics will be added afte
 - Hook up the animation time/speed to match the in-game time. Especially important once the time of day is saved when the game saves.
 
 ## Others
-- Autoload signalbus instead of GUI-signals? (Or mabe C# events?)
+- ✅ Autoload EventBus using generic C# events
 
 ---
 
 # Known bugs
 
 # Things to fix:
-- Currently, the logic in the hotbar is duplicated to the inventory. This should not be necessary. Simplify with inheritance or just use a single script file
-- The inventory should be a resource so it can be saved and loaded
 - When items collide with static objects, they can be picked up. The only static object at the moment is the floor, but in the future, there will be walls.
 
 # Things to figure out:
 - When starting a new game, the player would expect all their achievements and stats to be reset for that save file. Maybe you can have multiple save files with different progress. How does that work with Steam stats and achievements which seem to be "global" on the user's steam account?
-
----
-
-# Others
-Draw diagram on ItemStackResource, InventoryItemStack, ItemDataResource, Inventory, Hotbar etc., and what they contain
-Maybe consider having a HeldItem class which contains both an ItemStackResource and an originatesFromIndex? Or move the index from InventoryItemStack to ItemStackResource?
-
-At the moment, HotBarGridContainer handles scroll and tells InventorySingleton directly that the selected hotbar index has changed. InventorySingleton then seems to be 
-in charge of sending signals for whenever the hotbar selection changes. 
-Then, all InventoryItemStacks listen to this signal to figure out if they should become highlighted or not.
-I think the purpose of this was to make InventorySingleton the one source of truth for all Inventory related signals and data. 
-But wouldn't it make more sense that the HotBarGridContainer just internally keeps track of the selected index and 
-
-For the item-held-in-hand feature, I could either let the InventorySingleton send signals whenever the selected hotbar slot changes content, and make the item-held-in-hand listen to his.
-Or, I could add some logic to the hotbar items such that if any of them is updated and they are also selected, they send a signal to the parent hotbar grid, which item-held-in-hand can listen to.

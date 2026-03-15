@@ -93,11 +93,6 @@ radius = 3.94311
 [node name="Player" type="CharacterBody3D"]
 collision_mask = 4
 script = ExtResource("1_0mfjg")
-Speed = null
-RunSpeed = null
-FallAcceleration = null
-JumpImpulse = null
-BounceImpulse = null
 OverworldItemScene = ExtResource("2_oih67")
 
 [node name="Pivot" type="Node3D" parent="."]
