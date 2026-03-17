@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using ZooBuilder.entities.player;
+using ZooBuilder.ui.inventory;
 
 public partial class InventoryItemStack : Panel
 {
@@ -12,6 +13,7 @@ public partial class InventoryItemStack : Panel
 
     private ItemStackResource _itemStackResource;
     private bool _selected;
+    private bool _hovered;
 
     public ItemStackResource ItemStackResource
     {
@@ -112,5 +114,18 @@ public partial class InventoryItemStack : Panel
         {
             EmitSignal(SignalName.ItemStackRightClicked, this);
         }
+    }
+
+    public void OnMouseEntered()
+    {
+        if(ItemStackResource == null) return;
+        _hovered = true;
+        EventBus.Publish(new InventoryItemStackOnHoverEvent(ItemStackResource));
+    }
+    
+    public void OnMouseExited()
+    {
+        if(!_hovered) return;
+        EventBus.Publish(new InventoryItemStackOnHoverEvent(null));
     }
 }

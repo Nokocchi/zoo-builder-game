@@ -7,7 +7,6 @@ using ZooBuilder.ui.inventory;
 public partial class MouseWithItemMarker : Control
 {
     private InventoryItemStack _itemStackInstance;
-    private PackedScene _inventoryItemStackScene;
 
     public override void _Ready()
     {
@@ -32,6 +31,7 @@ public partial class MouseWithItemMarker : Control
         }
     }
 
+    // Should this be a _process function instead?
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventMouseMotion eventMouseMotion && _itemStackInstance != null)
