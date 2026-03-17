@@ -30,6 +30,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ Hold selected hotbar item in hand in overworld
   - ✅ Item hover popup with information about the item
   - Reuse the same script for hotbar, inventory and chests (or at least avoid duplication when possible)
+  - Scrollable inventory with square item slots
 - **Simple Hotbar**
   - ✅ Show some of your most used items
   - ✅ One item in the hotbar is always highlighted - can be switched by scrolling with mouse
