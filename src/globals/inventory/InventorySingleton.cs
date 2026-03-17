@@ -91,70 +91,80 @@ public partial class InventorySingleton : Node, IInventory
 
     public void ItemClicked(int itemIndex)
     {
+        var clickedItem = Inventory[itemIndex];
         if (HeldItem != null)
         {
             InsertHeldItem(itemIndex);
-            EventBus.Publish(new OnInventoryUpdatedEvent());
-            EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
+            PublishInventoryAndHeldItem();
+            return;
         }
 
-        // We are not currently holding anything, but the slot we clicked does have an item. Pick it up
-        else if (Inventory[itemIndex] != null)
+        if (clickedItem != null)
         {
             HoldItem(itemIndex);
-            EventBus.Publish(new OnInventoryUpdatedEvent());
-            EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
+            PublishInventoryAndHeldItem();
         }
     }
 
     public void ItemRightClicked(int itemIndex)
     {
-        ItemStackResource clickedItem = Inventory[itemIndex];
-        // Holds item
+        var clickedItem = Inventory[itemIndex];
         if (HeldItem != null)
         {
-            // Clicked is empty
-            if (clickedItem == null)
-            {
-                Inventory[itemIndex] = new ItemStackResource(HeldItem.ItemStackResource.ItemData, 1);
-                HeldItem.DecrementRerenderAndRemoveIfZero();
-                EventBus.Publish(new OnInventoryUpdatedEvent());
-                EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
-                return;
-            }
-
-            // Same as clicked
-            if (clickedItem.ItemData.ItemName == HeldItem.ItemStackResource.ItemData.ItemName)
-            {
-                HeldItem.DecrementRerenderAndRemoveIfZero();
-                clickedItem.IncreaseStackSize(1);
-                EventBus.Publish(new OnInventoryUpdatedEvent());
-                EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
-                return;
-            }
-            
-            // Clicked is different item
-            InsertHeldItem(itemIndex);
-            EventBus.Publish(new OnInventoryUpdatedEvent());
-            EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
+            HandleRightClickWithHeldItem(itemIndex, clickedItem);
+            PublishInventoryAndHeldItem();
+            return;
         }
 
-        // We are not currently holding anything, but the slot we clicked does have an item. Split it, pick up half
-        else if (clickedItem != null)
+        if (clickedItem != null)
         {
-            int removedAmount = clickedItem.SplitInHalf();
-            if (removedAmount == 0)
-            {
-                removedAmount = 1;
-                Inventory[itemIndex] = null;
-            }
-
-            // TODO: If we pick up an item with right click, then left-clicking on a different item seems to overwrite the clicked item's resource??
-            ItemStackResource pickedUpItemStack = new ItemStackResource(clickedItem.ItemData, removedAmount);
-            HeldItem = new HeldItem(pickedUpItemStack, itemIndex);
-            EventBus.Publish(new OnInventoryUpdatedEvent());
-            EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
+            SplitStackAndHold(itemIndex, clickedItem);
+            PublishInventoryAndHeldItem();
         }
+    }
+    
+    private void HandleRightClickWithHeldItem(int index, ItemStackResource clickedItem)
+    {
+        if (clickedItem == null)
+        {
+            InsertOneOfHeldItem(index);
+            return;
+        }
+
+        if (IsSameItem(clickedItem, HeldItem.ItemStackResource))
+        {
+            AddOneOfHeldItemToExistingStack(clickedItem);
+            return;
+        }
+
+        // Behaves as a normal click -> Swap with clicked item
+        InsertHeldItem(index);
+    }
+    
+    private void InsertOneOfHeldItem(int index)
+    {
+        Inventory[index] = new ItemStackResource(HeldItem.ItemStackResource.ItemData, 1);
+        HeldItem.DecrementRerenderAndRemoveIfZero();
+    }
+    
+    private void AddOneOfHeldItemToExistingStack(ItemStackResource targetStack)
+    {
+        targetStack.IncreaseStackSize(1);
+        HeldItem.DecrementRerenderAndRemoveIfZero();
+    }
+    
+    private void SplitStackAndHold(int index, ItemStackResource stack)
+    {
+        int removedAmount = stack.SplitInHalf();
+
+        if (removedAmount == 0)
+        {
+            removedAmount = 1;
+            Inventory[index] = null;
+        }
+
+        HeldItem = new HeldItem(new ItemStackResource(stack.ItemData, removedAmount), index
+        );
     }
 
     public void DropHeldItem()
@@ -163,6 +173,11 @@ public partial class InventorySingleton : Node, IInventory
         OverworldItem.SpawnItemAndLaunchFromPlayer(HeldItem.ItemStackResource);
         HeldItem = null;
         EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
+    }
+    
+    private bool IsSameItem(ItemStackResource a, ItemStackResource b)
+    {
+        return a.ItemData.ItemName == b.ItemData.ItemName;
     }
 
     public List<ItemStackResource> GetInventory()
@@ -187,58 +202,59 @@ public partial class InventorySingleton : Node, IInventory
 
     // Internals
 
-    // TODO Inv: Clean up
-    private void InsertHeldItem(int insertIntoIndex)
+    private void InsertHeldItem(int index)
     {
-        if (HeldItem == null)
+        if (HeldItem == null) return;
+
+        var heldStack = HeldItem.ItemStackResource;
+        var originIndex = HeldItem.OriginatesFromInventoryIndex;
+        var targetStack = Inventory[index];
+
+        // Empty slot → move
+        if (targetStack == null)
         {
+            Inventory[index] = heldStack;
+            HeldItem = null;
             return;
         }
 
-        ItemStackResource heldItemItemStackResource = HeldItem.ItemStackResource;
-        int heldItemOriginatesFromInventoryIndex = HeldItem.OriginatesFromInventoryIndex;
-        ItemStackResource itemOnInsertIndex = Inventory[insertIntoIndex];
-
-        // Insert into empty slot
-        if (itemOnInsertIndex == null)
+        // Same item → merge
+        if (IsSameItem(targetStack, heldStack))
         {
-            Inventory[insertIntoIndex] = heldItemItemStackResource;
+            targetStack.Amount += heldStack.Amount;
             HeldItem = null;
+            return;
         }
-        else 
-        // We are inserting on a spot that already has an item
-        {
-            // Same item, just merge
-            if (itemOnInsertIndex.ItemData.ItemName == HeldItem.ItemStackResource.ItemData.ItemName)
-            {
-                itemOnInsertIndex.Amount += HeldItem.ItemStackResource.Amount;
-                HeldItem = null;
-                return;
-            }
 
-            // Not same item, but the spot where the held item came from is empty. Swap
-            if (Inventory[heldItemOriginatesFromInventoryIndex] == null)
-            {
-                Inventory[heldItemOriginatesFromInventoryIndex] = Inventory[insertIntoIndex];
-                Inventory[insertIntoIndex] = HeldItem.ItemStackResource;
-                HeldItem = null;
-            }
-            else
-            // Not same item, and the held item's original spot is occupied
-            // Swap the clicked item and the held item, so we are now holding the clicked item
-            {
-                GD.Print("Swap!");
-                GD.Print("Clicked on ", itemOnInsertIndex.ItemData.ItemName);
-                GD.Print("Inserting ", HeldItem.ItemStackResource.ItemData.ItemName);
-                Inventory[insertIntoIndex] = HeldItem.ItemStackResource;
-                HeldItem = new HeldItem(itemOnInsertIndex, insertIntoIndex);
-            }
+        // Swap cases
+        SwapItems(index, originIndex, targetStack, heldStack);
+    }
+    
+    private void SwapItems(int targetIndex, int originIndex, ItemStackResource targetStack, ItemStackResource heldStack)
+    {
+        // Original slot empty → simple swap back
+        if (Inventory[originIndex] == null)
+        {
+            Inventory[originIndex] = targetStack;
+            Inventory[targetIndex] = heldStack;
+            HeldItem = null;
+            return;
         }
+
+        // Full swap → now holding clicked item
+        Inventory[targetIndex] = heldStack;
+        HeldItem = new HeldItem(targetStack, targetIndex);
     }
 
     private void HoldItem(int index)
     {
         HeldItem = new HeldItem(Inventory[index], index);
         Inventory[index] = null;
+    }
+    
+    private void PublishInventoryAndHeldItem()
+    {
+        EventBus.Publish(new OnInventoryUpdatedEvent());
+        EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
     }
 }
