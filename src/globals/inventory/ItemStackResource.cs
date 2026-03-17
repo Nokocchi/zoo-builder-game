@@ -22,4 +22,11 @@ public partial class ItemStackResource : Resource
     {
         Amount += amount;
     }
+
+    public int SplitInHalf()
+    {
+        int removedAmount = Amount / 2;
+        Amount -= removedAmount;
+        return removedAmount;
+    }
 }

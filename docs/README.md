@@ -26,7 +26,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ When holding an item and clicking Q, drop in overworld
   - ✅ When holding an item and clicking outside inventory, drop whole stack in overworld
   - ✅ When not inventory not open and item is selected in hotbar and you press Q, drop one from stack in overworld
-  - Right click item to split stack in half
+  - ✅ Right click item to split stack in half
   - ✅ Hold selected hotbar item in hand in overworld
   - Item hover popup with information about the item
   - Reuse the same script for hotbar, inventory and chests (or at least avoid duplication when possible)

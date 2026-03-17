@@ -15,4 +15,13 @@ public partial class HeldItem : Resource
 
     public ItemStackResource ItemStackResource { get; }
     public int OriginatesFromInventoryIndex { get; }
+    
+    public void DecrementRerenderAndRemoveIfZero()
+    {
+        ItemStackResource.Amount--;
+        if (ItemStackResource.Amount <= 0)
+        {
+            InventorySingleton.Instance.RemoveStackFromInventory(OriginatesFromInventoryIndex);
+        }
+    }
 }

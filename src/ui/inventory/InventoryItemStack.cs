@@ -7,6 +7,9 @@ public partial class InventoryItemStack : Panel
     [Signal]
     public delegate void ItemStackPressedEventHandler(InventoryItemStack stack);
 
+    [Signal]
+    public delegate void ItemStackRightClickedEventHandler(InventoryItemStack stack);
+
     private ItemStackResource _itemStackResource;
     private bool _selected;
 
@@ -83,12 +86,6 @@ public partial class InventoryItemStack : Panel
 
         Render();
     }
-    
-    // Called by the button child, propagated as new signal that the inventory can listen to
-    private void OnPressed()
-    {
-        EmitSignal(SignalName.ItemStackPressed, this);
-    }
 
     public void HighlightSlot()
     {
@@ -100,5 +97,20 @@ public partial class InventoryItemStack : Panel
     {
         AddThemeStyleboxOverride("panel", _unselectedStyle);
         _selected = false;
+    }
+
+    public override void _GuiInput(InputEvent @event)
+    {
+        if (@event is not InputEventMouseButton eventMouseMotion) return;
+        if (!eventMouseMotion.Pressed) return;
+        if (eventMouseMotion.ButtonIndex == MouseButton.Left)
+        {
+            GD.Print("Clicked left on index ", InventoryIndex);
+            EmitSignal(SignalName.ItemStackPressed, this);
+        }
+        else if (eventMouseMotion.ButtonIndex == MouseButton.Right)
+        {
+            EmitSignal(SignalName.ItemStackRightClicked, this);
+        }
     }
 }

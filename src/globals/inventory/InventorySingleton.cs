@@ -16,7 +16,7 @@ public partial class InventorySingleton : Node, IInventory
     public const int HotBarSize = 8;
 
     public List<ItemStackResource> Inventory;
-    
+
     // Should be kept in InventorySingleton so it can be saved.. Maybe?
     public HeldItem HeldItem { get; private set; }
 
@@ -107,6 +107,56 @@ public partial class InventorySingleton : Node, IInventory
         }
     }
 
+    public void ItemRightClicked(int itemIndex)
+    {
+        ItemStackResource clickedItem = Inventory[itemIndex];
+        // Holds item
+        if (HeldItem != null)
+        {
+            // Clicked is empty
+            if (clickedItem == null)
+            {
+                Inventory[itemIndex] = new ItemStackResource(HeldItem.ItemStackResource.ItemData, 1);
+                HeldItem.DecrementRerenderAndRemoveIfZero();
+                EventBus.Publish(new OnInventoryUpdatedEvent());
+                EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
+                return;
+            }
+
+            // Same as clicked
+            if (clickedItem.ItemData.ItemName == HeldItem.ItemStackResource.ItemData.ItemName)
+            {
+                HeldItem.DecrementRerenderAndRemoveIfZero();
+                clickedItem.IncreaseStackSize(1);
+                EventBus.Publish(new OnInventoryUpdatedEvent());
+                EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
+                return;
+            }
+            
+            // Clicked is different item
+            InsertHeldItem(itemIndex);
+            EventBus.Publish(new OnInventoryUpdatedEvent());
+            EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
+        }
+
+        // We are not currently holding anything, but the slot we clicked does have an item. Split it, pick up half
+        else if (clickedItem != null)
+        {
+            int removedAmount = clickedItem.SplitInHalf();
+            if (removedAmount == 0)
+            {
+                removedAmount = 1;
+                Inventory[itemIndex] = null;
+            }
+
+            // TODO: If we pick up an item with right click, then left-clicking on a different item seems to overwrite the clicked item's resource??
+            ItemStackResource pickedUpItemStack = new ItemStackResource(clickedItem.ItemData, removedAmount);
+            HeldItem = new HeldItem(pickedUpItemStack, itemIndex);
+            EventBus.Publish(new OnInventoryUpdatedEvent());
+            EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
+        }
+    }
+
     public void DropHeldItem()
     {
         if (HeldItem == null) return;
@@ -148,14 +198,25 @@ public partial class InventorySingleton : Node, IInventory
         ItemStackResource heldItemItemStackResource = HeldItem.ItemStackResource;
         int heldItemOriginatesFromInventoryIndex = HeldItem.OriginatesFromInventoryIndex;
         ItemStackResource itemOnInsertIndex = Inventory[insertIntoIndex];
+
+        // Insert into empty slot
         if (itemOnInsertIndex == null)
         {
             Inventory[insertIntoIndex] = heldItemItemStackResource;
             HeldItem = null;
         }
-        else
+        else 
+        // We are inserting on a spot that already has an item
         {
-            // We are inserting on a spot that already has an item
+            // Same item, just merge
+            if (itemOnInsertIndex.ItemData.ItemName == HeldItem.ItemStackResource.ItemData.ItemName)
+            {
+                itemOnInsertIndex.Amount += HeldItem.ItemStackResource.Amount;
+                HeldItem = null;
+                return;
+            }
+
+            // Not same item, but the spot where the held item came from is empty. Swap
             if (Inventory[heldItemOriginatesFromInventoryIndex] == null)
             {
                 Inventory[heldItemOriginatesFromInventoryIndex] = Inventory[insertIntoIndex];
@@ -163,13 +224,16 @@ public partial class InventorySingleton : Node, IInventory
                 HeldItem = null;
             }
             else
+            // Not same item, and the held item's original spot is occupied
+            // Swap the clicked item and the held item, so we are now holding the clicked item
             {
+                GD.Print("Swap!");
+                GD.Print("Clicked on ", itemOnInsertIndex.ItemData.ItemName);
+                GD.Print("Inserting ", HeldItem.ItemStackResource.ItemData.ItemName);
                 Inventory[insertIntoIndex] = HeldItem.ItemStackResource;
-                HeldItem = new HeldItem(Inventory[insertIntoIndex], insertIntoIndex);
+                HeldItem = new HeldItem(itemOnInsertIndex, insertIntoIndex);
             }
         }
-
-
     }
 
     private void HoldItem(int index)

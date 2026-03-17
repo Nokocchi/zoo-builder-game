@@ -24,7 +24,8 @@ public partial class HotBarGridContainer : GridContainer
         {
             InventoryItemStack hotbarSlot = _inventoryItemStackScene.Instantiate<InventoryItemStack>();
             hotbarSlot.InventoryIndex = i;
-            hotbarSlot.ItemStackPressed += OnItemClicked;
+            hotbarSlot.ItemStackPressed += (clickedSlot) => _inventorySingleton.ItemClicked(clickedSlot.InventoryIndex);
+            hotbarSlot.ItemStackRightClicked += (clickedSlot) => _inventorySingleton.ItemRightClicked(clickedSlot.InventoryIndex);
             AddChild(hotbarSlot);
         }
 
@@ -38,11 +39,6 @@ public partial class HotBarGridContainer : GridContainer
     
     public override void _Process(double delta)
     {
-    }
-    
-    private void OnItemClicked(InventoryItemStack clickedSlot)
-    { 
-        _inventorySingleton.ItemClicked(clickedSlot.InventoryIndex);
     }
 
     public void OnInventoryUpdated(OnInventoryUpdatedEvent e)
