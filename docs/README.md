@@ -29,7 +29,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ Right click item to split stack in half
   - ✅ Hold selected hotbar item in hand in overworld
   - ✅ Item hover popup with information about the item
-  - Reuse the same script for hotbar, inventory and chests (or at least avoid duplication when possible)
+  - ✅ Reuse the same script for hotbar, inventory and chests (or at least avoid duplication when possible)
   - Scrollable inventory with square item slots
 - **Simple Hotbar**
   - ✅ Show some of your most used items
