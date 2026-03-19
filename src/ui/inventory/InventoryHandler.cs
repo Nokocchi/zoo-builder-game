@@ -19,11 +19,9 @@ public partial class InventoryHandler : GridContainer
         EventBus.Subscribe<OnInventoryUpdatedEvent>(OnInventoryUpdated);
         for (int i = firstSlot; i <= lastSlot; i++)
         {
-            GD.Print(i);
             // TODO: Wouldn't it be better to have some kind of itemStackResource **always**, and an empty stack is represented by a null ItemDataResource, instead of the itemStackResource itself being null
             // That way, we don't need the InventoryUpdated event which completely rebuilds the inventory every time
             // InventoryItemStacks can then just re-render whenever their resource updates, making swaps very efficient
-            // TODO: Fix the bug where inventory updates take effect in both hotbar and main inventory. It's probably OnInventoryUpdated()'s fault.
             InventoryItemStack stack = _inventoryItemStackScene.Instantiate<InventoryItemStack>();
             stack.InventoryIndex = i;
             stack.ItemStackPressed += (clickedSlot) => _inventorySingleton.ItemClicked(clickedSlot.InventoryIndex);
@@ -47,15 +45,12 @@ public partial class InventoryHandler : GridContainer
             }
         }
         
-        GD.Print("Size of children: ", children.Count);
-        
         List<ItemStackResource> inventory = _inventorySingleton.GetInventory();
 
         for (int i = firstSlot; i <= lastSlot; i++)
         {
             ItemStackResource stackAtIndex = inventory[i];
             InventoryItemStack slot = GetChild<InventoryItemStack>(i-firstSlot); // So that we always start counting children from 0
-            GD.Print("Trying to set content of index ", i);
             slot.ItemStackResource = stackAtIndex;
         }
     }
