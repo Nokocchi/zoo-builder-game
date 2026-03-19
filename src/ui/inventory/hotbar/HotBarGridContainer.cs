@@ -12,7 +12,7 @@ public partial class HotBarGridContainer : InventoryHandler
         firstSlot = 0;
         lastSlot = InventorySingleton.HotBarSize - 1;
         base._Ready();
-        GetChild<InventoryItemStack>(SelectedHotbarIndex).HighlightSlot();
+        GetChild<UiInventorySlot>(SelectedHotbarIndex).HighlightSlot();
         _settings = SettingsResource.Load();
     }
 
@@ -44,15 +44,16 @@ public partial class HotBarGridContainer : InventoryHandler
                 SelectedHotbarIndex = ((SelectedHotbarIndex - 1) + InventorySingleton.HotBarSize) % InventorySingleton.HotBarSize;
             }
 
-            GetChild<InventoryItemStack>(previousIndex).RemoveHighlight();
-            GetChild<InventoryItemStack>(SelectedHotbarIndex).HighlightSlot();
+            GetChild<UiInventorySlot>(previousIndex).RemoveHighlight();
+            GetChild<UiInventorySlot>(SelectedHotbarIndex).HighlightSlot();
             EventBus.Publish(new SelectedHotbarSlotChangedItemEvent(SelectedHotbarIndex));
         }
 
         if (!@event.IsActionPressed("toss_single_item")) return;
-        InventoryItemStack currentSelectedStack = GetChild<InventoryItemStack>(SelectedHotbarIndex);
-        if (_inventorySingleton.GetHeldItem() != null || currentSelectedStack.ItemStackResource is not { Amount: >= 0 }) return;
-        OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.ItemStackResource.ItemData, 1));
-        _inventorySingleton.DecrementItem(currentSelectedStack.InventoryIndex);
+        UiInventorySlot currentSelectedStack = GetChild<UiInventorySlot>(SelectedHotbarIndex);
+        // TODO: Long dot chain
+        if (_inventorySingleton.GetHeldItem() != null || currentSelectedStack?.InventorySlotResource?.GetItem() == null || currentSelectedStack.InventorySlotResource.GetItem() is not { Amount: >= 0 }) return;
+        OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.InventorySlotResource.GetItem().ItemData, 1));
+        _inventorySingleton.DecrementItem(currentSelectedStack.InventorySlotResource.InventoryIndex);
     }
 }

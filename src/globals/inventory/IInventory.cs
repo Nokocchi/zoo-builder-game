@@ -8,7 +8,7 @@ public interface IInventory
     void ItemClicked(int itemIndex);
     void ItemRightClicked(int itemIndex);
     void DropHeldItem();
-    List<ItemStackResource> GetInventory();
+    List<InventorySlotResource> GetInventory();
     bool IsMenuOpen(); // TODO: Probably not the right place to store this variable
     void SetMenuOpen(bool open); // TODO: Probably not the right place to store this variable
     HeldItem GetHeldItem();

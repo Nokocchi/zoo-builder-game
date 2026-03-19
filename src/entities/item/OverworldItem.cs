@@ -7,7 +7,7 @@ public partial class OverworldItem() : RigidBody3D
 {
     [Export] public ItemStackResource ItemStackResource { get; set; }
     [Export] public Vector3 LaunchVector { get; set; } = new(0.0f, 20.0f, -8.0f);
-    [Export] public PackedScene OverworldItemScene { get; set; }
+    private PackedScene OverworldItemScene { get; set; }
 
     public bool MoveToPlayer { get; set; }
     private Player Player { get; set; }

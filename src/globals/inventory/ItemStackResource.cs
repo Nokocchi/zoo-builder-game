@@ -3,7 +3,7 @@ using Godot;
 [GlobalClass]
 public partial class ItemStackResource : Resource
 {
-    
+    // Maybe provide the InventorySingleton an index + Callback method collection so only InventorySingleton can call these methods?
     [Signal]
     public delegate void StackSizeChangedEventHandler();
     
@@ -17,9 +17,25 @@ public partial class ItemStackResource : Resource
         ItemData = itemData;
         Amount = amount;
     }
+    
+    [Export] public ItemDataResource ItemData { get; private set; }
+    [Export] public int Amount { get; private set; }
 
-    [Export] public ItemDataResource ItemData { get; set; }
-    [Export] public int Amount { get; set; }
+    public void SetItemData(ItemDataResource item)
+    {
+        ItemData = item;
+    }
+    
+    public void Update(ItemStackResource item)
+    {
+        ItemData = item.ItemData;
+        Amount = item.Amount;
+    }
+
+    public bool HasItem()
+    {
+        return ItemData != null;
+    }
 
     public void IncreaseStackSize(int amount)
     {

@@ -39,15 +39,15 @@ public partial class ItemHeldInHandMesh : MeshInstance3D
 			return;
 		}
 		
-		ItemStackResource itemStackResource = _inventory.GetInventory()[hotbarIndex];
-		if (itemStackResource == null)
+		InventorySlotResource slot = _inventory.GetInventory()[hotbarIndex];
+		if (slot.IsEmpty())
 		{
 			Visible = false;
 		}
 		else
 		{
 			Visible = true;
-			_itemHeldInHandMaterial.AlbedoTexture = itemStackResource.ItemData.Texture;
+			_itemHeldInHandMaterial.AlbedoTexture = slot.GetItem().ItemData.Texture;
 		}
 		
 	}

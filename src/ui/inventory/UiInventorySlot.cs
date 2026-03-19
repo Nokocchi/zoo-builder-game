@@ -3,42 +3,17 @@ using System;
 using ZooBuilder.entities.player;
 using ZooBuilder.ui.inventory;
 
-public partial class InventoryItemStack : Panel
+public partial class UiInventorySlot : Panel
 {
     [Signal]
-    public delegate void ItemStackPressedEventHandler(InventoryItemStack stack);
+    public delegate void SlotClickedEventHandler(int slotIndex);
 
     [Signal]
-    public delegate void ItemStackRightClickedEventHandler(InventoryItemStack stack);
+    public delegate void SlotRightClickedEventHandler(int slotIndex);
 
-    private ItemStackResource _itemStackResource;
+    public InventorySlotResource InventorySlotResource;
     private bool _selected;
     private bool _hovered;
-
-    public ItemStackResource ItemStackResource
-    {
-        get => _itemStackResource;
-        set
-        {
-            _itemStackResource = value;
-            if (_itemStackResource != null)
-            {
-                // TODO: Possible memory leak or stale event handlers?
-                _itemStackResource.StackSizeChanged += Render;
-            }
-
-            if (_selected)
-            {
-                // TODO Inv: It's not quite clear that this method is called when an InventoryItemStack has been Q'ed enough that the item resource is removed
-                //  Also, do I actually want this setter to emit the event below, and ALSO the HotbarGridContainer to emit the same event when scrolling? 
-                EventBus.Publish(new SelectedHotbarSlotChangedItemEvent(InventoryIndex));
-            }
-
-            Render();
-        }
-    }
-
-    public int InventoryIndex { get; set; }
     private TextureRect _itemIcon;
     private Label _stackSizeLabel;
     private StyleBoxFlat _selectedStyle;
@@ -51,21 +26,22 @@ public partial class InventoryItemStack : Panel
         _stackSizeLabel = GetNode<Label>("%StackSize");
         _selectedStyle = ResourceLoader.Load<StyleBoxFlat>("res://src/ui/inventory/hotbar/item_stack_panel_theme_selected.tres");
         _unselectedStyle = ResourceLoader.Load<StyleBoxFlat>("res://src/ui/inventory/hotbar/item_stack_panel_theme_unselected.tres");
-        Render();
+        //Render();
     }
 
-    public void ClearStackResource()
+    public void SetInventorySlotResource(InventorySlotResource slot)
     {
-        ItemStackResource = null;
-        Render();
+        InventorySlotResource = slot;
+        slot.StackSizeChanged += Render;
     }
 
     private void Render()
     {
-        if (ItemStackResource != null)
+        if (InventorySlotResource.HasItem())
         {
-            SetTexture(ItemStackResource.ItemData.Texture);
-            SetStackSize(ItemStackResource.Amount + "");
+            ItemStackResource itemStack = InventorySlotResource.GetItem();
+            SetTexture(itemStack.ItemData.Texture);
+            SetStackSize(itemStack.Amount + "");
         }
         else
         {
@@ -73,6 +49,9 @@ public partial class InventoryItemStack : Panel
             SetStackSize(null);
         }
     }
+    
+    // TODO:   EventBus.Publish(new SelectedHotbarSlotChangedItemEvent(InventoryIndex));
+    // Maybe when the item resource is switched out?
 
     private void SetTexture(Texture2D texture)
     {
@@ -102,19 +81,19 @@ public partial class InventoryItemStack : Panel
         if (!eventMouseMotion.Pressed) return;
         if (eventMouseMotion.ButtonIndex == MouseButton.Left)
         {
-            EmitSignal(SignalName.ItemStackPressed, this);
+            EmitSignal(SignalName.SlotClicked, InventorySlotResource.InventoryIndex);
         }
         else if (eventMouseMotion.ButtonIndex == MouseButton.Right)
         {
-            EmitSignal(SignalName.ItemStackRightClicked, this);
+            EmitSignal(SignalName.SlotRightClicked, InventorySlotResource.InventoryIndex);
         }
     }
 
     public void OnMouseEntered()
     {
-        if (ItemStackResource == null) return;
+        if (InventorySlotResource == null || InventorySlotResource.IsEmpty()) return;
         _hovered = true;
-        EventBus.Publish(new InventoryItemStackOnHoverEvent(ItemStackResource));
+        EventBus.Publish(new InventoryItemStackOnHoverEvent(InventorySlotResource.GetItem()));
     }
 
     public void OnMouseExited()
