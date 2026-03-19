@@ -7,11 +7,13 @@ using ZooBuilder.ui.inventory;
 public partial class MouseWithItemMarker : Control
 {
     private InventoryItemStack _itemStackInstance;
+    private IInventory _inventory;
 
     public override void _Ready()
     {
         _itemStackInstance = GetNode<InventoryItemStack>("InventoryItemStack");
         Visible = false;
+        _inventory = InventorySingleton.Instance;
         EventBus.Subscribe<InventoryItemStackHeldEvent>(OnItemHeld);
     }
 
@@ -48,7 +50,8 @@ public partial class MouseWithItemMarker : Control
         // Spawn item first, in case we remove the itemData in the decrement call below
         OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(_itemStackInstance.ItemStackResource.ItemData, 1));
         // This updates the **item data resource** and will take effect in the InventorySingleton as well 
-        _itemStackInstance.DecrementRerenderAndRemoveIfZero();
+
+        _inventory.DecrementHeldItem();
 
         // Consuming the event to avoid the HotBar thinking it's time to drop the item that is in focus, just because this class has dropped the last of its stack
         GetWindow().SetInputAsHandled();

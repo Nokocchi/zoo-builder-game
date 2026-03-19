@@ -38,7 +38,6 @@ public partial class ItemToolip : Control
 		if (_inventory.GetHeldItem() != null) return;
 		
 		// Mouse entered, and we are not holding an item. Show
-		GD.Print("Show");
 		Visible = true;
 		_itemNameLabel.Text = e.ItemStackResource.ItemData.ItemName;
 		_itemDescriptionLabel.Text = e.ItemStackResource.ItemData.Description;

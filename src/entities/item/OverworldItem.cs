@@ -114,7 +114,7 @@ public partial class OverworldItem() : RigidBody3D
 
     private void AbsorbAndDeleteItemStack(OverworldItem overworldItem)
     {
-        ItemStackResource.Amount += overworldItem.ItemStackResource.Amount;
+        ItemStackResource.IncreaseStackSize(overworldItem.ItemStackResource.Amount);
         overworldItem.QueueFree();
     }
 }

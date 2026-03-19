@@ -9,7 +9,8 @@ public partial class HotBarGridContainer : InventoryHandler
 
     public override void _Ready()
     {
-        slotsCount = InventorySingleton.HotBarSize;
+        firstSlot = 0;
+        lastSlot = InventorySingleton.HotBarSize - 1;
         base._Ready();
         GetChild<InventoryItemStack>(SelectedHotbarIndex).HighlightSlot();
         _settings = SettingsResource.Load();
@@ -52,6 +53,6 @@ public partial class HotBarGridContainer : InventoryHandler
         InventoryItemStack currentSelectedStack = GetChild<InventoryItemStack>(SelectedHotbarIndex);
         if (_inventorySingleton.GetHeldItem() != null || currentSelectedStack.ItemStackResource is not { Amount: >= 0 }) return;
         OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.ItemStackResource.ItemData, 1));
-        currentSelectedStack.DecrementRerenderAndRemoveIfZero();
+        _inventorySingleton.DecrementItem(currentSelectedStack.InventoryIndex);
     }
 }

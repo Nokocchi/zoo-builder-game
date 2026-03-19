@@ -4,7 +4,8 @@ public partial class MainInventoryGridContainer : InventoryHandler
 {
     public override void _Ready()
     {
-        slotsCount = InventorySingleton.Instance.GetInventory().Count - InventorySingleton.HotBarSize;
+        firstSlot = InventorySingleton.HotBarSize;
+        lastSlot = InventorySingleton.Instance.GetInventory().Count - 1;
         base._Ready();
     }
 }

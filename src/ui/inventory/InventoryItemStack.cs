@@ -21,6 +21,12 @@ public partial class InventoryItemStack : Panel
         set
         {
             _itemStackResource = value;
+            if (_itemStackResource != null)
+            {
+                // TODO: Possible memory leak or stale event handlers?
+                _itemStackResource.StackSizeChanged += Render;
+            }
+
             if (_selected)
             {
                 // TODO Inv: It's not quite clear that this method is called when an InventoryItemStack has been Q'ed enough that the item resource is removed
@@ -78,17 +84,6 @@ public partial class InventoryItemStack : Panel
         _stackSizeLabel.Text = "" + stackSize;
     }
 
-    public void DecrementRerenderAndRemoveIfZero()
-    {
-        ItemStackResource.Amount--;
-        if (ItemStackResource.Amount <= 0)
-        {
-            InventorySingleton.Instance.RemoveStackFromInventory(InventoryIndex);
-        }
-
-        Render();
-    }
-
     public void HighlightSlot()
     {
         AddThemeStyleboxOverride("panel", _selectedStyle);
@@ -107,7 +102,6 @@ public partial class InventoryItemStack : Panel
         if (!eventMouseMotion.Pressed) return;
         if (eventMouseMotion.ButtonIndex == MouseButton.Left)
         {
-            GD.Print("Clicked left on index ", InventoryIndex);
             EmitSignal(SignalName.ItemStackPressed, this);
         }
         else if (eventMouseMotion.ButtonIndex == MouseButton.Right)
@@ -118,14 +112,14 @@ public partial class InventoryItemStack : Panel
 
     public void OnMouseEntered()
     {
-        if(ItemStackResource == null) return;
+        if (ItemStackResource == null) return;
         _hovered = true;
         EventBus.Publish(new InventoryItemStackOnHoverEvent(ItemStackResource));
     }
-    
+
     public void OnMouseExited()
     {
-        if(!_hovered) return;
+        if (!_hovered) return;
         EventBus.Publish(new InventoryItemStackOnHoverEvent(null));
     }
 }

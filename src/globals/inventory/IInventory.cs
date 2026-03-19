@@ -5,7 +5,6 @@ namespace ZooBuilder.globals;
 public interface IInventory
 {
     bool TryAddItem(ItemStackResource itemStack);
-    void RemoveStackFromInventory(int index);
     void ItemClicked(int itemIndex);
     void ItemRightClicked(int itemIndex);
     void DropHeldItem();
@@ -13,4 +12,6 @@ public interface IInventory
     bool IsMenuOpen(); // TODO: Probably not the right place to store this variable
     void SetMenuOpen(bool open); // TODO: Probably not the right place to store this variable
     HeldItem GetHeldItem();
+    void DecrementItem(int inventoryIndex);
+    void DecrementHeldItem();
 }
