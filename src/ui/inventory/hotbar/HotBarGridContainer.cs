@@ -12,8 +12,12 @@ public partial class HotBarGridContainer : InventoryHandler
         firstSlot = 0;
         lastSlot = InventorySingleton.HotBarSize - 1;
         base._Ready();
-        GetChild<UiInventorySlot>(SelectedHotbarIndex).HighlightSlot();
         _settings = SettingsResource.Load();
+        
+        // Select first slot on startup
+        GetChild<UiInventorySlot>(SelectedHotbarIndex).HighlightSlot();
+        // Set first slot as the selected slot in the itemInHand mesh
+        EventBus.Publish(new SelectedHotbarSlotChangedItemEvent(SelectedHotbarIndex)); 
     }
 
 

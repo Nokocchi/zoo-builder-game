@@ -1,11 +1,12 @@
 using Godot;
+using ZooBuilder.entities.player;
 
 [GlobalClass]
 public partial class InventorySlotResource : Resource
 {
     // Maybe provide the InventorySingleton an index + Callback method collection so only InventorySingleton can call these methods?
     [Signal]
-    public delegate void StackSizeChangedEventHandler();
+    public delegate void SlotContentChangedEventHandler();
     
 
     public InventorySlotResource(int inventoryIndex, ItemStackResource itemStack)
@@ -20,6 +21,7 @@ public partial class InventorySlotResource : Resource
     public void SetItemStack(ItemStackResource itemStack)
     {
         _itemStack = itemStack;
+        TriggerChangeHandler();
     }
 
     public bool HasItem()
@@ -40,26 +42,31 @@ public partial class InventorySlotResource : Resource
     public void IncreaseStackSize(int amount)
     {
         _itemStack.IncreaseStackSize(amount);
-        EmitSignal(SignalName.StackSizeChanged);
+        TriggerChangeHandler();
     }
     
     public int DecrementStackSize()
     {
         int newAmount = _itemStack.DecrementStackSize();
-        EmitSignal(SignalName.StackSizeChanged);
+        TriggerChangeHandler();
         return newAmount;
     }
 
     public int SplitInHalf()
     {
         int removed = _itemStack.SplitInHalf();
-        EmitSignal(SignalName.StackSizeChanged);
+        TriggerChangeHandler();
         return removed;
     }
 
     public void ClearStack()
     {
         _itemStack = null;
-        EmitSignal(SignalName.StackSizeChanged);
+        TriggerChangeHandler();
+    }
+
+    private void TriggerChangeHandler()
+    {
+        EmitSignal(SignalName.SlotContentChanged);
     }
 }

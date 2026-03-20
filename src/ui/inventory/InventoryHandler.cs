@@ -18,13 +18,11 @@ public partial class InventoryHandler : GridContainer
         _inventorySingleton = InventorySingleton.Instance;
         for (int i = firstSlot; i <= lastSlot; i++)
         {
-            // TODO: Wouldn't it be better to have some kind of itemStackResource **always**, and an empty stack is represented by a null ItemDataResource, instead of the itemStackResource itself being null
-            // That way, we don't need the InventoryUpdated event which completely rebuilds the inventory every time
-            // InventoryItemStacks can then just re-render whenever their resource updates, making swaps very efficient
-            UiInventorySlot uiUiInventorySlot = _inventoryItemStackScene.Instantiate<UiInventorySlot>();
-            uiUiInventorySlot.SlotClicked += (clickedSlotIndex) => _inventorySingleton.ItemClicked(clickedSlotIndex);
-            uiUiInventorySlot.SlotRightClicked += (clickedSlotIndex) => _inventorySingleton.ItemRightClicked(clickedSlotIndex);
-            AddChild(uiUiInventorySlot);
+            UiInventorySlot uiInventorySlot = _inventoryItemStackScene.Instantiate<UiInventorySlot>();
+            uiInventorySlot.SlotClicked += (clickedSlotIndex) => _inventorySingleton.ItemClicked(clickedSlotIndex);
+            uiInventorySlot.SlotRightClicked += (clickedSlotIndex) => _inventorySingleton.ItemRightClicked(clickedSlotIndex);
+            uiInventorySlot.SetInventorySlotResource(_inventorySingleton.GetInventory()[i]);
+            AddChild(uiInventorySlot);
         }
     }
     

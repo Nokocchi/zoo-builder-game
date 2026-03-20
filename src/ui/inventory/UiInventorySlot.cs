@@ -18,6 +18,7 @@ public partial class UiInventorySlot : Panel
     private Label _stackSizeLabel;
     private StyleBoxFlat _selectedStyle;
     private StyleBoxFlat _unselectedStyle;
+    private bool _initialized;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -26,18 +27,20 @@ public partial class UiInventorySlot : Panel
         _stackSizeLabel = GetNode<Label>("%StackSize");
         _selectedStyle = ResourceLoader.Load<StyleBoxFlat>("res://src/ui/inventory/hotbar/item_stack_panel_theme_selected.tres");
         _unselectedStyle = ResourceLoader.Load<StyleBoxFlat>("res://src/ui/inventory/hotbar/item_stack_panel_theme_unselected.tres");
-        //Render();
+        _initialized = true;
     }
 
     public void SetInventorySlotResource(InventorySlotResource slot)
     {
         InventorySlotResource = slot;
-        slot.StackSizeChanged += Render;
+        slot.SlotContentChanged += Render;
+        Render();
     }
 
     private void Render()
     {
-        if (InventorySlotResource.HasItem())
+        if (!_initialized) return; // When inventory is set in InventoryHandler's _Ready()
+        if (InventorySlotResource != null && InventorySlotResource.HasItem())
         {
             ItemStackResource itemStack = InventorySlotResource.GetItem();
             SetTexture(itemStack.ItemData.Texture);
@@ -48,10 +51,9 @@ public partial class UiInventorySlot : Panel
             SetTexture(null);
             SetStackSize(null);
         }
+
+
     }
-    
-    // TODO:   EventBus.Publish(new SelectedHotbarSlotChangedItemEvent(InventoryIndex));
-    // Maybe when the item resource is switched out?
 
     private void SetTexture(Texture2D texture)
     {

@@ -22,18 +22,15 @@ public partial class MouseWithItemMarker : Control
         HeldItem heldItem = e.HeldItem;
         if (heldItem == null)
         {
-            _uiSlotInstance.InventorySlotResource = null;
             Visible = false;
         }
         else
         {
-            // TODO: This feels a bit wrong. Surely I don't want to be able to mess around with the resource of UiInventorySlot? 
-            _uiSlotInstance.InventorySlotResource = new InventorySlotResource(heldItem.OriginatesFromInventoryIndex, heldItem.ItemStackResource);
+            _uiSlotInstance.SetInventorySlotResource(e.HeldItem.SlotResource);
             Visible = true;
         }
     }
-
-    // Should this be a _process function instead?
+    
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventMouseMotion eventMouseMotion && _uiSlotInstance != null)
@@ -44,8 +41,7 @@ public partial class MouseWithItemMarker : Control
         }
 
         if (!@event.IsActionPressed("toss_single_item")) return;
-        if (_uiSlotInstance?.InventorySlotResource == null) return;
-        if (_uiSlotInstance.InventorySlotResource.IsEmpty() || _uiSlotInstance.InventorySlotResource.GetItem().Amount <= 0) return;
+        if (!Visible || _uiSlotInstance.InventorySlotResource.IsEmpty() || _uiSlotInstance.InventorySlotResource.GetItem().Amount <= 0) return;
 
         // Spawn item first, in case we remove the itemData in the decrement call below
         // TODO: Do I really want this long dot-chain?
