@@ -3,21 +3,27 @@ using Godot;
 [GlobalClass]
 public partial class HeldItem : Resource
 {
-    public HeldItem()
-    {
-    }
 
     public HeldItem(ItemStackResource itemStackResource, int originatesFromInventoryIndex)
     {
-        ItemStackResource = itemStackResource;
-        OriginatesFromInventoryIndex = originatesFromInventoryIndex;
+        // Create **new** InventorySlotResource so that changes in our held item don't take effect in the inventory as well
+        SlotResource = new InventorySlotResource(originatesFromInventoryIndex, itemStackResource);
     }
 
-    public ItemStackResource ItemStackResource { get; }
-    public int OriginatesFromInventoryIndex { get; }
+    public InventorySlotResource SlotResource { get; private set; }
 
     public int DecrementStackSize()
     {
-        return ItemStackResource.DecrementStackSize();
+        return SlotResource.DecrementStackSize();
+    }
+
+    public ItemStackResource GetItemStack()
+    {
+        return SlotResource.GetItem();
+    }
+
+    public int GetOriginatesFromIndex()
+    {
+        return SlotResource.InventoryIndex;
     }
 }

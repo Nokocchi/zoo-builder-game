@@ -4,7 +4,8 @@ using ZooBuilder.globals;
 using ZooBuilder.ui.inventory;
 
 // Marked with mouse: ignore so that when you move the mouse up, you don't hit the tooltip and run InventoryItemStack.onMouseExited, followed by moving the tooltip up one pixel, followed by InventoryItemStack.onMouseEntered
-public partial class ItemToolip : Control
+// Should maybe be shown with Control.hint_tooltip, _make_custom_tooltip() instead of a custom gui_input+onMouseXXXHandler https://docs.godotengine.org/en/stable/classes/class_control.html#class-control-property-tooltip-text
+public partial class ItemTooltip : Control
 {
 	private Label _itemNameLabel;
 	private Label _itemDescriptionLabel;

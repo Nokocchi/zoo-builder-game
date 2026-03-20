@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c6ts0k6wj3s1u"]
 
-[ext_resource type="Script" path="res://src/entities/item/OverworldItem.cs" id="1_uasem"]
-[ext_resource type="Script" path="res://src/globals/inventory/ItemStackResource.cs" id="2_vtp4m"]
+[ext_resource type="Script" uid="uid://bawkuu5cfrdia" path="res://src/entities/item/OverworldItem.cs" id="1_uasem"]
+[ext_resource type="Script" uid="uid://cqb8fpfa7pppt" path="res://src/globals/inventory/ItemStackResource.cs" id="2_vtp4m"]
 
 [sub_resource type="Resource" id="Resource_ij02l"]
 resource_local_to_scene = true

@@ -16,42 +16,13 @@ public partial class InventoryHandler : GridContainer
     {
         _inventoryItemStackScene = GD.Load<PackedScene>("res://src/ui/inventory/inventory_item_stack.tscn");
         _inventorySingleton = InventorySingleton.Instance;
-        EventBus.Subscribe<OnInventoryUpdatedEvent>(OnInventoryUpdated);
         for (int i = firstSlot; i <= lastSlot; i++)
         {
-            // TODO: Wouldn't it be better to have some kind of itemStackResource **always**, and an empty stack is represented by a null ItemDataResource, instead of the itemStackResource itself being null
-            // That way, we don't need the InventoryUpdated event which completely rebuilds the inventory every time
-            // InventoryItemStacks can then just re-render whenever their resource updates, making swaps very efficient
-            InventoryItemStack stack = _inventoryItemStackScene.Instantiate<InventoryItemStack>();
-            stack.InventoryIndex = i;
-            stack.ItemStackPressed += (clickedSlot) => _inventorySingleton.ItemClicked(clickedSlot.InventoryIndex);
-            stack.ItemStackRightClicked += (clickedSlot) => _inventorySingleton.ItemRightClicked(clickedSlot.InventoryIndex);
-            AddChild(stack);
-        }
-        
-        OnInventoryUpdated(null);
-    }
-    
-    
-    public void OnInventoryUpdated(OnInventoryUpdatedEvent e)
-    {
-        // First clear all data from hotbar
-        Array<Node> children = GetChildren();
-        foreach (Node child in children)
-        {
-            if (child is InventoryItemStack itemStack)
-            {
-                itemStack.ClearStackResource();
-            }
-        }
-        
-        List<ItemStackResource> inventory = _inventorySingleton.GetInventory();
-
-        for (int i = firstSlot; i <= lastSlot; i++)
-        {
-            ItemStackResource stackAtIndex = inventory[i];
-            InventoryItemStack slot = GetChild<InventoryItemStack>(i-firstSlot); // So that we always start counting children from 0
-            slot.ItemStackResource = stackAtIndex;
+            UiInventorySlot uiInventorySlot = _inventoryItemStackScene.Instantiate<UiInventorySlot>();
+            uiInventorySlot.SlotClicked += (clickedSlotIndex) => _inventorySingleton.ItemClicked(clickedSlotIndex);
+            uiInventorySlot.SlotRightClicked += (clickedSlotIndex) => _inventorySingleton.ItemRightClicked(clickedSlotIndex);
+            uiInventorySlot.SetInventorySlotResource(_inventorySingleton.GetInventory()[i]);
+            AddChild(uiInventorySlot);
         }
     }
     
