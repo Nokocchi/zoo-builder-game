@@ -124,7 +124,7 @@ public partial class InventorySingleton : Node, IInventory
         }
     }
 
-    public void DropHeldItem()
+    public void TossEntireHeldItemStack()
     {
         if (HeldItem == null) return;
         OverworldItem.SpawnItemAndLaunchFromPlayer(HeldItem.GetItemStack());
@@ -152,7 +152,24 @@ public partial class InventorySingleton : Node, IInventory
         return HeldItem;
     }
 
-    public void DecrementItem(int inventoryIndex)
+    public void TossOneOfHeldItem()
+    {
+        if (HeldItem == null) return;
+        OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(HeldItem.GetItemStack().ItemData, 1));
+        DecrementHeldItem();
+        EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
+    }
+
+    public void TossOneOfItem(int index)
+    {
+        OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(Inventory[index].GetItem().ItemData, 1));
+        DecrementItem(index);
+        EventBus.Publish(new OnInventoryUpdatedEvent()); 
+    }
+
+    // Internals
+    
+    private void DecrementItem(int inventoryIndex)
     {
         InventorySlotResource slot = Inventory[inventoryIndex];
         if (slot.IsEmpty()) return;
@@ -163,10 +180,9 @@ public partial class InventorySingleton : Node, IInventory
         
         // Item stack amount is 0
         slot.ClearStack();
-        EventBus.Publish(new OnInventoryUpdatedEvent());
     }
-
-    public void DecrementHeldItem()
+    
+    private void DecrementHeldItem()
     {
         if (HeldItem == null) return;
         
@@ -176,10 +192,7 @@ public partial class InventorySingleton : Node, IInventory
         
         // Dropped last of held item
         HeldItem = null;
-        EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
     }
-
-    // Internals
     
     private void HandleRightClickWithHeldItem(int index, InventorySlotResource clickedSlot)
     {

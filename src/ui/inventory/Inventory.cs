@@ -26,7 +26,7 @@ public partial class Inventory : CanvasLayer
 			inventorySingleton.SetMenuOpen(!inventorySingleton.IsMenuOpen());
 			Visible = !Visible;
 			Input.MouseMode = Visible ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
-			InventorySingleton.Instance.DropHeldItem();
+			InventorySingleton.Instance.TossEntireHeldItemStack();
 		}
 	}
 	

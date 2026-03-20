@@ -57,7 +57,6 @@ public partial class HotBarGridContainer : InventoryHandler
         UiInventorySlot currentSelectedStack = GetChild<UiInventorySlot>(SelectedHotbarIndex);
         // TODO: Long dot chain
         if (_inventorySingleton.GetHeldItem() != null || currentSelectedStack?.InventorySlotResource?.GetItem() == null || currentSelectedStack.InventorySlotResource.GetItem() is not { Amount: >= 0 }) return;
-        OverworldItem.SpawnItemAndLaunchFromPlayer(new ItemStackResource(currentSelectedStack.InventorySlotResource.GetItem().ItemData, 1));
-        _inventorySingleton.DecrementItem(currentSelectedStack.InventorySlotResource.InventoryIndex);
+        _inventorySingleton.TossOneOfItem(currentSelectedStack.InventorySlotResource.InventoryIndex);
     }
 }

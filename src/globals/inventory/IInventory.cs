@@ -4,14 +4,19 @@ namespace ZooBuilder.globals;
 
 public interface IInventory
 {
+    List<InventorySlotResource> GetInventory();
+    
+    HeldItem GetHeldItem();
+    void TossEntireHeldItemStack();
+    void TossOneOfHeldItem();
+    
     bool TryAddItem(ItemStackResource itemStack);
+    
     void ItemClicked(int itemIndex);
     void ItemRightClicked(int itemIndex);
-    void DropHeldItem();
-    List<InventorySlotResource> GetInventory();
+
+    void TossOneOfItem(int inventoryIndex);
+    
     bool IsMenuOpen(); // TODO: Probably not the right place to store this variable
     void SetMenuOpen(bool open); // TODO: Probably not the right place to store this variable
-    HeldItem GetHeldItem();
-    void DecrementItem(int inventoryIndex);
-    void DecrementHeldItem();
 }
