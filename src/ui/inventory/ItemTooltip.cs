@@ -10,22 +10,24 @@ public partial class ItemTooltip : Control
 	private Label _itemNameLabel;
 	private Label _itemDescriptionLabel;
 	private IInventory _inventory;
+	private ItemStackResource _itemStack;
 	
 	public override void _Ready()
 	{
 		_itemNameLabel = GetNode<Label>("%ItemNameLabel");
 		_itemDescriptionLabel = GetNode<Label>("%ItemDescriptionLabel");
-		Visible = false;
 		_inventory = InventorySingleton.Instance;
-		EventBus.Subscribe<InventoryItemStackOnHoverEvent>(HandleHoverEvent);
-		EventBus.Subscribe<InventoryItemStackHeldEvent>(OnItemHeld);
+		CustomMinimumSize = new Vector2(100, 50);
+		_itemNameLabel.Text = _itemStack?.ItemData.ItemName;
+		_itemDescriptionLabel.Text = _itemStack?.ItemData.Description;
 	}
 
-	private void OnItemHeld(InventoryItemStackHeldEvent obj)
+	public void SetItemStack(ItemStackResource itemStack)
 	{
-		Visible = false;
+		_itemStack = itemStack;
 	}
 
+	
 	private void HandleHoverEvent(InventoryItemStackOnHoverEvent e)
 	{
 		// Mouse exited, stop showing
@@ -44,17 +46,4 @@ public partial class ItemTooltip : Control
 		_itemDescriptionLabel.Text = e.ItemStackResource.ItemData.Description;
 	}
 	
-	// Should this be a _process function instead?
-	public override void _Input(InputEvent @event)
-	{
-		// TODO: When picking up item, stop showing this tooltip
-		// TODO: When moving tooltip up, it flickers due to some kind of re-drawing issue, I guess?
-		if (@event is InputEventMouseMotion eventMouseMotion)
-		{
-			// TODO: Why not GlobalPosition?
-			// TODO: Fix width of tooltip or something so it doesn't go off the right side of the screen
-			Position = new Vector2(eventMouseMotion.Position.X, (eventMouseMotion.Position.Y - Size.Y));
-			// get_viewport().get_mouse_position() ?
-		}
-	}
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cu2u1if3nxhi"]
+[gd_scene load_steps=15 format=3 uid="uid://cu2u1if3nxhi"]
 
 [ext_resource type="FontFile" uid="uid://cyxhh7ddkn62q" path="res://fonts/Montserrat-Medium.ttf" id="1_tsqwh"]
 [ext_resource type="PackedScene" uid="uid://2duqhekyh7y2" path="res://src/ui/menus/hud_clock.tscn" id="2_eaf2e"]
@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://b188e020fy2c8" path="res://src/ui/game_save_label.tscn" id="9_c247d"]
 [ext_resource type="Script" uid="uid://mijcq21r47nf" path="res://src/ui/GameSaveLabel.cs" id="10_qhj0k"]
 [ext_resource type="PackedScene" uid="uid://6rbicaxbnvcl" path="res://src/ui/inventory/mouse_with_item_marker.tscn" id="11_w70da"]
-[ext_resource type="PackedScene" uid="uid://r17js5mcks1x" path="res://src/ui/inventory/item_tooltip.tscn" id="12_a4uch"]
 [ext_resource type="PackedScene" uid="uid://cepapv538ecu6" path="res://src/ui/achievement/achievements.tscn" id="12_a5sny"]
 
 [sub_resource type="Theme" id="Theme_272bh"]
@@ -68,10 +67,6 @@ script = ExtResource("10_qhj0k")
 [node name="MouseWithItemMarkerCanvas" type="CanvasLayer" parent="."]
 
 [node name="MouseWithItemMarker" parent="MouseWithItemMarkerCanvas" instance=ExtResource("11_w70da")]
-
-[node name="ItemTooltipCanvas" type="CanvasLayer" parent="."]
-
-[node name="ItemTooltip" parent="ItemTooltipCanvas" instance=ExtResource("12_a4uch")]
 
 [node name="Achievements" parent="." instance=ExtResource("12_a5sny")]
 

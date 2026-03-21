@@ -14,7 +14,7 @@ public partial class InventoryHandler : GridContainer
     
     public override void _Ready()
     {
-        _inventoryItemStackScene = GD.Load<PackedScene>("res://src/ui/inventory/inventory_item_stack.tscn");
+        _inventoryItemStackScene = GD.Load<PackedScene>("res://src/ui/inventory/ui_inventory_slot.tscn");
         _inventorySingleton = InventorySingleton.Instance;
         for (int i = firstSlot; i <= lastSlot; i++)
         {

@@ -1,10 +1,11 @@
 using Godot;
 using ZooBuilder.entities.player;
 
+// Strategy: These methods should only be called by InventorySingleton, giving it full responsibility for changing inventory data
+// All changes to an inventory slot triggers a signal so that any visual node keeping a reference to this slot can update accordingly
 [GlobalClass]
 public partial class InventorySlotResource : Resource
 {
-    // Maybe provide the InventorySingleton an index + Callback method collection so only InventorySingleton can call these methods?
     [Signal]
     public delegate void SlotContentChangedEventHandler();
     

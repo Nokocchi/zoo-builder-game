@@ -12,6 +12,8 @@ using ZooBuilder.ui.inventory;
 // The contents of an InventorySlotResource can be updated, in which case a signal is emitted, so that
 // Any visual node containing that slot resource can update accordingly
 // Only InventorySingleton should call the modifying methods in InventorySlotResource.
+// Events are only published from public functions, and public functions do not call each other. This will cause some unnecessary events,
+// (Or maybe in the future I would want an event to be published only at the correct time, which risks multiple of the same events being published in a single API call)
 public partial class InventorySingleton : Node, IInventory
 {
     public static IInventory Instance { get; private set; }
