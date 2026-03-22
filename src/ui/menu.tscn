@@ -44,21 +44,27 @@ theme_override_constants/margin_bottom = 10
 [node name="TabContainer" type="TabContainer" parent="MarginContainer/PanelContainer/MarginContainer" unique_id=474966242]
 layout_mode = 2
 current_tab = 0
+tab_0/title = "MENU_TAB_INVENTORY"
+tab_1/title = "MENU_TAB_SETTINGS"
+tab_2/title = "MENU_TAB_ACHIEVEMENTS"
 
 [node name="InventoryView" parent="MarginContainer/PanelContainer/MarginContainer/TabContainer" unique_id=1861407602 instance=ExtResource("1_fqjwh")]
 z_index = 1
 layout_mode = 2
 mouse_filter = 2
 metadata/_tab_index = 0
+metadata/_tab_name = "MENU_TAB_INVENTORY"
 
 [node name="Settings" parent="MarginContainer/PanelContainer/MarginContainer/TabContainer" unique_id=642567249 instance=ExtResource("2_w3pxu")]
 visible = false
 layout_mode = 2
 mouse_filter = 2
 metadata/_tab_index = 1
+metadata/_tab_name = "MENU_TAB_SETTINGS"
 
 [node name="Achievements" parent="MarginContainer/PanelContainer/MarginContainer/TabContainer" unique_id=277789575 instance=ExtResource("3_r1qqu")]
 visible = false
 layout_mode = 2
 mouse_filter = 2
 metadata/_tab_index = 2
+metadata/_tab_name = "MENU_TAB_ACHIEVEMENTS"

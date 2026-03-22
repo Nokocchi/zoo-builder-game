@@ -1,6 +1,20 @@
 keys,en,da
 LANG_EN,English,Engelsk
 LANG_DA,Danish,Dansk
-BANANA_ITEM_NAME,Banana,Banan
-BANANA_ITEM_DESC,"This fruit has a handy, yellow surface which is easy to clean and can be removed quickly.","Denne frugt har en smart, gul overflade som er let at rengøre, og som du lynhurtigt skræller af"
-SETTINGS,Settings,Indstillinger
+ITEM_BANANA_NAME,Banana,Banan
+ITEM_BANANA_DESC,"This fruit has a handy, yellow surface which is easy to clean and can be removed quickly.","Denne frugt har en smart, gul overflade som er let at rengøre, og som du lynhurtigt skræller af"
+ITEM_ORANGE_NAME,Orange,Appelsin
+ITEM_ORANGE_DESC,It is indeed orange.,"Appelsinus, abrikosinus, bum!"
+ITEM_APPLE_NAME,Apple,Æble
+ITEM_APPLE_DESC,"Don’t touch it, Eve!","Rør det ikke, Eva!"
+MENU_TAB_SETTINGS,Settings,Indstillinger
+MENU_TAB_INVENTORY,Inventory,Rygsæk
+MENU_TAB_ACHIEVEMENTS,Achievements,Bedrifter
+SETTINGS_FLIP_HOTBAR_SCROLL_DIRECTION,Flip hotbar selection direction,Skift scroll-retning i lynbaren
+SETTINGS_FLIP_MOUSE_UP_DOWN,Use inverted Y-axis for camera movement,Anvend omvendt y-akse ved kamerabevægelser
+SETTINGS_MOUSE_SENSITIVITY,Mouse sensitivity,Musehastighed
+SETTINGS_AUDIO_BG_VOL,Background audio volume,Baggrundsmusik volume
+SETTINGS_HIDE_MINIMAP,Hide minimap,Skjul minimap
+SETTINGS_NORTH_FACING_MINIMAP,North-facing minimap,Nordvendt minimap
+MAIN_MENU_BTN_PLAY,Play,Start
+MAIN_MENU_BTN_QUIT,Quit,Luk

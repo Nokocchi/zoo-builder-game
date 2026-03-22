@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_cj05s")
-ItemName = "Apple"
+ItemName = "ITEM_APPLE_NAME"
 Texture = ExtResource("1_2bqkq")
-Description = "A juicy, firm and sweet fruit"
+Description = "ITEM_APPLE_DESC"
 metadata/_custom_type_script = "uid://btip0t8tiuff8"
