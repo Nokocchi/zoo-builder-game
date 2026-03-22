@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6ts0k6wj3s1u"]
+[gd_scene format=3 uid="uid://c6ts0k6wj3s1u"]
 
 [ext_resource type="Script" uid="uid://bawkuu5cfrdia" path="res://src/entities/item/OverworldItem.cs" id="1_uasem"]
 [ext_resource type="Script" uid="uid://cqb8fpfa7pppt" path="res://src/globals/inventory/ItemStackResource.cs" id="2_vtp4m"]
@@ -6,7 +6,6 @@
 [sub_resource type="Resource" id="Resource_ij02l"]
 resource_local_to_scene = true
 script = ExtResource("2_vtp4m")
-Amount = 0
 metadata/_custom_type_script = "uid://cqb8fpfa7pppt"
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0s5l"]
@@ -24,7 +23,7 @@ material = SubResource("StandardMaterial3D_ffdaq")
 [sub_resource type="SphereShape3D" id="SphereShape3D_ffdaq"]
 radius = 7.21681
 
-[node name="OverworldItem" type="RigidBody3D"]
+[node name="OverworldItem" type="RigidBody3D" unique_id=303049329]
 collision_layer = 8
 collision_mask = 4
 gravity_scale = 4.5
@@ -34,20 +33,20 @@ script = ExtResource("1_uasem")
 ItemStackResource = SubResource("Resource_ij02l")
 LaunchVector = Vector3(0, 32, -16)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1898285529]
 shape = SubResource("SphereShape3D_a0s5l")
 
-[node name="ItemMesh" type="MeshInstance3D" parent="."]
+[node name="ItemMesh" type="MeshInstance3D" parent="." unique_id=52518218]
 mesh = SubResource("QuadMesh_ffdaq")
 
-[node name="NearbyItemDetector" type="Area3D" parent="."]
+[node name="NearbyItemDetector" type="Area3D" parent="." unique_id=1540034925]
 collision_layer = 8
 collision_mask = 8
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NearbyItemDetector"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NearbyItemDetector" unique_id=1717831645]
 shape = SubResource("SphereShape3D_ffdaq")
 
-[node name="NearbyStackMergeTimer" type="Timer" parent="."]
+[node name="NearbyStackMergeTimer" type="Timer" parent="." unique_id=1870305619]
 autostart = true
 
 [connection signal="timeout" from="NearbyStackMergeTimer" to="." method="OnNearbyStackMergeTimerTimeout"]

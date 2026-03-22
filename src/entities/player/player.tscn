@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cct7dqifva85s"]
+[gd_scene format=3 uid="uid://cct7dqifva85s"]
 
 [ext_resource type="Script" uid="uid://cyihatx8hsdcf" path="res://src/entities/player/Player.cs" id="1_0mfjg"]
 [ext_resource type="PackedScene" uid="uid://c6ts0k6wj3s1u" path="res://src/entities/item/overworld_item.tscn" id="2_oih67"]
@@ -90,67 +90,65 @@ radius = 11.1208
 [sub_resource type="SphereShape3D" id="SphereShape3D_bls4j"]
 radius = 3.94311
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" unique_id=1413856061]
 collision_mask = 4
 script = ExtResource("1_0mfjg")
 OverworldItemScene = ExtResource("2_oih67")
 
-[node name="Pivot" type="Node3D" parent="."]
+[node name="Pivot" type="Node3D" parent="." unique_id=440390956]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.190053, 0)
 
-[node name="Character" parent="Pivot" instance=ExtResource("3_eb65w")]
+[node name="Character" parent="Pivot" unique_id=350518186 instance=ExtResource("3_eb65w")]
 
-[node name="ItemHeldInHandMesh" type="MeshInstance3D" parent="Pivot"]
+[node name="ItemHeldInHandMesh" type="MeshInstance3D" parent="Pivot" unique_id=146596621]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.84362, 1, 0.19127)
 mesh = SubResource("QuadMesh_qiwj3")
 script = ExtResource("4_4f0qm")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1998428859]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("SphereShape3D_onrkg")
 
-[node name="MobDetector" type="Area3D" parent="."]
+[node name="MobDetector" type="Area3D" parent="." unique_id=1816623365]
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MobDetector"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MobDetector" unique_id=1123901438]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.545885, 0)
 shape = SubResource("CylinderShape3D_onrkg")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_hqtel")
-}
-autoplay = "float"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=170926479]
+libraries/ = SubResource("AnimationLibrary_hqtel")
+autoplay = &"float"
 
-[node name="PlayerSpringArm" type="SpringArm3D" parent="."]
+[node name="PlayerSpringArm" type="SpringArm3D" parent="." unique_id=1993286552]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.51973, 0)
 script = ExtResource("5_tk761")
 LookUpDownMin = -80
 LookUpDownMax = 20
 
-[node name="PlayerCamera" type="Camera3D" parent="PlayerSpringArm" groups=["global_camera"]]
+[node name="PlayerCamera" type="Camera3D" parent="PlayerSpringArm" unique_id=953556070 groups=["global_camera"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 
-[node name="ItemPullZone" type="Area3D" parent="."]
+[node name="ItemPullZone" type="Area3D" parent="." unique_id=530988311]
 collision_layer = 0
 collision_mask = 8
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemPullZone"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemPullZone" unique_id=122864297]
 shape = SubResource("SphereShape3D_sglur")
 
-[node name="ItemImmediatePickupZone" type="Area3D" parent="."]
+[node name="ItemImmediatePickupZone" type="Area3D" parent="." unique_id=319631592]
 collision_layer = 0
 collision_mask = 8
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemImmediatePickupZone"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemImmediatePickupZone" unique_id=232139831]
 shape = SubResource("SphereShape3D_bls4j")
 
-[node name="ItemPickupAudioPlayer" type="AudioStreamPlayer" parent="."]
+[node name="ItemPickupAudioPlayer" type="AudioStreamPlayer" parent="." unique_id=1447268815]
 stream = ExtResource("6_n7e5a")
 bus = &"SFX"
 

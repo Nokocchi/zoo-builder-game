@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cu2u1if3nxhi"]
+[gd_scene format=3 uid="uid://cu2u1if3nxhi"]
 
 [ext_resource type="PackedScene" uid="uid://c72a0pojkscg1" path="res://src/ui/hud.tscn" id="1_mnt17"]
 [ext_resource type="Script" uid="uid://isfg8cuaye8x" path="res://src/ui/inventory/OverworldDropListenerPanel.cs" id="3_l7m13"]
@@ -11,12 +11,12 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_074og"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="UserInterface" type="CanvasLayer"]
+[node name="UserInterface" type="CanvasLayer" unique_id=1849558495]
 metadata/_edit_use_anchors_ = true
 
-[node name="HUD" parent="." instance=ExtResource("1_mnt17")]
+[node name="HUD" parent="." unique_id=1565029144 instance=ExtResource("1_mnt17")]
 
-[node name="OverworldDropListener" type="Control" parent="."]
+[node name="OverworldDropListener" type="Control" parent="." unique_id=1108863223]
 z_index = 1
 layout_mode = 3
 anchors_preset = 15
@@ -25,7 +25,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="OverworldDropListenerPanel" type="Panel" parent="OverworldDropListener"]
+[node name="OverworldDropListenerPanel" type="Panel" parent="OverworldDropListener" unique_id=819485544]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,14 +36,14 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_074og")
 script = ExtResource("3_l7m13")
 
-[node name="HotBarView" parent="." instance=ExtResource("7_1kx6s")]
+[node name="HotBarView" parent="." unique_id=850152470 instance=ExtResource("7_1kx6s")]
 z_index = 2
 
-[node name="Menu" parent="." instance=ExtResource("5_5cefr")]
+[node name="Menu" parent="." unique_id=1536753928 instance=ExtResource("5_5cefr")]
 z_index = 3
 mouse_filter = 2
 
-[node name="GameSaveLabel" parent="." instance=ExtResource("9_c247d")]
+[node name="GameSaveLabel" parent="." unique_id=777779462 instance=ExtResource("9_c247d")]
 unique_name_in_owner = true
 z_index = 4
 anchors_preset = 2
@@ -54,7 +54,7 @@ grow_vertical = 0
 mouse_filter = 2
 script = ExtResource("10_qhj0k")
 
-[node name="MouseWithItemMarkerCanvas" type="Control" parent="."]
+[node name="MouseWithItemMarkerCanvas" type="Control" parent="." unique_id=675282851]
 z_index = 5
 layout_mode = 3
 anchors_preset = 15
@@ -64,7 +64,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="MouseWithItemMarker" parent="MouseWithItemMarkerCanvas" instance=ExtResource("11_w70da")]
+[node name="MouseWithItemMarker" parent="MouseWithItemMarkerCanvas" unique_id=1033030686 instance=ExtResource("11_w70da")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

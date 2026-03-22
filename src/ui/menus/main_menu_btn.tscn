@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bmil47r6p2a33"]
+[gd_scene format=3 uid="uid://bmil47r6p2a33"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5oih7"]
 content_margin_top = 10.0
@@ -20,13 +20,13 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_size = 5
 
-[node name="ContinueButton" type="Button"]
+[node name="ContinueButton" type="Button" unique_id=177442418]
 mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0.0747956, 0.183849, 0.175364, 1)
 theme_override_constants/outline_size = 6
-theme_override_styles/focus = SubResource("StyleBoxFlat_5oih7")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_5oih7")
-theme_override_styles/hover = SubResource("StyleBoxFlat_2nn8q")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_5oih7")
 theme_override_styles/normal = SubResource("StyleBoxFlat_5oih7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5oih7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2nn8q")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_5oih7")
+theme_override_styles/focus = SubResource("StyleBoxFlat_5oih7")
 text = "Continue"

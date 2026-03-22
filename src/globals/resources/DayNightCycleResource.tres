@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DayNightCycleResource" load_steps=2 format=3 uid="uid://c8gtfq4el17x7"]
+[gd_resource type="Resource" script_class="DayNightCycleResource" format=3 uid="uid://c8gtfq4el17x7"]
 
 [ext_resource type="Script" uid="uid://lrmt0hpbfw6r" path="res://src/globals/resources/DayNightCycleResource.cs" id="1_hg7w6"]
 

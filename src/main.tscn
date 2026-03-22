@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://dccrigx4avpxq"]
+[gd_scene format=3 uid="uid://dccrigx4avpxq"]
 
 [ext_resource type="Script" uid="uid://bhprgr5jxyobx" path="res://src/Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cct7dqifva85s" path="res://src/entities/player/player.tscn" id="1_ig7tw"]
@@ -82,16 +82,16 @@ curve = SubResource("Curve_xuqvo")
 noise_type = 3
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_seu75"]
-seamless = true
 noise = SubResource("FastNoiseLite_kq58d")
+seamless = true
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_htxhm"]
-seamless = true
 noise = SubResource("FastNoiseLite_kq58d")
+seamless = true
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jq2sk"]
-seamless = true
 noise = SubResource("FastNoiseLite_kq58d")
+seamless = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a6jrf"]
 shader = ExtResource("26_lswn8")
@@ -476,101 +476,96 @@ _data = {
 &"SkyboxDayNightCycle": SubResource("Animation_a6jrf")
 }
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=157001114]
 script = ExtResource("1_h2yge")
 MobScene = ExtResource("2_1bvp3")
 DayNightCycleResource = ExtResource("3_cegan")
 
-[node name="Ground" type="StaticBody3D" parent="."]
+[node name="Ground" type="StaticBody3D" parent="." unique_id=1813167143]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 collision_layer = 4
 collision_mask = 0
 metadata/_edit_group_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=1577381830]
 shape = SubResource("BoxShape3D_7dm0k")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=2127731681]
 mesh = SubResource("BoxMesh_ig7tw")
 
-[node name="Player" parent="." instance=ExtResource("1_ig7tw")]
+[node name="Player" parent="." unique_id=1468040632 instance=ExtResource("1_ig7tw")]
 
-[node name="Cylinders" type="Node3D" parent="."]
+[node name="Cylinders" type="Node3D" parent="." unique_id=2135777996]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, -14)
 metadata/_edit_group_ = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Cylinders"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cylinders" unique_id=2132475707]
 mesh = SubResource("CylinderMesh_ig7tw")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cylinders"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cylinders" unique_id=827547141]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 29)
 mesh = SubResource("CylinderMesh_ig7tw")
-skeleton = NodePath("")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Cylinders"]
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Cylinders" unique_id=1745464190]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, 0)
 mesh = SubResource("CylinderMesh_ig7tw")
-skeleton = NodePath("")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="Cylinders"]
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Cylinders" unique_id=1854153870]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, 29)
 mesh = SubResource("CylinderMesh_ig7tw")
-skeleton = NodePath("")
 
-[node name="SpawnPath" type="Path3D" parent="."]
+[node name="SpawnPath" type="Path3D" parent="." unique_id=1546015401]
 curve = SubResource("Curve3D_7mycd")
 
-[node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
-transform = Transform3D(-0.00765488, -0.000162995, -0.999971, 0, 1, -0.000163, 0.999971, -1.24774e-06, -0.00765488, -13.0703, 0.00873375, -14.0616)
+[node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath" unique_id=304697636]
+transform = Transform3D(-0.007654876, -0.0001629952, -0.9999709, 0, 1, -0.00016300002, 0.9999709, -1.2477443e-06, -0.007654876, -13.0703, 0.00873375, -14.0616)
 
-[node name="MobTimer" type="Timer" parent="."]
+[node name="MobTimer" type="Timer" parent="." unique_id=1518824075]
 wait_time = 0.5
 autostart = true
 
-[node name="UserInterface" parent="." instance=ExtResource("5_074og")]
+[node name="UserInterface" parent="." unique_id=1646991969 instance=ExtResource("5_074og")]
 script = ExtResource("6_cegan")
 
-[node name="OverworldItem" parent="." instance=ExtResource("8_kek77")]
+[node name="OverworldItem" parent="." unique_id=749414553 instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.76123, 23.6205)
 ItemStackResource = SubResource("Resource_yaehf")
 
-[node name="OverworldItem2" parent="." instance=ExtResource("8_kek77")]
+[node name="OverworldItem2" parent="." unique_id=981024468 instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.144, 1.83059, 0)
 ItemStackResource = SubResource("Resource_sta5p")
 
-[node name="OverworldItem3" parent="." instance=ExtResource("8_kek77")]
+[node name="OverworldItem3" parent="." unique_id=2072622571 instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.53561, 2.50881, -26.5101)
 ItemStackResource = SubResource("Resource_cegan")
 
-[node name="OverworldItem4" parent="." instance=ExtResource("8_kek77")]
+[node name="OverworldItem4" parent="." unique_id=157778222 instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.1277, 2.35158, 0)
 ItemStackResource = SubResource("Resource_getpj")
 
-[node name="OverworldBGMusicPlayer" type="AudioStreamPlayer" parent="."]
+[node name="OverworldBGMusicPlayer" type="AudioStreamPlayer" parent="." unique_id=58077057]
 stream = ExtResource("19_cegan")
 autoplay = true
 bus = &"BgMusic"
 
-[node name="TimeKeeper" parent="." instance=ExtResource("21_getpj")]
+[node name="TimeKeeper" parent="." unique_id=137850630 instance=ExtResource("21_getpj")]
 
-[node name="GameStatsSaveTimer" type="Timer" parent="."]
+[node name="GameStatsSaveTimer" type="Timer" parent="." unique_id=400193999]
 wait_time = 10.0
 autostart = true
 
-[node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1.31043e-11, -3.61999e-06, 1, -1, -3.61999e-06, 0, 3.61999e-06, -1, -3.61999e-06, 0, 29, 0)
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1679392814]
+transform = Transform3D(1.3104328e-11, -3.6199901e-06, 1, -1, -3.6199901e-06, 0, 3.6199901e-06, -1, -3.6199901e-06, 0, 29, 0)
 light_color = Color(1, 1, 0.772549, 1)
 light_energy = 0.5
 shadow_enabled = true
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1399092050]
 environment = SubResource("Environment_qsp4k")
 
-[node name="SkyBoxAnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_xuqvo")
-}
-autoplay = "SkyboxDayNightCycle"
+[node name="SkyBoxAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1971095110]
+libraries/ = SubResource("AnimationLibrary_xuqvo")
+autoplay = &"SkyboxDayNightCycle"
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]

@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://r17js5mcks1x"]
+[gd_scene format=3 uid="uid://r17js5mcks1x"]
 
 [ext_resource type="Script" uid="uid://by12bkyaelhqt" path="res://src/ui/inventory/ItemTooltip.cs" id="1_q5igx"]
 
-[node name="ItemTooltip" type="Control"]
+[node name="ItemTooltip" type="Control" unique_id=1567671989]
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 3
 anchors_preset = 15
@@ -16,7 +16,7 @@ size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("1_q5igx")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=464877978]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,15 +24,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1974462451]
 layout_mode = 2
 
-[node name="ItemNameLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="ItemNameLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=452730049]
 unique_name_in_owner = true
 layout_mode = 2
 autowrap_mode = 2
 
-[node name="ItemDescriptionLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="ItemDescriptionLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=384673988]
 unique_name_in_owner = true
 layout_mode = 2
 autowrap_mode = 2

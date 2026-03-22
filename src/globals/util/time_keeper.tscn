@@ -1,12 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://7rcneeanh4i7"]
+[gd_scene format=3 uid="uid://7rcneeanh4i7"]
 
 [ext_resource type="Script" uid="uid://cf4grrb04s8hm" path="res://src/globals/util/TimeKeeper.cs" id="1_8vhmn"]
 
-[node name="TimeKeeper" type="Timer"]
+[node name="TimeKeeper" type="Timer" unique_id=1453570313]
 autostart = true
 script = ExtResource("1_8vhmn")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=632648938]
 autostart = true
 
 [connection signal="timeout" from="Timer" to="." method="OnSecondPassedSignalHandler"]
