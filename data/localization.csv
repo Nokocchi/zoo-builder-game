@@ -1,6 +1,6 @@
 keys,en,da
-LANG_EN,English,Engelsk
-LANG_DA,Danish,Dansk
+en,English,Engelsk
+da,Danish,Dansk
 ITEM_BANANA_NAME,Banana,Banan
 ITEM_BANANA_DESC,"This fruit has a handy, yellow surface which is easy to clean and can be removed quickly.","Denne frugt har en smart, gul overflade som er let at rengøre, og som du lynhurtigt skræller af"
 ITEM_ORANGE_NAME,Orange,Appelsin

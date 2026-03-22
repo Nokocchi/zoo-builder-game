@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Globalization;
 
 public partial class Settings : Control
 {
@@ -15,6 +16,7 @@ public partial class Settings : Control
 	private int _audioBusIndexMaster;
 	private int _audioBusIndexBgMusic;
 	private int _audioBusIndexSfx;
+	private OptionButton _languageSelector;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -25,6 +27,7 @@ public partial class Settings : Control
 		_audioLevelText = GetNode<SpinBox>("%AudioLevelText");
 		_mouseUpDownFlipped = GetNode<CheckBox>("%MouseUpDownFlipped");
 		_hotbarScrollDirectionFlipped = GetNode<CheckBox>("%HotbarScrollDirectionFlipped");
+		_languageSelector = GetNode<OptionButton>("%LanguageSelector");
 		_hideMinimap = GetNode<CheckBox>("%HideMinimap");
 
 		Visible = false;
@@ -43,6 +46,15 @@ public partial class Settings : Control
 		_audioBusIndexMaster = AudioServer.GetBusIndex("Master");
 		_audioBusIndexBgMusic = AudioServer.GetBusIndex("BgMusic");
 		_audioBusIndexSfx = AudioServer.GetBusIndex("SFX");
+		
+		string[] loadedLocales = TranslationServer.GetLoadedLocales();
+		foreach (string locale in loadedLocales)
+		{
+			string nativeName = GetNativeLanguageName(locale);
+			_languageSelector.AddItem(nativeName);
+			_languageSelector.SetItemMetadata(_languageSelector.ItemCount - 1, locale);
+		}
+		_languageSelector.ItemSelected += OnLanguageSelected;
 	}
 
 	
@@ -103,8 +115,34 @@ public partial class Settings : Control
 		_settings.NorthFacingMinimap = northFacingMinimap;
 		_settings.Save();
 	}
+	
+	private void OnLanguageSelected(long index)
+	{
+		string locale = (string) _languageSelector.GetItemMetadata((int)index);
+		TranslationServer.SetLocale(locale);
+	}
+	
+	private string GetNativeLanguageName(string locale)
+	{
+		// TODO: culture.Parent.NativeName?
+		try
+		{
+			locale = locale.Replace('_', '-');
+			var culture = new CultureInfo(locale);
+			return Capitalize(culture.NativeName);
+		}
+		catch (CultureNotFoundException)
+		{
+			return locale; // TODO: Is this correct?
+		}
+	}
 
-
+	private string Capitalize(string text)
+	{
+		if (string.IsNullOrEmpty(text)) return text;
+		return char.ToUpper(text[0]) + text.Substring(1);
+	}
+	
 	
 	public override void _Input(InputEvent @event)
 	{
