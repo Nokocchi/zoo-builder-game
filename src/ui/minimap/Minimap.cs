@@ -2,13 +2,13 @@ using Godot;
 using System;
 using ZooBuilder.globals;
 
-public partial class Minimap : CanvasLayer
+public partial class Minimap : Control
 {
     private SettingsResource _settings;
     private GlobalObjectsContainer _globals;
     private Node3D _cameraPivot;
 
-    // Called when the node enters the scene tree for the first time.
+
     public override void _Ready()
     {
         _settings = SettingsResource.Load();
@@ -16,7 +16,7 @@ public partial class Minimap : CanvasLayer
         _cameraPivot = GetNode<Node3D>("%MinimapCameraPivot");
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    
     public override void _Process(double delta)
     {
         Visible = !_settings.HideMinimap;

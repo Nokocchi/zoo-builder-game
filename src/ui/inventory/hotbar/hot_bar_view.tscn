@@ -5,9 +5,16 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fwof5"]
 bg_color = Color(0.776703, 0.548346, 0.253141, 1)
 
-[node name="HotBarView" type="CanvasLayer"]
+[node name="HotBarView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="."]
+layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0

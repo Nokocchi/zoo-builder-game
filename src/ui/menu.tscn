@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://35h1drx8luv0"]
+
+[ext_resource type="PackedScene" uid="uid://d6u50yq3mt8o" path="res://src/ui/inventory/inventory.tscn" id="1_fqjwh"]
+[ext_resource type="Script" uid="uid://bklv43quacy8o" path="res://src/ui/Menu.cs" id="1_w3pxu"]
+[ext_resource type="PackedScene" uid="uid://cv4awdbqqm0k7" path="res://src/ui/settings/settings.tscn" id="2_w3pxu"]
+[ext_resource type="PackedScene" uid="uid://cepapv538ecu6" path="res://src/ui/achievement/achievements.tscn" id="3_r1qqu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w3pxu"]
+bg_color = Color(0.571154, 0.382145, 0.153415, 1)
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -172.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w3pxu")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_w3pxu")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+current_tab = 0
+
+[node name="InventoryView" parent="MarginContainer/PanelContainer/MarginContainer/TabContainer" instance=ExtResource("1_fqjwh")]
+z_index = 1
+layout_mode = 2
+mouse_filter = 2
+metadata/_tab_index = 0
+
+[node name="Settings" parent="MarginContainer/PanelContainer/MarginContainer/TabContainer" instance=ExtResource("2_w3pxu")]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+metadata/_tab_index = 1
+
+[node name="Achievements" parent="MarginContainer/PanelContainer/MarginContainer/TabContainer" instance=ExtResource("3_r1qqu")]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+metadata/_tab_index = 2

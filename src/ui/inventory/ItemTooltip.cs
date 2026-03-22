@@ -11,6 +11,7 @@ public partial class ItemTooltip : Control
 	private Label _itemDescriptionLabel;
 	private IInventory _inventory;
 	private ItemStackResource _itemStack;
+	private static readonly PackedScene TooltipScene = GD.Load<PackedScene>("res://src/ui/inventory/item_tooltip.tscn");
 	
 	public override void _Ready()
 	{
@@ -22,7 +23,14 @@ public partial class ItemTooltip : Control
 		_itemDescriptionLabel.Text = _itemStack?.ItemData.Description;
 	}
 
-	public void SetItemStack(ItemStackResource itemStack)
+	public static ItemTooltip CreateWithData(ItemStackResource itemStack)
+	{
+		ItemTooltip t = TooltipScene.Instantiate<ItemTooltip>();
+		t.SetItemStack(itemStack);
+		return t;
+	}
+
+	private void SetItemStack(ItemStackResource itemStack)
 	{
 		_itemStack = itemStack;
 	}

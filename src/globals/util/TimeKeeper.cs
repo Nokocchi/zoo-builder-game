@@ -5,8 +5,6 @@ using GameData = ZooBuilder.globals.saveable.GameData;
 
 public partial class TimeKeeper : Node
 {
-    [Signal]
-    public delegate void TimeUpdatedEventHandler(int gameTimeSeconds);
 
     private GameData _gameData;
 
@@ -16,9 +14,8 @@ public partial class TimeKeeper : Node
     }
 
     // Connected to Child timer's timeout
-    private void OnSecondPassed()
+    private void OnSecondPassedSignalHandler()
     {
-        _gameData.GameTime++;
-        EmitSignal(SignalName.TimeUpdated, _gameData.GameTime);
+        _gameData.IncrementGameTime();
     }
 }

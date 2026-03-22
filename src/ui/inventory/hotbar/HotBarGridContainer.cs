@@ -22,7 +22,6 @@ public partial class HotBarGridContainer : InventoryHandler
 
 
     // Change selected hotbar slot with mouse scrolling
-    // TODO: Move this somewhere better?
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.IsPressed())
@@ -55,7 +54,6 @@ public partial class HotBarGridContainer : InventoryHandler
 
         if (!@event.IsActionPressed("toss_single_item")) return;
         UiInventorySlot currentSelectedStack = GetChild<UiInventorySlot>(SelectedHotbarIndex);
-        // TODO: Long dot chain
         if (_inventorySingleton.GetHeldItem() != null || currentSelectedStack?.InventorySlotResource?.GetItem() == null || currentSelectedStack.InventorySlotResource.GetItem() is not { Amount: >= 0 }) return;
         _inventorySingleton.TossOneOfItem(currentSelectedStack.InventorySlotResource.InventoryIndex);
     }

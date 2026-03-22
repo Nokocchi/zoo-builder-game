@@ -574,5 +574,4 @@ autoplay = "SkyboxDayNightCycle"
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]
-[connection signal="TimeUpdated" from="TimeKeeper" to="UserInterface" method="OnTimeUpdated"]
 [connection signal="timeout" from="GameStatsSaveTimer" to="." method="OnGameSaveTimerTimeout"]

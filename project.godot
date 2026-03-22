@@ -45,6 +45,7 @@ import/blender/enabled=false
 [gui]
 
 timers/tooltip_delay_sec=0.1
+theme/custom="uid://bu6nmhhcx3muw"
 theme/default_font_multichannel_signed_distance_field=true
 
 [input]

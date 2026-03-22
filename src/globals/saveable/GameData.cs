@@ -32,4 +32,10 @@ public partial class GameData : Resource
     {
         ResourceSaver.Save(this, SaveFileLocation);
     }
+
+    public void IncrementGameTime()
+    {
+        GameTime++;
+        EventBus.Publish(new GameTimeUpdatedEvent(GameTime));
+    }
 }

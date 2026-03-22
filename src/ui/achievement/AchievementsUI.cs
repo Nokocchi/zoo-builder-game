@@ -5,7 +5,7 @@ using GodotSteam;
 using ZooBuilder.data.stats;
 using ZooBuilder.ui.achievement.AchievementsList;
 
-public partial class AchievementsUI : CanvasLayer
+public partial class AchievementsUI : Control
 {
 
 	private VBoxContainer _achievementsListVertical;
@@ -53,7 +53,7 @@ public partial class AchievementsUI : CanvasLayer
 		_achievementsListVertical.AddChild(hBoxContainer);
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	
 	public override void _Process(double delta)
 	{
 	}

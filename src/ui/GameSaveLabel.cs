@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class GameSaveLabel : CanvasLayer
+public partial class GameSaveLabel : Control
 {
 	private Label _label;
 	

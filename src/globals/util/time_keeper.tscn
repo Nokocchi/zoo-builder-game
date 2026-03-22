@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" uid="uid://cf4grrb04s8hm" path="res://src/globals/util/TimeKeeper.cs" id="1_8vhmn"]
 
-[node name="TimeKeeper" type="Node"]
+[node name="TimeKeeper" type="Timer"]
+autostart = true
 script = ExtResource("1_8vhmn")
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
-[connection signal="timeout" from="Timer" to="." method="OnSecondPassed"]
+[connection signal="timeout" from="Timer" to="." method="OnSecondPassedSignalHandler"]

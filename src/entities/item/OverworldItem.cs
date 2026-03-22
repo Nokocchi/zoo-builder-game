@@ -7,7 +7,7 @@ public partial class OverworldItem() : RigidBody3D
 {
     [Export] public ItemStackResource ItemStackResource { get; set; }
     [Export] public Vector3 LaunchVector { get; set; } = new(0.0f, 20.0f, -8.0f);
-    private PackedScene OverworldItemScene { get; set; }
+    private static readonly PackedScene OverworldItemScene = GD.Load<PackedScene>("res://src/entities/item/overworld_item.tscn");
 
     public bool MoveToPlayer { get; set; }
     private Player Player { get; set; }
@@ -16,7 +16,7 @@ public partial class OverworldItem() : RigidBody3D
     public bool CanPickUp => _hasLanded;
     private Area3D _nearbyItemDetector;
 
-    // Called when the node enters the scene tree for the first time.
+
     public override void _Ready()
     {
         _nearbyItemDetector = GetNode<Area3D>("NearbyItemDetector");
@@ -79,8 +79,7 @@ public partial class OverworldItem() : RigidBody3D
 
     public static void SpawnItemAndLaunchFromPlayer(ItemStackResource itemStackResource)
     {
-        PackedScene overworldItemScene = GD.Load<PackedScene>("res://src/entities/item/overworld_item.tscn");
-        OverworldItem overworldItem = overworldItemScene.Instantiate<OverworldItem>();
+        OverworldItem overworldItem = OverworldItemScene.Instantiate<OverworldItem>();
         overworldItem.ItemStackResource = itemStackResource;
         GlobalObjectsContainer.Instance.GameScene.AddChild(overworldItem);
         overworldItem.LaunchFromPlayer();

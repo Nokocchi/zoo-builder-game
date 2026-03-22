@@ -54,7 +54,6 @@ public partial class Main : Node
 		mob.Initialize(mobSpawnLocation.Position, playerPosition);
 		
 		AddChild(mob);
-		mob.Squashed += GetNode<ScoreLabel>("UserInterface/ScoreLabel").OnMobSquashed;
 	}
 	
 	// Stop spawning mobs when the player is hit and dies

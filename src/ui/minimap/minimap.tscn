@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bekc2wv2d7dyu"]
 
-[ext_resource type="Script" uid="uid://bkbbhykpkym0j" path="res://ui/minimap/Minimap.cs" id="1_nfbjl"]
+[ext_resource type="Script" uid="uid://bkbbhykpkym0j" path="res://src/ui/minimap/Minimap.cs" id="1_nfbjl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m6qbg"]
 border_width_left = 5
@@ -9,10 +9,13 @@ border_width_right = 5
 border_width_bottom = 5
 border_color = Color(0.107707, 0.104199, 0.0885866, 1)
 
-[node name="Minimap" type="CanvasLayer"]
+[node name="Minimap" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_nfbjl")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -47,4 +50,5 @@ unique_name_in_owner = true
 [node name="MinimapCamera" type="Camera3D" parent="MarginContainer/PanelContainer/SubViewportContainer/MinimapSubViewport/MinimapCameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 20.9448, 0)
 projection = 1
+current = true
 size = 25.0

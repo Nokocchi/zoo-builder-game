@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Settings : CanvasLayer
+public partial class Settings : Control
 {
 
 	private HSlider _mouseSensitivitySlider;
@@ -45,7 +45,7 @@ public partial class Settings : CanvasLayer
 		_audioBusIndexSfx = AudioServer.GetBusIndex("SFX");
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	
 	public override void _Process(double delta)
 	{
 	}
