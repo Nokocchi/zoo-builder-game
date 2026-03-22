@@ -54,7 +54,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 - **Tabs**
   - ✅ Put all these views into the same UI, but in different tabs.
 - **Localization**
-  - It should be possible to pick from a list of supported languages and all text is instantly in that language
+  - ✅ It should be possible to pick from a list of supported languages and all text is instantly in that language
 
 ## HUD
   - ✅ Minimap
