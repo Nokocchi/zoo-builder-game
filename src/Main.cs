@@ -18,7 +18,6 @@ public partial class Main : Node
 
 	public override void _Ready()
 	{
-		TranslationServer.SetLocale("da");
 		GlobalObjectsContainer.Instance.GameScene = this;
 		DrawLine3D.Instance.PrepareDebugLines(this);
 		_userInterface = GetNode<UserInterface>("UserInterface");

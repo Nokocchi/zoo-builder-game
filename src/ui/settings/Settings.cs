@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 public partial class Settings : Control
@@ -18,7 +19,6 @@ public partial class Settings : Control
 	private int _audioBusIndexSfx;
 	private OptionButton _languageSelector;
 	
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_mouseSensitivitySlider = GetNode<HSlider>("%MouseSensitivitySlider");
@@ -42,24 +42,69 @@ public partial class Settings : Control
 		_audioLevelText.Value = _settings.BackgroundAudioVolume;
 		_mouseUpDownFlipped.SetPressed(_settings.MouseUpDownFlipped);
 		_hotbarScrollDirectionFlipped.SetPressed(_settings.HotbarScrollDirectionFlipped);
+		string selectedLocale = _settings.SelectedLocale;
 
 		_audioBusIndexMaster = AudioServer.GetBusIndex("Master");
 		_audioBusIndexBgMusic = AudioServer.GetBusIndex("BgMusic");
 		_audioBusIndexSfx = AudioServer.GetBusIndex("SFX");
-		
-		string[] loadedLocales = TranslationServer.GetLoadedLocales();
-		foreach (string locale in loadedLocales)
-		{
-			string nativeName = GetNativeLanguageName(locale);
-			_languageSelector.AddItem(nativeName);
-			_languageSelector.SetItemMetadata(_languageSelector.ItemCount - 1, locale);
-		}
+
+		PopulateLanguageSelector(selectedLocale);
 		_languageSelector.ItemSelected += OnLanguageSelected;
 	}
 
-	
-	public override void _Process(double delta)
+	private void PopulateLanguageSelector(string selectedLocale)
 	{
+			_languageSelector.Clear();
+
+			string[] locales = TranslationServer.GetLoadedLocales();
+			string currentLocale = selectedLocale ?? TranslationServer.GetLocale();
+			string sortLocale = currentLocale.Replace('_', '-');
+
+			CultureInfo sortCulture;
+			try
+			{
+				sortCulture = new CultureInfo(sortLocale);
+			}
+			catch
+			{
+				sortCulture = CultureInfo.InvariantCulture;
+			}
+
+
+			List<(string locale, string name)> entries = [];
+			foreach (string locale in locales)
+			{
+				string normalized = locale.Replace('_', '-');
+
+				try
+				{
+					CultureInfo culture = new(normalized);
+					string name = Capitalize(culture.NativeName);
+					entries.Add((locale, name));
+				}
+				catch
+				{
+					entries.Add((locale, locale));
+				}
+			}
+
+			entries.Sort((a, b) =>
+				sortCulture.CompareInfo.Compare(
+					a.name,
+					b.name,
+					CompareOptions.StringSort
+				)
+			);
+
+			foreach (var entry in entries)
+			{
+				_languageSelector.AddItem(entry.name);
+				_languageSelector.SetItemMetadata(_languageSelector.ItemCount - 1, entry.locale);
+
+				if (entry.locale == currentLocale) {
+					_languageSelector.Select(_languageSelector.ItemCount - 1);
+				}
+			}
 	}
 
 	private void OnMouseSensitivitySliderUpdated(float mouseSensitivity)
@@ -119,7 +164,9 @@ public partial class Settings : Control
 	private void OnLanguageSelected(long index)
 	{
 		string locale = (string) _languageSelector.GetItemMetadata((int)index);
+		_settings.SelectedLocale = locale;
 		TranslationServer.SetLocale(locale);
+		_settings.Save();
 	}
 	
 	private string GetNativeLanguageName(string locale)
