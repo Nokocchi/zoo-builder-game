@@ -37,6 +37,7 @@ public partial class Player : CharacterBody3D
     private Node3D _pivot;
     private GlobalObjectsContainer _globals;
     private ItemHeldInHandMesh _itemHeldInHandMesh;
+    private AnimationPlayer _animationPlayer;
 
     [Export]
     public PackedScene OverworldItemScene { get; set; }
@@ -61,6 +62,7 @@ public partial class Player : CharacterBody3D
         GlobalPosition = _globals.GameData.PlayerGlobalPosition;
         _pivot.Rotation = _globals.GameData.PlayerRotation;
         _itemHeldInHandMesh = GetNode<ItemHeldInHandMesh>("%ItemHeldInHandMesh");
+        _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
     }
 
     private void ItemPullZoneBodyEntered(Node3D ignored)
@@ -153,11 +155,11 @@ public partial class Player : CharacterBody3D
             // Setting the basis property will affect the rotation of the node.
             _pivot.Basis = Basis.LookingAt(direction);
             _globals.GameData.PlayerRotation = _pivot.Rotation;
-            GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 4;
+            _animationPlayer.SpeedScale = 4;
         }
         else
         {
-            GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 1;
+            _animationPlayer.SpeedScale = 1;
         }
 
         int speed = Input.IsActionPressed("run") ? RunSpeed : Speed;
@@ -209,8 +211,7 @@ public partial class Player : CharacterBody3D
                 }
             }
         }
-
-        Node3D pivot = GetNode<Node3D>("Pivot");
-        pivot.Rotation = new Vector3(Mathf.Pi / 6.0f * Velocity.Y / JumpImpulse, pivot.Rotation.Y, pivot.Rotation.Z);
+        
+        _pivot.Rotation = new Vector3(Mathf.Pi / 6.0f * Velocity.Y / JumpImpulse, _pivot.Rotation.Y, _pivot.Rotation.Z);
     }
 }

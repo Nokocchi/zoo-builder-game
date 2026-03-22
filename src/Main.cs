@@ -18,6 +18,7 @@ public partial class Main : Node
 
 	public override void _Ready()
 	{
+		TranslationServer.SetLocale("da");
 		GlobalObjectsContainer.Instance.GameScene = this;
 		DrawLine3D.Instance.PrepareDebugLines(this);
 		_userInterface = GetNode<UserInterface>("UserInterface");
@@ -37,11 +38,6 @@ public partial class Main : Node
 		// Initializing the day-night cycle animation to be in sync with the loaded time of day
 		int howManySecondsIntoDayNightAnimation = GlobalObjectsContainer.Instance.GameData.GameTime % DayNightCycleResource.DayNightTotalLengthSeconds;
 		_skyBoxAnimationPlayer.Advance(howManySecondsIntoDayNightAnimation);
-	}
-
-	public override void _ExitTree()
-	{
-		//DrawLine3D.Instance.Test(this);
 	}
 
 	private void OnMobTimerTimeout()

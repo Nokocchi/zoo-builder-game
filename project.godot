@@ -111,6 +111,10 @@ open_achievements={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://data/localization.da.translation", "res://data/localization.en.translation")
+
 [layer_names]
 
 3d_physics/layer_1="player"

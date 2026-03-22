@@ -24,7 +24,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ When clicking an item, the item is picked up and follows the cursor.
   - ✅ When holding an item and clicking another slot, move item to this spot. Swap items if necessary
   - ✅ When holding an item and clicking Q, drop in overworld
-  - ✅ When holding an item and clicking outside inventory, drop whole stack in overworld
+  - ❌ When holding an item and clicking outside inventory, drop whole stack in overworld
   - ✅ When not inventory not open and item is selected in hotbar and you press Q, drop one from stack in overworld
   - ✅ Right click item to split stack in half
   - ✅ Hold selected hotbar item in hand in overworld
@@ -52,7 +52,9 @@ Actual storyline details, specific features or game mechanics will be added afte
   - Show 3 tabs. Active quests, completed quests, all quests
   - Completed quests greyed out with checkmark icon
 - **Tabs**
-  - Put all these views into the same UI, but in different tabs.
+  - ✅ Put all these views into the same UI, but in different tabs.
+- **Localization**
+  - It should be possible to pick from a list of supported languages and all text is instantly in that language
 
 ## HUD
   - ✅ Minimap

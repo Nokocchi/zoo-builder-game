@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_mvjdy")
-ItemName = "Banana"
+ItemName = "BANANA_ITEM_NAME"
 Texture = ExtResource("1_02yc1")
-Description = "This fruit has a handy, yellow surface which is easy to clean and can be removed quickly."
+Description = "BANANA_ITEM_DESC"
 metadata/_custom_type_script = "uid://btip0t8tiuff8"
