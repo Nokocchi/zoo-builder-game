@@ -25,6 +25,16 @@ public partial class UiInventorySlot : Panel
         _selectedStyle = ResourceLoader.Load<StyleBoxFlat>("res://src/ui/inventory/hotbar/item_stack_panel_theme_selected.tres");
         _unselectedStyle = ResourceLoader.Load<StyleBoxFlat>("res://src/ui/inventory/hotbar/item_stack_panel_theme_unselected.tres");
         _initialized = true;
+        CallDeferred(nameof(UpdateHeight));
+    }
+    
+    private void UpdateHeight()
+    {
+        // Size.X is the current width assigned by GridContainer
+        float width = Size.X;
+
+        // Set CustomMinimumSize.Y to match width
+        CustomMinimumSize = new Vector2(CustomMinimumSize.X, width);
     }
 
     public void SetInventorySlotResource(InventorySlotResource slot)
@@ -32,6 +42,16 @@ public partial class UiInventorySlot : Panel
         InventorySlotResource = slot;
         slot.SlotContentChanged += Render;
         Render();
+    }
+    
+    public override void _Process(double delta)
+    {
+        // Continuously adjust height if width changes (responsive)
+        float width = Size.X;
+        if (!Mathf.IsEqualApprox(CustomMinimumSize.Y, width))
+        {
+            CustomMinimumSize = new Vector2(CustomMinimumSize.X, width);
+        }
     }
 
     private void Render()
@@ -50,6 +70,7 @@ public partial class UiInventorySlot : Panel
         }
     }
 
+    
     private void SetTexture(Texture2D texture)
     {
         _itemIcon.Texture = texture;
@@ -89,6 +110,6 @@ public partial class UiInventorySlot : Panel
 
     public override GodotObject _MakeCustomTooltip(string forText)
     {
-        return ItemTooltip.CreateWithData(InventorySlotResource.GetItem());
+        return InventorySlotResource == null ? null : ItemTooltip.CreateWithData(InventorySlotResource.GetItem());
     }
 }

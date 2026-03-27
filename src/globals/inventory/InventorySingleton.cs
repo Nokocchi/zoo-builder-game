@@ -19,7 +19,7 @@ public partial class InventorySingleton : Node, IInventory
     public static IInventory Instance { get; private set; }
 
     // TODO Inv: Set inventory size via inventory resource
-    [Export] public int InventorySize = 20;
+    [Export] public int InventorySize = 100;
 
     public const int HotBarSize = 8;
 
