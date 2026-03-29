@@ -7,6 +7,12 @@ ITEM_ORANGE_NAME,Orange,Appelsin
 ITEM_ORANGE_DESC,It is indeed orange.,"Appelsinus, abrikosinus, bum!"
 ITEM_APPLE_NAME,Apple,Æble
 ITEM_APPLE_DESC,"Don’t touch it, Eve!","Rør det ikke, Eva!"
+ITEM_HOCKEY_PUCK_NAME,"Hockey puck","Hockeypuk"
+ITEM_HOCKEY_PUCK_DESCRIPTION,"Uhh mrs. Evilman.. Didn't I have hockey practice today?","Øhh, fru Ondemand.. Havde jeg ikke hockeytræning i dag?"
+ITEM_LEMON_NAME,Lemon,Citron
+ITEM_LEMON_DESCRIPTION,"So sour!","Så sur!"
+ITEM_PIZZA_NAME,Pizza,pizza
+ITEM_PIZZA_DESCRIPTION,"Eight slices, keep 'em coming!","Otte stykker, skær nogle flere!"
 MENU_TAB_SETTINGS,Settings,Indstillinger
 MENU_TAB_INVENTORY,Inventory,Rygsæk
 MENU_TAB_ACHIEVEMENTS,Achievements,Bedrifter

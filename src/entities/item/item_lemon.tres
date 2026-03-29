@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemDataResource" format=3 uid="uid://wcx0oju7prjf"]
+
+[ext_resource type="Texture2D" uid="uid://cehhljx6bq7q2" path="res://art/Lemon.png" id="1_g5ab0"]
+[ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://src/globals/inventory/ItemDataResource.cs" id="1_i4be4"]
+
+[resource]
+script = ExtResource("1_i4be4")
+ItemName = "ITEM_LEMON_NAME"
+Texture = ExtResource("1_g5ab0")
+Description = "ITEM_LEMON_DESCRIPTION"
+metadata/_custom_type_script = "uid://btip0t8tiuff8"

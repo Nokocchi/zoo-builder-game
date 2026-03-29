@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemDataResource" format=3 uid="uid://dhqu7tle375vr"]
+
+[ext_resource type="Texture2D" uid="uid://c7kmpapcxupnf" path="res://art/pizza.png" id="1_nuph3"]
+[ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://src/globals/inventory/ItemDataResource.cs" id="1_vd2ot"]
+
+[resource]
+script = ExtResource("1_vd2ot")
+ItemName = "ITEM_PIZZA_NAME"
+Texture = ExtResource("1_nuph3")
+Description = "ITEM_PIZZA_DESCRIPTION"
+metadata/_custom_type_script = "uid://btip0t8tiuff8"

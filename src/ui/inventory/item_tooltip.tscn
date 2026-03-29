@@ -2,34 +2,25 @@
 
 [ext_resource type="Script" uid="uid://by12bkyaelhqt" path="res://src/ui/inventory/ItemTooltip.cs" id="1_q5igx"]
 
-[node name="ItemTooltip" type="Control" unique_id=1567671989]
-custom_minimum_size = Vector2(150, 250)
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1002.0
-offset_bottom = -398.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
+[node name="ItemTooltip" type="PanelContainer" unique_id=464877978]
+offset_right = 150.0
+offset_bottom = 56.0
 script = ExtResource("1_q5igx")
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=464877978]
-layout_mode = 1
-offset_right = 1.0
-offset_bottom = 56.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1974462451]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1974462451]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="ItemNameLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=452730049]
+[node name="ItemNameLabel" type="Label" parent="VBoxContainer" unique_id=452730049]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+size_flags_vertical = 1
 autowrap_mode = 2
 
-[node name="ItemDescriptionLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=384673988]
+[node name="ItemDescriptionLabel" type="Label" parent="VBoxContainer" unique_id=384673988]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+size_flags_vertical = 1
 autowrap_mode = 2

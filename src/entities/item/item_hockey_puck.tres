@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemDataResource" format=3 uid="uid://dk4d5nlgdl4y0"]
+
+[ext_resource type="Texture2D" uid="uid://s04y1veet2d8" path="res://art/hockey-puck.png" id="1_3t42v"]
+[ext_resource type="Script" uid="uid://btip0t8tiuff8" path="res://src/globals/inventory/ItemDataResource.cs" id="1_7a7ex"]
+
+[resource]
+script = ExtResource("1_7a7ex")
+ItemName = "ITEM_HOCKEY_PUCK_NAME"
+Texture = ExtResource("1_3t42v")
+Description = "ITEM_HOCKEY_PUCK_DESCRIPTION"
+metadata/_custom_type_script = "uid://btip0t8tiuff8"
