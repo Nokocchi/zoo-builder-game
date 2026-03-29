@@ -1,28 +1,28 @@
-﻿using System.Collections.Generic;
-using Godot;
-using Godot.Collections;
+﻿using Godot;
 using ZooBuilder.globals;
 
 namespace ZooBuilder.ui.inventory;
 
-public partial class InventoryHandler : Container
+public partial class InventoryHandler : Control
 {
     private PackedScene _inventoryItemStackScene;
-    protected IInventory _inventorySingleton;
-    protected int firstSlot;
-    protected int lastSlot;
+    protected Container UiSlotContainer;
+    protected IInventory InventorySingleton;
+    protected int FirstSlot;
+    protected int LastSlot;
     
     public override void _Ready()
     {
         _inventoryItemStackScene = GD.Load<PackedScene>("res://src/ui/inventory/ui_inventory_slot.tscn");
-        _inventorySingleton = InventorySingleton.Instance;
-        for (int i = firstSlot; i <= lastSlot; i++)
+        UiSlotContainer = GetNode<Container>("%UISlotContainer");
+        InventorySingleton = global::InventorySingleton.Instance;
+        for (int i = FirstSlot; i <= LastSlot; i++)
         {
             UiInventorySlot uiInventorySlot = _inventoryItemStackScene.Instantiate<UiInventorySlot>();
-            uiInventorySlot.SlotClicked += (clickedSlotIndex) => _inventorySingleton.ItemClicked(clickedSlotIndex);
-            uiInventorySlot.SlotRightClicked += (clickedSlotIndex) => _inventorySingleton.ItemRightClicked(clickedSlotIndex);
-            uiInventorySlot.SetInventorySlotResource(_inventorySingleton.GetInventory()[i]);
-            AddChild(uiInventorySlot);
+            uiInventorySlot.SlotClicked += (clickedSlotIndex) => InventorySingleton.ItemClicked(clickedSlotIndex);
+            uiInventorySlot.SlotRightClicked += (clickedSlotIndex) => InventorySingleton.ItemRightClicked(clickedSlotIndex);
+            uiInventorySlot.SetInventorySlotResource(InventorySingleton.GetInventory()[i]);
+            UiSlotContainer.AddChild(uiInventorySlot);
         }
     }
     

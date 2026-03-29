@@ -18,7 +18,7 @@ public partial class ItemTooltip : Control
 		_itemNameLabel = GetNode<Label>("%ItemNameLabel");
 		_itemDescriptionLabel = GetNode<Label>("%ItemDescriptionLabel");
 		_inventory = InventorySingleton.Instance;
-		CustomMinimumSize = new Vector2(100, 50);
+		//CustomMinimumSize = new Vector2(300, 300);
 		_itemNameLabel.Text = _itemStack?.ItemData.ItemName;
 		_itemDescriptionLabel.Text = _itemStack?.ItemData.Description;
 	}

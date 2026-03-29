@@ -12,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("2_1deq4")
 
 [node name="Panel" type="Panel" parent="." unique_id=2131442438]
 layout_mode = 1
@@ -20,6 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_s83yu")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=1692028791]
@@ -29,6 +31,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -43,15 +46,17 @@ vertical_scroll_mode = 4
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_constants/margin_right = 10
 
-[node name="InventoryGridContainer" type="GridContainer" parent="Panel/MarginContainer/ScrollContainer/ScrollBarMarginContainer" unique_id=1117256098]
+[node name="UISlotContainer" type="GridContainer" parent="Panel/MarginContainer/ScrollContainer/ScrollBarMarginContainer" unique_id=1117256098]
+unique_name_in_owner = true
 clip_contents = true
 layout_direction = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_constants/h_separation = 6
 theme_override_constants/v_separation = 6
 columns = 10
-script = ExtResource("2_1deq4")

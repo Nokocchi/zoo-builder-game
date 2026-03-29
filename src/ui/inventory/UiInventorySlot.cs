@@ -100,6 +100,6 @@ public partial class UiInventorySlot : Panel
 
     public override GodotObject _MakeCustomTooltip(string forText)
     {
-        return InventorySlotResource == null ? null : ItemTooltip.CreateWithData(InventorySlotResource.GetItem());
+        return InventorySlotResource.HasItem() ? ItemTooltip.CreateWithData(InventorySlotResource.GetItem()) : null;
     }
 }

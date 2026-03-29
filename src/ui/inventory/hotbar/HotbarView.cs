@@ -3,20 +3,20 @@ using ZooBuilder.entities.player;
 using ZooBuilder.globals;
 using ZooBuilder.ui.inventory;
 
-public partial class HotBarGridContainer : InventoryHandler
+public partial class HotbarView : InventoryHandler
 {
     private SettingsResource _settings;
     public int SelectedHotbarIndex { get; private set; }
 
     public override void _Ready()
     {
-        firstSlot = 0;
-        lastSlot = InventorySingleton.HotBarSize - 1;
+        FirstSlot = 0;
+        LastSlot = global::InventorySingleton.HotBarSize - 1;
         base._Ready();
         _settings = SettingsResource.Load();
         
         // Select first slot on startup
-        GetChild<UiInventorySlot>(SelectedHotbarIndex).HighlightSlot();
+        UiSlotContainer.GetChild<UiInventorySlot>(SelectedHotbarIndex).HighlightSlot();
         // Set first slot as the selected slot in the itemInHand mesh
         EventBus.Publish(new SelectedHotbarSlotChangedItemEvent(SelectedHotbarIndex)); 
     }
@@ -42,22 +42,22 @@ public partial class HotBarGridContainer : InventoryHandler
             int previousIndex = SelectedHotbarIndex;
             if (wheelDown ^ _settings.HotbarScrollDirectionFlipped)
             {
-                SelectedHotbarIndex = (SelectedHotbarIndex + 1) % InventorySingleton.HotBarSize;
+                SelectedHotbarIndex = (SelectedHotbarIndex + 1) % global::InventorySingleton.HotBarSize;
             }
 
             if (wheelUp ^ _settings.HotbarScrollDirectionFlipped)
             {
-                SelectedHotbarIndex = ((SelectedHotbarIndex - 1) + InventorySingleton.HotBarSize) % InventorySingleton.HotBarSize;
+                SelectedHotbarIndex = ((SelectedHotbarIndex - 1) + global::InventorySingleton.HotBarSize) % global::InventorySingleton.HotBarSize;
             }
 
-            GetChild<UiInventorySlot>(previousIndex).RemoveHighlight();
-            GetChild<UiInventorySlot>(SelectedHotbarIndex).HighlightSlot();
+            UiSlotContainer.GetChild<UiInventorySlot>(previousIndex).RemoveHighlight();
+            UiSlotContainer.GetChild<UiInventorySlot>(SelectedHotbarIndex).HighlightSlot();
             EventBus.Publish(new SelectedHotbarSlotChangedItemEvent(SelectedHotbarIndex));
         }
 
         if (!@event.IsActionPressed("toss_single_item")) return;
-        UiInventorySlot currentSelectedStack = GetChild<UiInventorySlot>(SelectedHotbarIndex);
-        if (_inventorySingleton.GetHeldItem() != null || currentSelectedStack?.InventorySlotResource?.GetItem() == null || currentSelectedStack.InventorySlotResource.GetItem() is not { Amount: >= 0 }) return;
-        _inventorySingleton.TossOneOfItem(currentSelectedStack.InventorySlotResource.InventoryIndex);
+        UiInventorySlot currentSelectedStack = UiSlotContainer.GetChild<UiInventorySlot>(SelectedHotbarIndex);
+        if (InventorySingleton.GetHeldItem() != null || currentSelectedStack?.InventorySlotResource?.GetItem() == null || currentSelectedStack.InventorySlotResource.GetItem() is not { Amount: >= 0 }) return;
+        InventorySingleton.TossOneOfItem(currentSelectedStack.InventorySlotResource.InventoryIndex);
     }
 }
