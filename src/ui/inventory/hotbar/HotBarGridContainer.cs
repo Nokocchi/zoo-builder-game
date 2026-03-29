@@ -1,5 +1,6 @@
 using Godot;
 using ZooBuilder.entities.player;
+using ZooBuilder.globals;
 using ZooBuilder.ui.inventory;
 
 public partial class HotBarGridContainer : InventoryHandler
@@ -24,6 +25,8 @@ public partial class HotBarGridContainer : InventoryHandler
     // Change selected hotbar slot with mouse scrolling
     public override void _Input(InputEvent @event)
     {
+        if (UIManager.IsMenuOpen()) return;
+        
         if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.IsPressed())
         {
             bool wheelDown = eventMouseButton.ButtonIndex == MouseButton.WheelDown;

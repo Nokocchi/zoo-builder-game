@@ -25,16 +25,6 @@ public partial class UiInventorySlot : Panel
         _selectedStyle = ResourceLoader.Load<StyleBoxFlat>("res://src/ui/inventory/hotbar/item_stack_panel_theme_selected.tres");
         _unselectedStyle = ResourceLoader.Load<StyleBoxFlat>("res://src/ui/inventory/hotbar/item_stack_panel_theme_unselected.tres");
         _initialized = true;
-        CallDeferred(nameof(UpdateHeight));
-    }
-    
-    private void UpdateHeight()
-    {
-        // Size.X is the current width assigned by GridContainer
-        float width = Size.X;
-
-        // Set CustomMinimumSize.Y to match width
-        CustomMinimumSize = new Vector2(CustomMinimumSize.X, width);
     }
 
     public void SetInventorySlotResource(InventorySlotResource slot)

@@ -52,22 +52,4 @@ public partial class AchievementsUI : Control
 		}
 		_achievementsListVertical.AddChild(hBoxContainer);
 	}
-
-	
-	public override void _Process(double delta)
-	{
-	}
-	
-	public override void _Input(InputEvent @event)
-	{
-		if (@event.IsActionPressed("open_achievements"))
-		{
-			Visible = !Visible;
-			Input.MouseMode = Visible ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
-			if (Visible)
-			{
-				Load();
-			}
-		}
-	}
 }

@@ -13,7 +13,6 @@ public partial class SettingsResource : Resource
     [Export] public bool HotbarScrollDirectionFlipped;
     [Export] public bool HideMinimap;
     [Export] public bool NorthFacingMinimap;
-    [Export] public bool SettingsOpen;
     [Export] public string SelectedLocale;
 
     public static SettingsResource Load()

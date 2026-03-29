@@ -16,7 +16,4 @@ public interface IInventory
     void ItemRightClicked(int itemIndex);
 
     void TossOneOfItem(int inventoryIndex);
-    
-    bool IsMenuOpen(); // TODO: Probably not the right place to store this variable
-    void SetMenuOpen(bool open); // TODO: Probably not the right place to store this variable
 }

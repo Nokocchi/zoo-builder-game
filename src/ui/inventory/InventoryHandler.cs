@@ -5,7 +5,7 @@ using ZooBuilder.globals;
 
 namespace ZooBuilder.ui.inventory;
 
-public partial class InventoryHandler : GridContainer
+public partial class InventoryHandler : Container
 {
     private PackedScene _inventoryItemStackScene;
     protected IInventory _inventorySingleton;

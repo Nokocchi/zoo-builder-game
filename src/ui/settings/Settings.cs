@@ -34,8 +34,6 @@ public partial class Settings : Control
 		
 		_settings = SettingsResource.Load();
 		
-		_settings.SettingsOpen = false;
-		
 		_mouseSensitivitySlider.Value = _settings.MouseSensitivity;
 		_mouseSensitivityText.Value = _settings.MouseSensitivity;
 		_audioLevelSlider.Value = _settings.BackgroundAudioVolume;
@@ -188,16 +186,5 @@ public partial class Settings : Control
 	{
 		if (string.IsNullOrEmpty(text)) return text;
 		return char.ToUpper(text[0]) + text.Substring(1);
-	}
-	
-	
-	public override void _Input(InputEvent @event)
-	{
-		if (@event.IsActionPressed("open_settings"))
-		{
-			_settings.SettingsOpen = !_settings.SettingsOpen;
-			Visible = !Visible;
-			Input.MouseMode = Visible ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
-		}
 	}
 }

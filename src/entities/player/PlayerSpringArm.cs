@@ -46,7 +46,7 @@ public partial class PlayerSpringArm : SpringArm3D
 
 	public override void _Input(InputEvent @event)
 	{
-		if (!_inventory.IsMenuOpen() && !_settings.SettingsOpen && @event is InputEventMouseMotion eventMouseMotion)
+		if (!UIManager.IsMenuOpen() && @event is InputEventMouseMotion eventMouseMotion)
 		{
 			float speed = (_settings.MouseSensitivity / MouseSpeedScale) * _mouseSensitivityBaseline;
 			_mouseRelative = -eventMouseMotion.Relative * speed;

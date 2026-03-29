@@ -119,7 +119,7 @@ public partial class Player : CharacterBody3D
         Vector3 direction = Vector3.Zero;
 
         // We do not want to update the player's direction or speed while menu is open. Just animate and process physics
-        if (!_inventorySingleton.IsMenuOpen())
+        if (!UIManager.IsMenuOpen())
         {
             // We check for each move input and update the direction accordingly.
             if (Input.IsActionPressed("move_right"))
