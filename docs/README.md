@@ -16,7 +16,6 @@ Actual storyline details, specific features or game mechanics will be added afte
 - ✅ Character animation when moving
 - ✅ 3D camera movable with mouse
 - ✅ Holding "forward" (W) always goes in the direction the camera is facing
-- Some kind of cursor/highlighted grid square (maybe just when holding specific tools?)
 
 ## Menu
 - **Full screen inventory with all your items**
@@ -24,7 +23,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ When clicking an item, the item is picked up and follows the cursor.
   - ✅ When holding an item and clicking another slot, move item to this spot. Swap items if necessary
   - ✅ When holding an item and clicking Q, drop in overworld
-  - ❌ When holding an item and clicking outside inventory, drop whole stack in overworld
+  - ✅ When holding an item and clicking outside inventory, drop whole stack in overworld
   - ✅ When not inventory not open and item is selected in hotbar and you press Q, drop one from stack in overworld
   - ✅ Right click item to split stack in half
   - ✅ Hold selected hotbar item in hand in overworld
@@ -36,6 +35,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ One item in the hotbar is always highlighted - can be switched by scrolling with mouse
 - **Collections view**
   - Keep track of which items the player has picked up
+  - If they player has picked up an overworld item, it should not load in the overworld anymore in that save file
   - Show ? if never seen, black box is seen but not picked up, image if picked up
 - **Achievements view**
   - ❌ Keep track of game stats, like number of items picked up, meters walked
@@ -45,6 +45,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ Change up/down direction of mouse
   - ✅ Hide minimap
   - Save and load game buttons
+  - Show "last saved x minutes ago"
   - ✅ Adjust audio
   - ✅ Hotbar scrolling direction
   - Only save when save button is clicked
@@ -115,6 +116,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 # Things to fix:
 - When items collide with static objects, they can be picked up. The only static object at the moment is the floor, but in the future, there will be walls.
 - Sun/moon teleport to the other side at the end of a day/night animation cycle, and this causes the light in the scene to blink.
+- Game crashes if Steam is not running.. How to handle that? 
 
 # Things to figure out:
 - When starting a new game, the player would expect all their achievements and stats to be reset for that save file. Maybe you can have multiple save files with different progress. How does that work with Steam stats and achievements which seem to be "global" on the user's steam account?
