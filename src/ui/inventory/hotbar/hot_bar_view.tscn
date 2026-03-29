@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cj1sh7dasg33y"]
 
-[ext_resource type="Script" uid="uid://d2mujxwx8j8lf" path="res://src/ui/inventory/hotbar/HotBarGridContainer.cs" id="2_24o5v"]
+[ext_resource type="Script" uid="uid://d2mujxwx8j8lf" path="res://src/ui/inventory/hotbar/HotBarHFlowContainer.cs" id="2_24o5v"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y3nxa"]
 bg_color = Color(0.7188185, 0.5790239, 0.2751853, 1)

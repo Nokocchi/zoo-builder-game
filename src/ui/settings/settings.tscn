@@ -16,10 +16,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 378.0
-offset_top = 34.0
-offset_right = -378.0
-offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -30,112 +26,117 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_right = 6
-theme_override_constants/margin_bottom = 12
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
 
-[node name="VFlowContainer" type="VFlowContainer" parent="Panel/MarginContainer" unique_id=1112279960]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer" unique_id=1226921251]
+layout_direction = 2
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/v_separation = 10
+theme_override_constants/separation = 30
 
-[node name="Label3" type="Label" parent="Panel/MarginContainer/VFlowContainer" unique_id=242076773]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/HBoxContainer" unique_id=1912929088]
 layout_mode = 2
-text = "SETTINGS_FLIP_HOTBAR_SCROLL_DIRECTION"
-horizontal_alignment = 1
+size_flags_horizontal = 3
 
-[node name="HotbarScrollDirectionFlipped" type="CheckBox" parent="Panel/MarginContainer/VFlowContainer" unique_id=280540194]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="HSeparator3" type="HSeparator" parent="Panel/MarginContainer/VFlowContainer" unique_id=1341777907]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Panel/MarginContainer/VFlowContainer" unique_id=1044416922]
-layout_mode = 2
-text = "SETTINGS_FLIP_MOUSE_UP_DOWN"
-horizontal_alignment = 1
-
-[node name="MouseUpDownFlipped" type="CheckBox" parent="Panel/MarginContainer/VFlowContainer" unique_id=100016016]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="HSeparator" type="HSeparator" parent="Panel/MarginContainer/VFlowContainer" unique_id=2008547774]
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="Panel/MarginContainer/VFlowContainer" unique_id=790920588]
-layout_mode = 2
-text = "SETTINGS_MOUSE_SENSITIVITY"
-horizontal_alignment = 1
-
-[node name="MouseSensitivitySlider" type="HSlider" parent="Panel/MarginContainer/VFlowContainer" unique_id=170496365]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="CenterContainer" type="CenterContainer" parent="Panel/MarginContainer/VFlowContainer" unique_id=809996278]
-layout_mode = 2
-
-[node name="MouseSensitivityText" type="SpinBox" parent="Panel/MarginContainer/VFlowContainer/CenterContainer" unique_id=699851256]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="HSeparator5" type="HSeparator" parent="Panel/MarginContainer/VFlowContainer" unique_id=1470980227]
-layout_mode = 2
-
-[node name="Label6" type="Label" parent="Panel/MarginContainer/VFlowContainer" unique_id=2097519653]
+[node name="Label6" type="Label" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=2097519653]
 layout_mode = 2
 text = "SETTINGS_AUDIO_BG_VOL"
 horizontal_alignment = 1
 
-[node name="AudioLevelSlider" type="HSlider" parent="Panel/MarginContainer/VFlowContainer" unique_id=1866136887]
+[node name="AudioLevelSlider" type="HSlider" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1866136887]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="CenterContainer2" type="CenterContainer" parent="Panel/MarginContainer/VFlowContainer" unique_id=614712211]
+[node name="CenterContainer2" type="CenterContainer" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=614712211]
 layout_mode = 2
 
-[node name="AudioLevelText" type="SpinBox" parent="Panel/MarginContainer/VFlowContainer/CenterContainer2" unique_id=874391705]
+[node name="AudioLevelText" type="SpinBox" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer/CenterContainer2" unique_id=874391705]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HSeparator2" type="HSeparator" parent="Panel/MarginContainer/VFlowContainer" unique_id=1652598734]
+[node name="HSeparator2" type="HSeparator" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1652598734]
 layout_mode = 2
 
-[node name="Label4" type="Label" parent="Panel/MarginContainer/VFlowContainer" unique_id=1361442298]
+[node name="Label4" type="Label" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1361442298]
 layout_mode = 2
 text = "SETTINGS_HIDE_MINIMAP"
 horizontal_alignment = 1
 
-[node name="HideMinimap" type="CheckBox" parent="Panel/MarginContainer/VFlowContainer" unique_id=723998532]
+[node name="HideMinimap" type="CheckBox" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=723998532]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="HSeparator4" type="HSeparator" parent="Panel/MarginContainer/VFlowContainer" unique_id=1465550099]
+[node name="HSeparator4" type="HSeparator" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1465550099]
 layout_mode = 2
 
-[node name="Label5" type="Label" parent="Panel/MarginContainer/VFlowContainer" unique_id=673871902]
+[node name="Label5" type="Label" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=673871902]
 layout_mode = 2
 text = "SETTINGS_NORTH_FACING_MINIMAP"
 horizontal_alignment = 1
 
-[node name="NorthFacingMinimap" type="CheckBox" parent="Panel/MarginContainer/VFlowContainer" unique_id=1666456770]
+[node name="NorthFacingMinimap" type="CheckBox" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1666456770]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="LanguageSelector" type="OptionButton" parent="Panel/MarginContainer/VFlowContainer" unique_id=108135768]
+[node name="LanguageSelector" type="OptionButton" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=108135768]
 unique_name_in_owner = true
 layout_mode = 2
 
-[connection signal="toggled" from="Panel/MarginContainer/VFlowContainer/HotbarScrollDirectionFlipped" to="." method="OnHotbarScrollDirectionFlipped"]
-[connection signal="toggled" from="Panel/MarginContainer/VFlowContainer/MouseUpDownFlipped" to="." method="OnMouseUpDownFlippedUpdated"]
-[connection signal="value_changed" from="Panel/MarginContainer/VFlowContainer/MouseSensitivitySlider" to="." method="OnMouseSensitivitySliderUpdated"]
-[connection signal="value_changed" from="Panel/MarginContainer/VFlowContainer/CenterContainer/MouseSensitivityText" to="." method="OnMouseSensitivityTextUpdated"]
-[connection signal="value_changed" from="Panel/MarginContainer/VFlowContainer/AudioLevelSlider" to="." method="OnBackgroundAudioVolumeSliderUpdated"]
-[connection signal="value_changed" from="Panel/MarginContainer/VFlowContainer/CenterContainer2/AudioLevelText" to="." method="OnBackgroundAudioVolumeTextUpdated"]
-[connection signal="toggled" from="Panel/MarginContainer/VFlowContainer/HideMinimap" to="." method="OnHideMinimap"]
-[connection signal="toggled" from="Panel/MarginContainer/VFlowContainer/NorthFacingMinimap" to="." method="OnNorthFacingMinimap"]
+[node name="VFlowContainer" type="VBoxContainer" parent="Panel/MarginContainer/HBoxContainer" unique_id=1652521531]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label3" type="Label" parent="Panel/MarginContainer/HBoxContainer/VFlowContainer" unique_id=242076773]
+layout_mode = 2
+text = "SETTINGS_FLIP_HOTBAR_SCROLL_DIRECTION"
+horizontal_alignment = 1
+
+[node name="HotbarScrollDirectionFlipped" type="CheckBox" parent="Panel/MarginContainer/HBoxContainer/VFlowContainer" unique_id=280540194]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="HSeparator3" type="HSeparator" parent="Panel/MarginContainer/HBoxContainer/VFlowContainer" unique_id=1341777907]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/HBoxContainer/VFlowContainer" unique_id=1044416922]
+layout_mode = 2
+text = "SETTINGS_FLIP_MOUSE_UP_DOWN"
+horizontal_alignment = 1
+
+[node name="MouseUpDownFlipped" type="CheckBox" parent="Panel/MarginContainer/HBoxContainer/VFlowContainer" unique_id=100016016]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="HSeparator" type="HSeparator" parent="Panel/MarginContainer/HBoxContainer/VFlowContainer" unique_id=2008547774]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Panel/MarginContainer/HBoxContainer/VFlowContainer" unique_id=790920588]
+layout_mode = 2
+text = "SETTINGS_MOUSE_SENSITIVITY"
+horizontal_alignment = 1
+
+[node name="MouseSensitivitySlider" type="HSlider" parent="Panel/MarginContainer/HBoxContainer/VFlowContainer" unique_id=170496365]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Panel/MarginContainer/HBoxContainer/VFlowContainer" unique_id=809996278]
+layout_mode = 2
+
+[node name="MouseSensitivityText" type="SpinBox" parent="Panel/MarginContainer/HBoxContainer/VFlowContainer/CenterContainer" unique_id=699851256]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="value_changed" from="Panel/MarginContainer/HBoxContainer/VBoxContainer/AudioLevelSlider" to="." method="OnBackgroundAudioVolumeSliderUpdated"]
+[connection signal="value_changed" from="Panel/MarginContainer/HBoxContainer/VBoxContainer/CenterContainer2/AudioLevelText" to="." method="OnBackgroundAudioVolumeTextUpdated"]
+[connection signal="toggled" from="Panel/MarginContainer/HBoxContainer/VBoxContainer/HideMinimap" to="." method="OnHideMinimap"]
+[connection signal="toggled" from="Panel/MarginContainer/HBoxContainer/VBoxContainer/NorthFacingMinimap" to="." method="OnNorthFacingMinimap"]
+[connection signal="toggled" from="Panel/MarginContainer/HBoxContainer/VFlowContainer/HotbarScrollDirectionFlipped" to="." method="OnHotbarScrollDirectionFlipped"]
+[connection signal="toggled" from="Panel/MarginContainer/HBoxContainer/VFlowContainer/MouseUpDownFlipped" to="." method="OnMouseUpDownFlippedUpdated"]
+[connection signal="value_changed" from="Panel/MarginContainer/HBoxContainer/VFlowContainer/MouseSensitivitySlider" to="." method="OnMouseSensitivitySliderUpdated"]
+[connection signal="value_changed" from="Panel/MarginContainer/HBoxContainer/VFlowContainer/CenterContainer/MouseSensitivityText" to="." method="OnMouseSensitivityTextUpdated"]

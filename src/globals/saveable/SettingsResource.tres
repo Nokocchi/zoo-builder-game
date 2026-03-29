@@ -5,6 +5,6 @@
 [resource]
 script = ExtResource("1_6jb0x")
 MouseSensitivity = 100.0
-BackgroundAudioVolume = 17.0
+BackgroundAudioVolume = 9.0
 SelectedLocale = "en"
 metadata/_custom_type_script = "uid://bf4pxjwy2cv4f"
