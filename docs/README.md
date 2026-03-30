@@ -49,6 +49,8 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ Adjust audio
   - ✅ Hotbar scrolling direction
   - Only save when save button is clicked
+  - Allow players to remap input
+  - Various graphics settings
 - **Quest view**
   - Show 3 tabs. Active quests, completed quests, all quests
   - Completed quests greyed out with checkmark icon
@@ -57,7 +59,9 @@ Actual storyline details, specific features or game mechanics will be added afte
 - **Localization**
   - ✅ It should be possible to pick from a list of supported languages and all text is instantly in that language
 - **Themes**
-  - Consistent theme across all menus
+  - ✅ Consistent theme across all menus
+- **Input**
+  - Support for gamepad
 
 ## HUD
   - ✅ Minimap

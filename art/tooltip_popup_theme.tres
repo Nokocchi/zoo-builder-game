@@ -1,6 +1,99 @@
 [gd_resource type="Theme" format=3 uid="uid://bu6nmhhcx3muw"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jgplh"]
+[ext_resource type="FontFile" uid="uid://iuel5eg153s0" path="res://art/Daydream DEMO.otf" id="1_vvthd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ecc3l"]
+bg_color = Color(0.48853368, 0.43250725, 0.3765188, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eo1n6"]
+bg_color = Color(0.7653038, 0.60804796, 0.39101353, 1)
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.64436597, 0.44530767, 0.25406858, 1)
+border_blend = true
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uen7v"]
+bg_color = Color(0.67951006, 0.5289609, 0.3232631, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fyo3w"]
+bg_color = Color(0.54060066, 0.41425562, 0.23637554, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61scj"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.91411144, 0.7981679, 0.6446336, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jgplh"]
+bg_color = Color(0.6110053, 0.48460144, 0.39124352, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vvthd"]
+bg_color = Color(1.347661e-06, 0.62975687, 0.9797347, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lnhtk"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.78443074, 0.5499751, 0.0714465, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8oqs2"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.6246414, 0.4582681, 0.31913626, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_def78"]
+bg_color = Color(0.784557, 0.57677895, 0.3972169, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_62i4f"]
 
 [resource]
-TooltipPanel/styles/panel = SubResource("StyleBoxEmpty_jgplh")
+default_font = ExtResource("1_vvthd")
+default_font_size = 13
+Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+Button/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/constants/outline_size = 6
+Button/styles/disabled = SubResource("StyleBoxFlat_ecc3l")
+Button/styles/hover = SubResource("StyleBoxFlat_eo1n6")
+Button/styles/normal = SubResource("StyleBoxFlat_uen7v")
+Button/styles/pressed = SubResource("StyleBoxFlat_fyo3w")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 3
+Panel/styles/panel = SubResource("StyleBoxFlat_61scj")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_jgplh")
+TabContainer/colors/font_outline_color = Color(0, 0, 0, 1)
+TabContainer/constants/outline_size = 8
+TabContainer/constants/tab_separation = 8
+TabContainer/styles/panel = SubResource("StyleBoxFlat_vvthd")
+TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_lnhtk")
+TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_61scj")
+TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_8oqs2")
+TabContainer/styles/tabbar_background = SubResource("StyleBoxFlat_def78")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_62i4f")
