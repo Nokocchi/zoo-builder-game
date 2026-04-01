@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using ZooBuilder.globals;
 
 public partial class MainMenu : CanvasLayer
 {
@@ -9,6 +10,7 @@ public partial class MainMenu : CanvasLayer
 	public override void _Ready()
 	{
 		TranslationServer.SetLocale(SettingsResource.Load().SelectedLocale);
+		InputManager.LoadActions();
 	}
 
 	

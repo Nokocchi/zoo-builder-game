@@ -16,6 +16,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 - ✅ Character animation when moving
 - ✅ 3D camera movable with mouse
 - ✅ Holding "forward" (W) always goes in the direction the camera is facing
+- State machine
 
 ## Menu
 - **Full screen inventory with all your items**

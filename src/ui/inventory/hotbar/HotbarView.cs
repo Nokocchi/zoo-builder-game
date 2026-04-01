@@ -55,7 +55,7 @@ public partial class HotbarView : InventoryHandler
             EventBus.Publish(new SelectedHotbarSlotChangedItemEvent(SelectedHotbarIndex));
         }
 
-        if (!@event.IsActionPressed("toss_single_item")) return;
+        if (!@event.IsActionPressed(InputManager.ACTION_TOSS_SINGLE_ITEM)) return;
         UiInventorySlot currentSelectedStack = UiSlotContainer.GetChild<UiInventorySlot>(SelectedHotbarIndex);
         if (InventorySingleton.GetHeldItem() != null || currentSelectedStack?.InventorySlotResource?.GetItem() == null || currentSelectedStack.InventorySlotResource.GetItem() is not { Amount: >= 0 }) return;
         InventorySingleton.TossOneOfItem(currentSelectedStack.InventorySlotResource.InventoryIndex);
