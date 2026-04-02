@@ -1,10 +1,15 @@
 using Godot;
 using ZooBuilder.globals;
+using ZooBuilder.ui.inventory;
 
 public partial class Menu : Control
 {
     private TabContainer _tabContainer;
 
+    private MainInventoryGridContainer _inventory;
+    private Settings _settings;
+    private AchievementsUI _achievements;
+    
     private const int INVENTORY_TAB_INDEX = 0;
     private const int SETTINGS_TAB_INDEX = 1;
     private const int ACHIEVEMENTS_TAB_INDEX = 2;
@@ -12,6 +17,9 @@ public partial class Menu : Control
     public override void _Ready()
     {
         _tabContainer = GetNode<TabContainer>("%TabContainer");
+        _inventory = (MainInventoryGridContainer)_tabContainer.GetTabControl(INVENTORY_TAB_INDEX);
+        _settings = (Settings)_tabContainer.GetTabControl(SETTINGS_TAB_INDEX);
+        _achievements = (AchievementsUI)_tabContainer.GetTabControl(ACHIEVEMENTS_TAB_INDEX);
         Visible = false;
     }
     
@@ -54,6 +62,18 @@ public partial class Menu : Control
             _tabContainer.SetCurrentTab(tabIndex);
         }
         Input.MouseMode = Visible ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
+    }
+
+    private void TabContainerTabSelectionChangedListener(int newTabIndex)
+    {
+        if (newTabIndex == INVENTORY_TAB_INDEX)
+        {
+        } else if (newTabIndex == SETTINGS_TAB_INDEX)
+        {
+            _settings.DoSomeStuff();
+        } else if (newTabIndex == ACHIEVEMENTS_TAB_INDEX)
+        {
+        }
     }
 
 

@@ -67,3 +67,5 @@ layout_mode = 2
 mouse_filter = 2
 metadata/_tab_index = 2
 metadata/_tab_name = "MENU_TAB_ACHIEVEMENTS"
+
+[connection signal="tab_selected" from="MarginContainer/PanelContainer/MarginContainer/TabContainer" to="." method="TabContainerTabSelectionChangedListener"]

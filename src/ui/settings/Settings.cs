@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using ZooBuilder.globals;
 
 public partial class Settings : Control
 {
@@ -18,6 +19,8 @@ public partial class Settings : Control
 	private int _audioBusIndexBgMusic;
 	private int _audioBusIndexSfx;
 	private OptionButton _languageSelector;
+
+	private VBoxContainer _vBoxContainer;
 	
 	public override void _Ready()
 	{
@@ -29,6 +32,7 @@ public partial class Settings : Control
 		_hotbarScrollDirectionFlipped = GetNode<CheckBox>("%HotbarScrollDirectionFlipped");
 		_languageSelector = GetNode<OptionButton>("%LanguageSelector");
 		_hideMinimap = GetNode<CheckBox>("%HideMinimap");
+		_vBoxContainer = GetNode<VBoxContainer>("%VBoxContainer3");
 
 		Visible = false;
 		
@@ -186,5 +190,14 @@ public partial class Settings : Control
 	{
 		if (string.IsNullOrEmpty(text)) return text;
 		return char.ToUpper(text[0]) + text.Substring(1);
+	}
+
+	public void DoSomeStuff()
+	{
+		foreach (KeyValuePair<string, InputEventKey[]> action in InputManager.InputMappings)
+		{
+			InputRemapButton remapButton = InputRemapButton.Create(action.Key, action.Value);
+			_vBoxContainer.AddChild(remapButton);
+		}
 	}
 }

@@ -25,15 +25,9 @@ public partial class ItemTooltip : PanelContainer
 	public static ItemTooltip CreateWithData(ItemStackResource itemStack)
 	{
 		ItemTooltip t = TooltipScene.Instantiate<ItemTooltip>();
-		t.SetItemStack(itemStack);
+		t._itemStack = itemStack;
 		return t;
 	}
-
-	private void SetItemStack(ItemStackResource itemStack)
-	{
-		_itemStack = itemStack;
-	}
-
 	
 	private void HandleHoverEvent(InventoryItemStackOnHoverEvent e)
 	{
