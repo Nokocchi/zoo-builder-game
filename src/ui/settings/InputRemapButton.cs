@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using ZooBuilder.globals;
 
 public partial class InputRemapButton : Button
 {
@@ -43,13 +44,14 @@ public partial class InputRemapButton : Button
             text = OS.GetKeycodeString(localizedKeyboardKey);
         }
         
-        _inputKeyLabel.Text = _actionKey + "-" + text;
+        _inputKeyLabel.Text = _actionKey + ": " + text;
     }
 
     private void OnButtonToggled(bool toggled)
     {
         if (toggled)
         {
+            InputManager.ListeningToInput = true;
             _inputKeyLabel.Text = "Press something..";
         }
         else
@@ -58,18 +60,25 @@ public partial class InputRemapButton : Button
         }
     }
 
+    private void OnFocusLost()
+    {
+        InputManager.ListeningToInput = false;
+        ButtonPressed = false;
+    }
+
     public override void _UnhandledKeyInput(InputEvent @event)
     {
-        // TODO: If you click on another button or close inventory etc., then stop listening and un-press this button. Maybe make a popup instead of a toggle button?
-        // TODO: The comma key still shows up as the English text "comma". It should be the symbol instead.
         // TODO: Provide input mappings loaded from settings file
+        // TODO: If the player picks a key that is already used, show what it is used for and give the option to cancel or swap. 
+        // TODO: Standardize focus + pressed + static boolean. Right now it's spaghetti
         
         if (!ButtonPressed) return;
         
         if (@event is InputEventKey key)
         {
+            // TODO: Do this properly. When Picking "O" for jump, "O" now both jumps and opens settings.
             _actionInputEventKeys[0].PhysicalKeycode = key.PhysicalKeycode;
-            ButtonPressed = false;
+            ReleaseFocus();
         }
     }
 }

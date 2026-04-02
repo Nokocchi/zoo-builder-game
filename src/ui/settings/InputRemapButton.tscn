@@ -27,4 +27,5 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Hello"
 
+[connection signal="focus_exited" from="." to="." method="OnFocusLost"]
 [connection signal="toggled" from="." to="." method="OnButtonToggled"]

@@ -10,6 +10,7 @@ public partial class Menu : Control
     private Settings _settings;
     private AchievementsUI _achievements;
     
+    // TODO: This seems a bit hacky. Could it be automated somehow? 
     private const int INVENTORY_TAB_INDEX = 0;
     private const int SETTINGS_TAB_INDEX = 1;
     private const int ACHIEVEMENTS_TAB_INDEX = 2;
@@ -25,15 +26,16 @@ public partial class Menu : Control
     
     public override void _Input(InputEvent @event)
     {
-        if(@event.IsActionPressed(ActionConstants.OPEN_INVENTORY))
+        if (InputManager.ListeningToInput) return;
+        if(@event.IsActionPressed(InputManager.ACTION_OPEN_INVENTORY))
         {
             HandleMenuOpenButton(INVENTORY_TAB_INDEX);
         }
-        if(@event.IsActionPressed(ActionConstants.OPEN_SETTINGS))
+        if(@event.IsActionPressed(InputManager.ACTION_OPEN_SETTINGS))
         {
             HandleMenuOpenButton(SETTINGS_TAB_INDEX);
         }
-        if(@event.IsActionPressed(ActionConstants.OPEN_ACHIEVEMENTS))
+        if(@event.IsActionPressed(InputManager.ACTION_OPEN_ACHIEVEMENTS))
         {
             HandleMenuOpenButton(ACHIEVEMENTS_TAB_INDEX);
         }

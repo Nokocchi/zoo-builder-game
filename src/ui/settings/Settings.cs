@@ -194,6 +194,11 @@ public partial class Settings : Control
 
 	public void DoSomeStuff()
 	{
+		foreach (Node child in _vBoxContainer.GetChildren())
+		{
+			child.QueueFree();
+		}
+
 		foreach (KeyValuePair<string, InputEventKey[]> action in InputManager.InputMappings)
 		{
 			InputRemapButton remapButton = InputRemapButton.Create(action.Key, action.Value);

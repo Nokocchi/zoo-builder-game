@@ -15,7 +15,8 @@ public class InputManager
     public static readonly string ACTION_OPEN_ACHIEVEMENTS = "open_achievements";
     public static readonly string ACTION_OPEN_INVENTORY = "open_inventory";
     public static readonly string ACTION_TOSS_SINGLE_ITEM = "toss_single_item";
-    
+
+    public static bool ListeningToInput;
     
     public static readonly Dictionary<string, InputEventKey[]> InputMappings = new()
     {
