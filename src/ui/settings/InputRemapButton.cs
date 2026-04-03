@@ -7,29 +7,29 @@ public partial class InputRemapButton : Button
     private static readonly PackedScene InputRemapButtonScene = GD.Load<PackedScene>("res://src/ui/settings/InputRemapButton.tscn");
     private Label _inputKeyLabel;
     private string _actionKey;
-    private InputEventKey[] _actionInputEventKeys;
+    private InputEventKey _actionInputEventKey;
 
     public override void _Ready()
     {
         _inputKeyLabel = GetNode<Label>("%InputKeyLabel");
-        SetText(_actionInputEventKeys[0].PhysicalKeycode);
+        UpdateText();
     }
 
-    public static InputRemapButton Create(string actionKey, InputEventKey[] inputEventKeys)
+    public static InputRemapButton Create(string actionKey, InputEventKey inputEventKey)
     {
         InputRemapButton btn = InputRemapButtonScene.Instantiate<InputRemapButton>();
         btn._actionKey = actionKey;
-        btn._actionInputEventKeys = inputEventKeys;
+        btn._actionInputEventKey = inputEventKey;
         return btn;
     }
 
-    private void SetText(Key physicalKeycode)
+    private void UpdateText()
     {
         // Not sure what is going on in this AI generated madness
         // But it should ensure that on a Danish layout, buttons like ÆØÅ are printed correctly, and symbols like .,^¨ are printed as symbols, but space bar specifically is printed as a localized word, not " ". 
         // Supposedly this should also work on other keyboards and languages. Time will tell. 
         
-        Key localizedKeyboardKey = DisplayServer.KeyboardGetLabelFromPhysical(physicalKeycode);
+        Key localizedKeyboardKey = DisplayServer.KeyboardGetLabelFromPhysical(_actionInputEventKey.PhysicalKeycode);
         string text;
         if (localizedKeyboardKey == Key.Space)
         {
@@ -56,7 +56,7 @@ public partial class InputRemapButton : Button
         }
         else
         {
-            SetText(_actionInputEventKeys[0].PhysicalKeycode);
+            UpdateText();
         }
     }
 
@@ -76,8 +76,7 @@ public partial class InputRemapButton : Button
         
         if (@event is InputEventKey key)
         {
-            // TODO: Do this properly. When Picking "O" for jump, "O" now both jumps and opens settings.
-            _actionInputEventKeys[0].PhysicalKeycode = key.PhysicalKeycode;
+            _actionInputEventKey.PhysicalKeycode = key.PhysicalKeycode;
             ReleaseFocus();
         }
     }

@@ -18,36 +18,43 @@ public class InputManager
 
     public static bool ListeningToInput;
     
-    public static readonly Dictionary<string, InputEventKey[]> InputMappings = new()
+    public static readonly Dictionary<string, InputEventKey> InputMappings = new()
     {
         // TODO: Consider just having a list of Keycodes? If I want alt+/ctrl+/shift+ combinations, I would need another solution
-        [ACTION_OPEN_INVENTORY] = [new InputEventKey { PhysicalKeycode = Key.E }],
-        [ACTION_JUMP] = [new InputEventKey { PhysicalKeycode = Key.Space }, new InputEventKey { PhysicalKeycode = Key.B }],
-        [ACTION_MOVE_RIGHT] = [new InputEventKey { PhysicalKeycode = Key.D }, new InputEventKey { PhysicalKeycode = Key.Right }],
-        [ACTION_MOVE_LEFT] = [new InputEventKey { PhysicalKeycode = Key.A }, new InputEventKey { PhysicalKeycode = Key.Left }],
-        [ACTION_MOVE_FORWARD] = [new InputEventKey { PhysicalKeycode = Key.W }, new InputEventKey { PhysicalKeycode = Key.Up }],
-        [ACTION_MOVE_BACK] = [new InputEventKey { PhysicalKeycode = Key.S }, new InputEventKey { PhysicalKeycode = Key.Down }],
-        [ACTION_OPEN_SETTINGS] = [new InputEventKey { PhysicalKeycode = Key.O }],
-        [ACTION_OPEN_ACHIEVEMENTS] = [new InputEventKey { PhysicalKeycode = Key.P }],
-        [ACTION_RUN] = [new InputEventKey { PhysicalKeycode = Key.Shift }],
-        [ACTION_TOSS_SINGLE_ITEM] = [new InputEventKey { PhysicalKeycode = Key.Q }],
+        [ACTION_OPEN_INVENTORY] = new InputEventKey { PhysicalKeycode = Key.E },
+        [ACTION_JUMP] = new InputEventKey { PhysicalKeycode = Key.Space },
+        [ACTION_MOVE_RIGHT] = new InputEventKey { PhysicalKeycode = Key.D },
+        [ACTION_MOVE_LEFT] = new InputEventKey { PhysicalKeycode = Key.A },
+        [ACTION_MOVE_FORWARD] = new InputEventKey { PhysicalKeycode = Key.W },
+        [ACTION_MOVE_BACK] = new InputEventKey { PhysicalKeycode = Key.S },
+        [ACTION_OPEN_SETTINGS] = new InputEventKey { PhysicalKeycode = Key.O },
+        [ACTION_OPEN_ACHIEVEMENTS] = new InputEventKey { PhysicalKeycode = Key.P },
+        [ACTION_RUN] = new InputEventKey { PhysicalKeycode = Key.Shift },
+        [ACTION_TOSS_SINGLE_ITEM] = new InputEventKey { PhysicalKeycode = Key.Q },
     };
     
     public static void LoadActions()
     {
-        foreach (KeyValuePair<string, InputEventKey[]> action in InputMappings)
+        foreach (KeyValuePair<string, InputEventKey> action in InputMappings)
         {
-            if (InputMap.HasAction(action.Key))
-            {
-                InputMap.ActionEraseEvents(action.Key);
-                InputMap.EraseAction(action.Key);
-            }
-            
-            InputMap.AddAction(action.Key);
-            foreach (InputEventKey eventKey in action.Value){
-                InputMap.ActionAddEvent(action.Key, eventKey);
-            }
+            EraseAction(action.Key);
+            AddAction(action.Key, action.Value);
         }
+    }
+
+    public static void EraseAction(string actionKey)
+    {
+        if (InputMap.HasAction(actionKey))
+        {
+            InputMap.ActionEraseEvents(actionKey);
+            InputMap.EraseAction(actionKey);
+        }
+    }
+
+    public static void AddAction(string actionKey, InputEventKey actionEvent)
+    {
+        InputMap.AddAction(actionKey);
+        InputMap.ActionAddEvent(actionKey, actionEvent);
     }
 
 

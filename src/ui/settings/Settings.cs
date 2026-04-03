@@ -199,7 +199,7 @@ public partial class Settings : Control
 			child.QueueFree();
 		}
 
-		foreach (KeyValuePair<string, InputEventKey[]> action in InputManager.InputMappings)
+		foreach (KeyValuePair<string, InputEventKey> action in InputManager.InputMappings)
 		{
 			InputRemapButton remapButton = InputRemapButton.Create(action.Key, action.Value);
 			_vBoxContainer.AddChild(remapButton);
