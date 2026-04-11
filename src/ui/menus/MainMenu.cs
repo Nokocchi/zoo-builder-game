@@ -9,7 +9,8 @@ public partial class MainMenu : CanvasLayer
 	
 	public override void _Ready()
 	{
-		TranslationServer.SetLocale(SettingsResource.Load().SelectedLocale);
+		GlobalData.LoadFromDisk();
+		TranslationServer.SetLocale(GlobalData.Instance.SelectedLocale);
 		InputManager.LoadActions();
 	}
 

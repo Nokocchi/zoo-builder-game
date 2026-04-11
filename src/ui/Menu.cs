@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 using ZooBuilder.globals;
 using ZooBuilder.ui.inventory;
@@ -26,13 +27,21 @@ public partial class Menu : Control
     
     public override void _Input(InputEvent @event)
     {
-        if (InputManager.ListeningToInput) return;
+        bool anyRemapButtonsListening = GetTree()
+            .GetNodesInGroup(InputRemapButton.INPUT_REMAP_BUTTON_GROUP_NAME)
+            .OfType<InputRemapButton>()
+            .Any(button => button.IsPressed());
+        
+        if (anyRemapButtonsListening) return;
+        
         if(@event.IsActionPressed(InputManager.ACTION_OPEN_INVENTORY))
         {
             HandleMenuOpenButton(INVENTORY_TAB_INDEX);
         }
         if(@event.IsActionPressed(InputManager.ACTION_OPEN_SETTINGS))
         {
+            // TODO: Do this whenever settings are opened, not just when "O" is pressed
+            _settings.InitializeWithData(GlobalData.GetCopy());
             HandleMenuOpenButton(SETTINGS_TAB_INDEX);
         }
         if(@event.IsActionPressed(InputManager.ACTION_OPEN_ACHIEVEMENTS))
@@ -66,13 +75,13 @@ public partial class Menu : Control
         Input.MouseMode = Visible ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
     }
 
+    // TODO: Can this be used for anything? 
     private void TabContainerTabSelectionChangedListener(int newTabIndex)
     {
         if (newTabIndex == INVENTORY_TAB_INDEX)
         {
         } else if (newTabIndex == SETTINGS_TAB_INDEX)
         {
-            _settings.DoSomeStuff();
         } else if (newTabIndex == ACHIEVEMENTS_TAB_INDEX)
         {
         }

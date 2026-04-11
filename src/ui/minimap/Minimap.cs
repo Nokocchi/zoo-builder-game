@@ -4,14 +4,12 @@ using ZooBuilder.globals;
 
 public partial class Minimap : Control
 {
-    private SettingsResource _settings;
     private GlobalObjectsContainer _globals;
     private Node3D _cameraPivot;
 
 
     public override void _Ready()
     {
-        _settings = SettingsResource.Load();
         _globals = GlobalObjectsContainer.Instance;
         _cameraPivot = GetNode<Node3D>("%MinimapCameraPivot");
     }
@@ -19,10 +17,10 @@ public partial class Minimap : Control
     
     public override void _Process(double delta)
     {
-        Visible = !_settings.HideMinimap;
+        Visible = !GlobalData.HideMinimap;
         _cameraPivot.Position = _globals.Player.Position;
         
-        if (!_settings.NorthFacingMinimap)
+        if (!GlobalData.NorthFacingMinimap)
         {
             // This ensures that "up" on the minimap is always where the main player camera is looking. In other words, "up" on the minimap is always "forwards" for the player. 
             _cameraPivot.Rotation = new Vector3(_cameraPivot.Rotation.X, _globals.PlayerSpringArm.Rotation.Y,

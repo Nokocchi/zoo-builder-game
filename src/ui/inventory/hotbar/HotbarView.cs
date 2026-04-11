@@ -5,7 +5,6 @@ using ZooBuilder.ui.inventory;
 
 public partial class HotbarView : InventoryHandler
 {
-    private SettingsResource _settings;
     public int SelectedHotbarIndex { get; private set; }
 
     public override void _Ready()
@@ -13,7 +12,6 @@ public partial class HotbarView : InventoryHandler
         FirstSlot = 0;
         LastSlot = global::InventorySingleton.HotBarSize - 1;
         base._Ready();
-        _settings = SettingsResource.Load();
         
         // Select first slot on startup
         UiSlotContainer.GetChild<UiInventorySlot>(SelectedHotbarIndex).HighlightSlot();
@@ -40,12 +38,12 @@ public partial class HotbarView : InventoryHandler
 
 
             int previousIndex = SelectedHotbarIndex;
-            if (wheelDown ^ _settings.HotbarScrollDirectionFlipped)
+            if (wheelDown ^ GlobalData.HotbarScrollDirectionFlipped)
             {
                 SelectedHotbarIndex = (SelectedHotbarIndex + 1) % global::InventorySingleton.HotBarSize;
             }
 
-            if (wheelUp ^ _settings.HotbarScrollDirectionFlipped)
+            if (wheelUp ^ GlobalData.HotbarScrollDirectionFlipped)
             {
                 SelectedHotbarIndex = ((SelectedHotbarIndex - 1) + global::InventorySingleton.HotBarSize) % global::InventorySingleton.HotBarSize;
             }

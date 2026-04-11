@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://ckai3364jicqd"]
+
+[ext_resource type="Script" uid="uid://ga4sueg04p02" path="res://src/ui/settings/BooleanSettingInput.cs" id="1_6fa41"]
+
+[node name="BooleanSettingInput" type="PanelContainer" unique_id=1127577642]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -610.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6fa41")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1993723386]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1253663951]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer" unique_id=1428872255]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 2
+horizontal_alignment = 1
+
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/HBoxContainer" unique_id=360141706]
+unique_name_in_owner = true
+layout_mode = 2

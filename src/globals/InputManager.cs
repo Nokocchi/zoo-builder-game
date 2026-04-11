@@ -15,10 +15,9 @@ public class InputManager
     public static readonly string ACTION_OPEN_ACHIEVEMENTS = "open_achievements";
     public static readonly string ACTION_OPEN_INVENTORY = "open_inventory";
     public static readonly string ACTION_TOSS_SINGLE_ITEM = "toss_single_item";
-
-    public static bool ListeningToInput;
     
-    public static readonly Dictionary<string, InputEventKey> InputMappings = new()
+    public static readonly Dictionary<string, CustomInputEvent> ChosenInputMappings = new();
+    public static readonly Dictionary<string, InputEventKey> DefaultInputMappings = new()
     {
         // TODO: Consider just having a list of Keycodes? If I want alt+/ctrl+/shift+ combinations, I would need another solution
         [ACTION_OPEN_INVENTORY] = new InputEventKey { PhysicalKeycode = Key.E },
@@ -32,13 +31,25 @@ public class InputManager
         [ACTION_RUN] = new InputEventKey { PhysicalKeycode = Key.Shift },
         [ACTION_TOSS_SINGLE_ITEM] = new InputEventKey { PhysicalKeycode = Key.Q },
     };
+
+
     
     public static void LoadActions()
     {
-        foreach (KeyValuePair<string, InputEventKey> action in InputMappings)
+        foreach (KeyValuePair<string, InputEventKey> action in DefaultInputMappings)
         {
+            CustomInputEvent copy = new() { PhysicalKeycode = action.Value.PhysicalKeycode };
+            ChosenInputMappings.Add(action.Key, copy);
             EraseAction(action.Key);
-            AddAction(action.Key, action.Value);
+            AddAction(action.Key, copy);
+        }
+    }
+
+    public static void RestoreDefaults()
+    {
+        foreach (KeyValuePair<string, InputEventKey> action in DefaultInputMappings)
+        {
+            ChosenInputMappings[action.Key].UpdateKeyMapping(action.Value.PhysicalKeycode);
         }
     }
 

@@ -4,20 +4,23 @@ using ZooBuilder.globals;
 
 public partial class InputRemapButton : Button
 {
+    public static readonly string INPUT_REMAP_BUTTON_GROUP_NAME = "input_remap_button_group";
     private static readonly PackedScene InputRemapButtonScene = GD.Load<PackedScene>("res://src/ui/settings/InputRemapButton.tscn");
     private Label _inputKeyLabel;
     private string _actionKey;
-    private InputEventKey _actionInputEventKey;
+    private CustomInputEvent _actionInputEventKey;
 
     public override void _Ready()
     {
         _inputKeyLabel = GetNode<Label>("%InputKeyLabel");
+        _actionInputEventKey.KeyChanged += UpdateText;
         UpdateText();
     }
 
-    public static InputRemapButton Create(string actionKey, InputEventKey inputEventKey)
+    public static InputRemapButton Create(string actionKey, CustomInputEvent inputEventKey)
     {
         InputRemapButton btn = InputRemapButtonScene.Instantiate<InputRemapButton>();
+        btn.AddToGroup(INPUT_REMAP_BUTTON_GROUP_NAME);
         btn._actionKey = actionKey;
         btn._actionInputEventKey = inputEventKey;
         return btn;
@@ -46,12 +49,11 @@ public partial class InputRemapButton : Button
         
         _inputKeyLabel.Text = _actionKey + ": " + text;
     }
-
+    
     private void OnButtonToggled(bool toggled)
     {
         if (toggled)
         {
-            InputManager.ListeningToInput = true;
             _inputKeyLabel.Text = "Press something..";
         }
         else
@@ -59,10 +61,9 @@ public partial class InputRemapButton : Button
             UpdateText();
         }
     }
-
+    
     private void OnFocusLost()
     {
-        InputManager.ListeningToInput = false;
         ButtonPressed = false;
     }
 
@@ -70,14 +71,14 @@ public partial class InputRemapButton : Button
     {
         // TODO: Provide input mappings loaded from settings file
         // TODO: If the player picks a key that is already used, show what it is used for and give the option to cancel or swap. 
-        // TODO: Standardize focus + pressed + static boolean. Right now it's spaghetti
+        //  What if it's one of the built in ones, like navigating the ui? Can you get yourself stuck on a gamepad? Maybe just block the remapping of those keys?
         
         if (!ButtonPressed) return;
         
         if (@event is InputEventKey key)
         {
-            _actionInputEventKey.PhysicalKeycode = key.PhysicalKeycode;
-            ReleaseFocus();
+            _actionInputEventKey.UpdateKeyMapping(key.PhysicalKeycode);
+            ButtonPressed = false;
         }
     }
 }

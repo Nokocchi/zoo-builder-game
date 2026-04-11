@@ -27,7 +27,6 @@ public partial class Player : CharacterBody3D
     }
 
     private State _state;
-    private SettingsResource _settings;
     private PlayerSpringArm _playerSpringArm;
     private Area3D _itemPullZone;
     private Area3D _itemPickupZone;
@@ -55,7 +54,6 @@ public partial class Player : CharacterBody3D
         _playerSpringArm = GetNode<PlayerSpringArm>("PlayerSpringArm");
         _itemPullZone = GetNode<Area3D>("ItemPullZone");
         _itemPickupZone = GetNode<Area3D>("ItemImmediatePickupZone");
-        _settings = SettingsResource.Load();
         _inventorySingleton = InventorySingleton.Instance;
         _pivot = GetNode<Node3D>("Pivot");
         _globals.Player = this;

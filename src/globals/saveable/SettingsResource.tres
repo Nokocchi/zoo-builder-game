@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="SettingsResource" format=3]
 
-[ext_resource type="Script" path="res://src/globals/saveable/SettingsResource.cs" id="1_6jb0x"]
+[ext_resource type="Script" uid="uid://bf4pxjwy2cv4f" path="res://src/globals/saveable/GlobalData.cs" id="1_6jb0x"]
 
 [resource]
 script = ExtResource("1_6jb0x")

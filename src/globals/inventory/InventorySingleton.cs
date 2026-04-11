@@ -20,6 +20,7 @@ public partial class InventorySingleton : Node, IInventory
 
     public const int HotBarSize = 8;
 
+    // TODO: Maybe wrap this in object that extends Resource so it can be saved more easily, and different inventories can be loaded during play testing
     public List<InventorySlotResource> Inventory = [];
 
     // Should be kept in InventorySingleton so it can be saved.. Maybe?

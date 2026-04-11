@@ -3,55 +3,39 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using ZooBuilder.globals;
+using static ZooBuilder.globals.saveable.GlobalDataConstants;
 
 public partial class Settings : Control
 {
-
-	private HSlider _mouseSensitivitySlider;
-	private SpinBox _mouseSensitivityText;
-	private HSlider _audioLevelSlider;
-	private SpinBox _audioLevelText;
-	private CheckBox _mouseUpDownFlipped;
-	private CheckBox _hotbarScrollDirectionFlipped;
-	private CheckBox _hideMinimap;
-	private SettingsResource _settings;
+	private GlobalData _copyOfSettings;
 	private int _audioBusIndexMaster;
 	private int _audioBusIndexBgMusic;
 	private int _audioBusIndexSfx;
 	private OptionButton _languageSelector;
-
-	private VBoxContainer _vBoxContainer;
+	private VBoxContainer _vBoxContainer1;
+	private VBoxContainer _vBoxContainer2;
+	private VBoxContainer _vBoxContainer3;
 	
 	public override void _Ready()
 	{
-		_mouseSensitivitySlider = GetNode<HSlider>("%MouseSensitivitySlider");
-		_mouseSensitivityText = GetNode<SpinBox>("%MouseSensitivityText");
-		_audioLevelSlider = GetNode<HSlider>("%AudioLevelSlider");
-		_audioLevelText = GetNode<SpinBox>("%AudioLevelText");
-		_mouseUpDownFlipped = GetNode<CheckBox>("%MouseUpDownFlipped");
-		_hotbarScrollDirectionFlipped = GetNode<CheckBox>("%HotbarScrollDirectionFlipped");
 		_languageSelector = GetNode<OptionButton>("%LanguageSelector");
-		_hideMinimap = GetNode<CheckBox>("%HideMinimap");
-		_vBoxContainer = GetNode<VBoxContainer>("%VBoxContainer3");
+		_vBoxContainer1 = GetNode<VBoxContainer>("%VBoxContainer1");
+		_vBoxContainer2 = GetNode<VBoxContainer>("%VBoxContainer2");
+		_vBoxContainer3 = GetNode<VBoxContainer>("%VBoxContainer3");
 
 		Visible = false;
-		
-		_settings = SettingsResource.Load();
-		
-		_mouseSensitivitySlider.Value = _settings.MouseSensitivity;
-		_mouseSensitivityText.Value = _settings.MouseSensitivity;
-		_audioLevelSlider.Value = _settings.BackgroundAudioVolume;
-		_audioLevelText.Value = _settings.BackgroundAudioVolume;
-		_mouseUpDownFlipped.SetPressed(_settings.MouseUpDownFlipped);
-		_hotbarScrollDirectionFlipped.SetPressed(_settings.HotbarScrollDirectionFlipped);
-		string selectedLocale = _settings.SelectedLocale;
 
 		_audioBusIndexMaster = AudioServer.GetBusIndex("Master");
 		_audioBusIndexBgMusic = AudioServer.GetBusIndex("BgMusic");
 		_audioBusIndexSfx = AudioServer.GetBusIndex("SFX");
-
-		PopulateLanguageSelector(selectedLocale);
+		
 		_languageSelector.ItemSelected += OnLanguageSelected;
+		
+		foreach (KeyValuePair<string, CustomInputEvent> action in InputManager.ChosenInputMappings)
+		{
+			InputRemapButton remapButton = InputRemapButton.Create(action.Key, action.Value);
+			_vBoxContainer3.AddChild(remapButton);
+		}
 	}
 
 	private void PopulateLanguageSelector(string selectedLocale)
@@ -108,67 +92,29 @@ public partial class Settings : Control
 				}
 			}
 	}
-
-	private void OnMouseSensitivitySliderUpdated(float mouseSensitivity)
-	{
-		_mouseSensitivityText.Value = mouseSensitivity;
-		_settings.MouseSensitivity = mouseSensitivity;
-		_settings.Save();
-	}
-	
-	private void OnMouseSensitivityTextUpdated(float mouseSensitivity)
-	{
-		_mouseSensitivitySlider.Value = mouseSensitivity;
-		_settings.MouseSensitivity = mouseSensitivity;
-		_settings.Save();
-	}
 	
 	private void OnBackgroundAudioVolumeSliderUpdated(float audioVolume)
 	{
 		//_audioLevelText.Value = audioVolumeAdjusted;
-		_settings.BackgroundAudioVolume = audioVolume;
-		AudioServer.SetBusVolumeLinear(_audioBusIndexMaster,  audioVolume / 100);
-		_settings.Save();
+		//_settings.BackgroundAudioVolume = audioVolume;
+		//AudioServer.SetBusVolumeLinear(_audioBusIndexMaster,  audioVolume / 100);
+		//_settings.Save();
 	}
 	
 	private void OnBackgroundAudioVolumeTextUpdated(float audioVolume)
 	{
 		//_audioLevelSlider.Value = audioVolumeAdjusted;
-		_settings.BackgroundAudioVolume = audioVolume;
-		AudioServer.SetBusVolumeLinear(_audioBusIndexMaster,  audioVolume / 100);
-		_settings.Save();
-	}
-
-	private void OnMouseUpDownFlippedUpdated(bool mouseUpDownFlipped)
-	{
-		_settings.MouseUpDownFlipped = mouseUpDownFlipped;
-		_settings.Save();
-	}
-	
-	private void OnHotbarScrollDirectionFlipped(bool scrollbarDirectionFlipped)
-	{
-		_settings.HotbarScrollDirectionFlipped = scrollbarDirectionFlipped;
-		_settings.Save();
-	}
-	
-	private void OnHideMinimap(bool hideMinimap)
-	{
-		_settings.HideMinimap = hideMinimap;
-		_settings.Save();
-	}
-	
-	private void OnNorthFacingMinimap(bool northFacingMinimap)
-	{
-		_settings.NorthFacingMinimap = northFacingMinimap;
-		_settings.Save();
+		//_settings.BackgroundAudioVolume = audioVolume;
+		//AudioServer.SetBusVolumeLinear(_audioBusIndexMaster,  audioVolume / 100);
+		//_settings.Save();
 	}
 	
 	private void OnLanguageSelected(long index)
 	{
-		string locale = (string) _languageSelector.GetItemMetadata((int)index);
-		_settings.SelectedLocale = locale;
-		TranslationServer.SetLocale(locale);
-		_settings.Save();
+		//string locale = (string) _languageSelector.GetItemMetadata((int)index);
+		//_settings.SelectedLocale = locale;
+		//TranslationServer.SetLocale(locale);
+		//_settings.Save();
 	}
 	
 	private string GetNativeLanguageName(string locale)
@@ -182,7 +128,7 @@ public partial class Settings : Control
 		}
 		catch (CultureNotFoundException)
 		{
-			return locale; // TODO: Is this correct?
+			return locale; // TODO: Should I really return "locale" in the case of CultureNotFoundException?
 		}
 	}
 
@@ -192,17 +138,46 @@ public partial class Settings : Control
 		return char.ToUpper(text[0]) + text.Substring(1);
 	}
 
-	public void DoSomeStuff()
+	private void OnRestoreDefaultKeyBindingsBtnPressed()
 	{
-		foreach (Node child in _vBoxContainer.GetChildren())
+		InputManager.RestoreDefaults();
+	}
+
+	public void InitializeWithData(GlobalData globalDataCopy)
+	{
+		_copyOfSettings = globalDataCopy;
+		
+		foreach (Node child in _vBoxContainer1.GetChildren())
 		{
 			child.QueueFree();
 		}
-
-		foreach (KeyValuePair<string, InputEventKey> action in InputManager.InputMappings)
+		
+		foreach (Node child in _vBoxContainer2.GetChildren())
 		{
-			InputRemapButton remapButton = InputRemapButton.Create(action.Key, action.Value);
-			_vBoxContainer.AddChild(remapButton);
+			child.QueueFree();
 		}
+		
+		foreach ((string settingKey, float settingValue) in GlobalData.Instance.FloatSettings)
+		{
+			FloatSettingInput input = FloatSettingInput.CreateWithValue(settingKey, settingValue);
+			input.ValueChanged += (newValue) => _copyOfSettings.FloatSettings[settingKey] = newValue;
+			_vBoxContainer1.AddChild(input);
+		}
+		
+		foreach ((string settingKey, bool settingValue) in GlobalData.Instance.BooleanSettings)
+		{
+			BooleanSettingInput input = BooleanSettingInput.CreateWithValue(settingKey, settingValue);
+			input.ValueChanged += (newValue) => _copyOfSettings.BooleanSettings[settingKey] = newValue;
+			_vBoxContainer2.AddChild(input);
+		}
+		
+		string selectedLocale = "en";
+		
+		PopulateLanguageSelector(selectedLocale);
+	}
+
+	private void SaveBtnClickedSignalHandler()
+	{
+		_copyOfSettings.Save();
 	}
 }
