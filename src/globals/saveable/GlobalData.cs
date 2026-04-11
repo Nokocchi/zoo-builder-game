@@ -67,5 +67,6 @@ public class GlobalData
         using FileAccess file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
         file.StoreString(serializedJson);
         Instance = this;
+        TranslationServer.SetLocale(SelectedLocale);
     }
 }
