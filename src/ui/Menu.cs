@@ -41,7 +41,7 @@ public partial class Menu : Control
         if(@event.IsActionPressed(InputManager.ACTION_OPEN_SETTINGS))
         {
             // TODO: Do this whenever settings are opened, not just when "O" is pressed
-            _settings.InitializeWithData(GlobalDataSingleton.Instance.GetCopy());
+            _settings.Initialize();
             HandleMenuOpenButton(SETTINGS_TAB_INDEX);
         }
         if(@event.IsActionPressed(InputManager.ACTION_OPEN_ACHIEVEMENTS))
