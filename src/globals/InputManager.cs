@@ -31,8 +31,10 @@ public class InputManager
         [ACTION_RUN] = new InputEventKey { PhysicalKeycode = Key.Shift },
         [ACTION_TOSS_SINGLE_ITEM] = new InputEventKey { PhysicalKeycode = Key.Q },
     };
-
-
+    
+    // TODO: Use default keybinding if loaded settings don't contain a keybinding for an action
+    // TODO: Same for other settings
+    // TODO: Each settings category should have a defaults list, and a way to restore defaults and save etc. - maybe a common interface?
     
     public static void LoadActions()
     {

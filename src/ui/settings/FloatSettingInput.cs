@@ -13,6 +13,8 @@ public partial class FloatSettingInput : PanelContainer
 	
 	private float _value;
 	private string _labelText;
+	private float _minValue;
+	private float _maxValue;
 
 	public override void _Ready()
 	{
@@ -20,6 +22,8 @@ public partial class FloatSettingInput : PanelContainer
 		_inputBox = GetNode<SpinBox>("%InputBox");
 		_label = GetNode<Label>("%Label");
 		_slider.Value = _value;
+		_slider.MinValue = _minValue;
+		_slider.MaxValue = _maxValue;
 		_inputBox.Value = _value;
 		_label.Text = _labelText;
 		_slider.ValueChanged += OnSliderValueChanged;
@@ -29,19 +33,21 @@ public partial class FloatSettingInput : PanelContainer
 	private void OnSliderValueChanged(double newValue)
 	{
 		_inputBox.SetValueNoSignal(newValue);
-		EmitSignal(SignalName.ValueChanged, _value);
+		EmitSignal(SignalName.ValueChanged, newValue);
 	}
 	
 	private void OnSTextValueChanged(double newValue)
 	{
 		_slider.SetValueNoSignal(newValue);
-		EmitSignal(SignalName.ValueChanged, _value);
+		EmitSignal(SignalName.ValueChanged, newValue);
 	}
 
-	public static FloatSettingInput CreateWithValue(string label, float value)
+	public static FloatSettingInput CreateWithValue(string label, float value, float minValue, float maxValue)
 	{
 		FloatSettingInput input = FloatSettingInputScene.Instantiate<FloatSettingInput>();
 		input._value = value;
+		input._minValue = minValue;
+		input._maxValue = maxValue;
 		input._labelText = label;
 		return input;
 	}

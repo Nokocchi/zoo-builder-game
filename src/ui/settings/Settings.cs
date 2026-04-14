@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using ZooBuilder.globals;
+using ZooBuilder.globals.saveable;
 using ZooBuilder.ui.settings;
-using static ZooBuilder.globals.saveable.GlobalDataConstants;
 
 public partial class Settings : Control
 {
@@ -91,26 +91,27 @@ public partial class Settings : Control
 			child.QueueFree();
 		}
 		
-		foreach ((string settingKey, float settingValue) in GlobalData.Instance.FloatSettings)
+		foreach ((string settingKey, float settingValue) in GlobalDataSingleton.Instance.FloatSettings)
 		{
-			FloatSettingInput input = FloatSettingInput.CreateWithValue(settingKey, settingValue);
+			(float min, float max) = GlobalDataSingleton.FloatSettingMinMax[settingKey];
+			FloatSettingInput input = FloatSettingInput.CreateWithValue(settingKey, settingValue, min, max);
 			input.ValueChanged += (newValue) => _copyOfSettings.FloatSettings[settingKey] = newValue;
 			_vBoxContainer1.AddChild(input);
 		}
 		
-		foreach ((string settingKey, bool settingValue) in GlobalData.Instance.BooleanSettings)
+		foreach ((string settingKey, bool settingValue) in GlobalDataSingleton.Instance.BooleanSettings)
 		{
 			BooleanSettingInput input = BooleanSettingInput.CreateWithValue(settingKey, settingValue);
 			input.ValueChanged += (newValue) => _copyOfSettings.BooleanSettings[settingKey] = newValue;
 			_vBoxContainer2.AddChild(input);
 		}
 
-		string selectedLocale = "en";
+		string selectedLocale = GlobalDataSingleton.SelectedLocale;
 		OptionButton languageSelector = new();
 		PopulateLanguageSelector(languageSelector, selectedLocale);
 		languageSelector.ItemSelected += (selectedIndex) =>
 		{
-			_copyOfSettings.SelectedLocale = (string)languageSelector.GetItemMetadata((int)selectedIndex);
+			_copyOfSettings.StringSettings[GlobalDataSingleton.KEY_SELECTED_LOCALE] = (string)languageSelector.GetItemMetadata((int)selectedIndex);
 		};
 		_vBoxContainer3.AddChild(languageSelector);
 		
@@ -118,6 +119,7 @@ public partial class Settings : Control
 
 	private void SaveBtnClickedSignalHandler()
 	{
-		_copyOfSettings.Save();
+		GlobalDataSingleton.Save(_copyOfSettings);
+		_copyOfSettings = GlobalDataSingleton.Instance.GetCopy();
 	}
 }

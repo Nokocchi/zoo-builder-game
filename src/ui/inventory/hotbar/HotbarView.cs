@@ -38,12 +38,12 @@ public partial class HotbarView : InventoryHandler
 
 
             int previousIndex = SelectedHotbarIndex;
-            if (wheelDown ^ GlobalData.HotbarScrollDirectionFlipped)
+            if (wheelDown ^ GlobalDataSingleton.HotbarScrollDirectionFlipped)
             {
                 SelectedHotbarIndex = (SelectedHotbarIndex + 1) % global::InventorySingleton.HotBarSize;
             }
 
-            if (wheelUp ^ GlobalData.HotbarScrollDirectionFlipped)
+            if (wheelUp ^ GlobalDataSingleton.HotbarScrollDirectionFlipped)
             {
                 SelectedHotbarIndex = ((SelectedHotbarIndex - 1) + global::InventorySingleton.HotBarSize) % global::InventorySingleton.HotBarSize;
             }

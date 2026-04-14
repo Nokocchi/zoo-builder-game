@@ -17,10 +17,10 @@ public partial class Minimap : Control
     
     public override void _Process(double delta)
     {
-        Visible = !GlobalData.HideMinimap;
+        Visible = !GlobalDataSingleton.HideMinimap;
         _cameraPivot.Position = _globals.Player.Position;
         
-        if (!GlobalData.NorthFacingMinimap)
+        if (!GlobalDataSingleton.NorthFacingMinimap)
         {
             // This ensures that "up" on the minimap is always where the main player camera is looking. In other words, "up" on the minimap is always "forwards" for the player. 
             _cameraPivot.Rotation = new Vector3(_cameraPivot.Rotation.X, _globals.PlayerSpringArm.Rotation.Y,

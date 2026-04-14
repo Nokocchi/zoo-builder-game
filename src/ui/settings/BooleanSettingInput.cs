@@ -19,7 +19,8 @@ public partial class BooleanSettingInput : PanelContainer
 		_label = GetNode<Label>("%Label");
 		_checkBox.SetPressed(_value);
 		_label.Text = _labelText;
-		EmitSignal(SignalName.ValueChanged, true);
+		// TODO: Instead of having all these signals that update a copy of the GlobalData DTO which is then saved, 
+		// Maybe it would make more sense that the GlobalDataSingleton.Save() method somehow calls all the Settings UIs and fetches their key and value? 
 		_checkBox.Toggled += (isPressed) => EmitSignal(SignalName.ValueChanged, isPressed);
 	}
 
