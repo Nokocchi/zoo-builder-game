@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Godot;
 using ZooBuilder.globals.saveable;
+using ZooBuilder.ui.settings;
 
 public class GlobalDataSingleton
 {
+    
+    // TODO: Can we move a lot of the JSON conversion (BOOL_TYPE_NAME and SetDataFromDto() and AsJsonDto()) into the GlobalDataJsonDTO, or at least a helper method?
+    // TODO: Make it nicer to work with custom setting inputs like language selector
+    // TODO: Fix onSaveCallback. Doesn't seem to work for audio and language
+    // TOdo: In settings.cs, don't create new Settings, but just update the existing ones.
 
     public static readonly string BOOL_TYPE_NAME = nameof(Boolean);
     public static readonly string FLOAT_TYPE_NAME = nameof(Single);
     public static readonly string STRING_TYPE_NAME = nameof(String);
     
-    public static readonly string SETTINGS_LOCATION = "user://settings_2.json";
+    public static readonly string SETTINGS_LOCATION = "user://settings_3.json";
     
     public static readonly string SETTINGS_INPUT_GROUP_NAME = "settings_input_group";
     
@@ -22,13 +28,6 @@ public class GlobalDataSingleton
     public static readonly string KEY_HIDE_MINIMAP = "SETTINGS_HIDE_MINIMAP";
     public static readonly string KEY_NORTH_FACING_MINIMAP = "SETTINGS_NORTH_FACING_MINIMAP";
     public static readonly string KEY_SELECTED_LOCALE = "SelectedLocale";
-    
-    // These are defaults and not editable by the user, so don't store in the GlobalData DTO
-    public static readonly Dictionary<string, (float, float)> FloatSettingMinMax = new()
-    {
-        [KEY_MOUSE_SENSITIVITY] = (0, 100),
-        [KEY_BACKGROUND_MUSIC_AUDIO_VOLUME] = (0, 100)
-    };
 
     // ACCESSORS
     
@@ -47,13 +46,13 @@ public class GlobalDataSingleton
         Instance = GlobalData.LoadFromDisk();
     }
 
-    public static void Save(GlobalData dataToStore)
+    public static void Save(List<ISetting> newSettingsToSave)
     {
-        // TODO: This method is doing too many different things. Could it just call a bunch of callback methods instead?
-        Instance = dataToStore;
-        TranslationServer.SetLocale(SelectedLocale);
-        int audioBusIndexBgMusic = AudioServer.GetBusIndex("BgMusic");
-        AudioServer.SetBusVolumeLinear(audioBusIndexBgMusic,  BackgroundMusicAudioVolume / 100);
+        Instance.OverrideSettings(newSettingsToSave);
+        foreach (ISetting setting in newSettingsToSave)
+        {
+            setting.executeOnSaveCallback();
+        }
         Instance.SaveToDisk();
     }
 }

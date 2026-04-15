@@ -66,21 +66,20 @@ public partial class Settings : Control
             child.QueueFree();
         }
 
-        foreach (KeyValuePair<string, Dictionary<string, ISetting>> settingsCategory in GlobalDataSingleton.Instance.ActiveSettings)
+        foreach (KeyValuePair<string, List<ISetting>> settingsCategory in GlobalDataSingleton.Instance.ActiveSettings)
         {
             string settingsCategoryKey = settingsCategory.Key;
-            Dictionary<string, ISetting> settings = settingsCategory.Value;
+            List<ISetting> settings = settingsCategory.Value;
 
-            foreach (KeyValuePair<string, ISetting> settingPair in settings)
+            foreach (ISetting setting in settings)
             {
-                string settingKey = settingPair.Key;
-                ISetting setting = settingPair.Value;
+                string settingKey = setting.Key;
                 switch (setting)
                 {
                     case Setting<float> floatSetting:
                     {
-                        (float min, float max) = GlobalDataSingleton.FloatSettingMinMax[settingKey];
-                        FloatSettingInput input = FloatSettingInput.CreateWithValue(settingKey, floatSetting.Value, min, max);
+                        FloatSetting castFloatSetting = (FloatSetting)floatSetting;
+                        FloatSettingInput input = FloatSettingInput.CreateWithValue(settingKey, floatSetting.Value, castFloatSetting.MinValue, castFloatSetting.MaxValue);
                         _vBoxContainer1.AddChild(input);
                         break;
                     }
@@ -110,25 +109,16 @@ public partial class Settings : Control
 
     private void SaveBtnClickedSignalHandler()
     {
-        GlobalData globalDataDtoFromUiState = GenerateGlobalDataDtoFromUiState();
-        GlobalDataSingleton.Save(globalDataDtoFromUiState);
-    }
-
-    private GlobalData GenerateGlobalDataDtoFromUiState()
-    {
-        GlobalData copy = GlobalDataSingleton.Instance.GetCopy();
-
         IEnumerable<ISettingInput> inputs = GetTree()
             .GetNodesInGroup(GlobalDataSingleton.SETTINGS_INPUT_GROUP_NAME)
             .OfType<ISettingInput>();
 
+        List<ISetting> newSettings = [];
+        newSettings.Add(new Setting<string>(GlobalDataSingleton.KEY_SELECTED_LOCALE, (string)_languageSelector.GetItemMetadata(_languageSelector.Selected), TranslationServer.SetLocale));
         foreach (ISettingInput input in inputs)
         {
-            copy.SetSetting(input.GetAsSetting());
+            newSettings.Add(input.GetAsSetting());
         }
-        
-        copy.SetSetting(new Setting<string>(GlobalDataSingleton.KEY_SELECTED_LOCALE, (string)_languageSelector.GetItemMetadata(_languageSelector.Selected)));
-
-        return copy;
+        GlobalDataSingleton.Save(newSettings);
     }
 }

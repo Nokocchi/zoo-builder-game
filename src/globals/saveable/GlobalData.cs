@@ -10,22 +10,60 @@ namespace ZooBuilder.globals.saveable;
 
 public class GlobalData
 {
-    // TODO: Find a way to define EVERYTHING here in one single spot.
-    //  MinMax values for floats, categories for all keys, String representation for all keys, etc.
-    // TODO: Provide a OnSaveCallback for each Setting so that the save handler can just call a list of OnSaveCallbacks when saving.  
-    
+    // TODO: One option is also that every setting is its own class, inheriting from some parent class. 
+
     // <SettingsCategory, <settingsKey, Setting>>
-    public readonly Dictionary<string, Dictionary<string, ISetting>> ActiveSettings = new();
-    private readonly Dictionary<string, string> _settingsKeyCategoryMap = new();
+    private readonly Dictionary<string, (string, int)> _settingsKeyCategoryIndexMap = new();
+
+    public readonly Dictionary<string, List<ISetting>> ActiveSettings = new()
+    {
+        ["Gameplay"] =
+        [
+            new Setting<bool>(KEY_MOUSE_Y_FLIPPED, false),
+            new Setting<bool>(KEY_HOTBAR_SCROLL_DIRECTION_FLIPPED, false),
+            new Setting<bool>(KEY_HIDE_MINIMAP, false),
+            new Setting<bool>(KEY_NORTH_FACING_MINIMAP, false),
+            new FloatSetting(KEY_MOUSE_SENSITIVITY, 50, 0, 100),
+            new FloatSetting(KEY_BACKGROUND_MUSIC_AUDIO_VOLUME, 100, 0, 100, audioVolume =>
+            {
+                int audioBusIndexBgMusic = AudioServer.GetBusIndex("BgMusic");
+                AudioServer.SetBusVolumeLinear(audioBusIndexBgMusic, audioVolume / 100);
+            })
+        ],
+        ["Other"] = [new Setting<string>(KEY_SELECTED_LOCALE, "en", TranslationServer.SetLocale)]
+    };
 
     public GlobalData()
     {
-        SetDataFromDto(new GlobalDataJsonDTO());
+        Initialize();
     }
 
     public GlobalData(GlobalDataJsonDTO dto)
     {
-        SetDataFromDto(dto);
+        Initialize(dto);
+    }
+
+    private void Initialize(GlobalDataJsonDTO dto = null)
+    {
+        InitializeLookupTables();
+        if (dto != null)
+        {
+            SetDataFromDto(dto);
+        }
+    }
+
+    private void InitializeLookupTables()
+    {
+        foreach (KeyValuePair<string, List<ISetting>> keyValuePair in ActiveSettings)
+        {
+            string category = keyValuePair.Key;
+            List<ISetting> settingsInCategory = keyValuePair.Value;
+            for (int index = 0; index < settingsInCategory.Count; index++)
+            {
+                ISetting setting = settingsInCategory[index];
+                _settingsKeyCategoryIndexMap[setting.Key] = (category, index);
+            }
+        }
     }
 
     private void SetDataFromDto(GlobalDataJsonDTO dto)
@@ -34,7 +72,6 @@ public class GlobalData
         {
             string settingsCategory = categoryEntry.Key;
             List<SettingEntryDto> entries = categoryEntry.Value;
-            ActiveSettings[settingsCategory] = new Dictionary<string, ISetting>();
 
             foreach (SettingEntryDto entry in entries)
             {
@@ -44,7 +81,7 @@ public class GlobalData
 
                 object convertedValue;
 
-                if (rawValue is System.Text.Json.JsonElement jsonElement)
+                if (rawValue is JsonElement jsonElement)
                 {
                     if (type == BOOL_TYPE_NAME)
                     {
@@ -68,42 +105,39 @@ public class GlobalData
                     convertedValue = rawValue;
                 }
 
+                (string category, int index) = _settingsKeyCategoryIndexMap[key];
                 if (type == BOOL_TYPE_NAME)
                 {
-                    ActiveSettings[settingsCategory][key] = new Setting<bool>(key, (bool)convertedValue);
+                    ActiveSettings[settingsCategory][index].SetValue((bool)convertedValue);
                 }
                 else if (type == FLOAT_TYPE_NAME)
                 {
-                    ActiveSettings[settingsCategory][key] = new Setting<float>(key, Convert.ToSingle(convertedValue));
+                    FloatSetting floatSetting = (FloatSetting)ActiveSettings[settingsCategory][index];
+                    floatSetting.SetValue(Convert.ToSingle(convertedValue));
                 }
                 else if (type == STRING_TYPE_NAME)
                 {
-                    ActiveSettings[settingsCategory][key] = new Setting<string>(key, (string)convertedValue);
+                    ActiveSettings[settingsCategory][index].SetValue((string)convertedValue);
                 }
                 else
                 {
                     throw new Exception("Unsupported type: " + type);
                 }
-
-                _settingsKeyCategoryMap[key] = settingsCategory;
             }
         }
     }
 
     private GlobalDataJsonDTO AsJsonDto()
     {
-        GlobalDataJsonDTO dto = new();
-
-        foreach (KeyValuePair<string, Dictionary<string, ISetting>> categoryEntry in ActiveSettings)
+        Dictionary<string, List<SettingEntryDto>> dataToStore = [];
+        foreach (KeyValuePair<string, List<ISetting>> categoryEntry in ActiveSettings)
         {
             string category = categoryEntry.Key;
-            Dictionary<string, ISetting> settings = categoryEntry.Value;
-            dto.Settings[category] = [];
-            
-            foreach (KeyValuePair<string, ISetting> settingEntry in settings)
+            List<ISetting> settings = categoryEntry.Value;
+            dataToStore[category] = [];
+
+            foreach (ISetting setting in settings)
             {
-                string key = settingEntry.Key;
-                ISetting setting = settingEntry.Value;
                 object value = setting.GetValue();
                 string type;
 
@@ -124,37 +158,28 @@ public class GlobalData
                     throw new Exception("Unsupported setting type");
                 }
 
-                SettingEntryDto entry = new(key, type, value);
-                dto.Settings[category].Add(entry);
+                SettingEntryDto entry = new(setting.Key, type, value);
+                dataToStore[category].Add(entry);
             }
         }
 
-        return dto;
+        return new GlobalDataJsonDTO(dataToStore);
     }
 
     public T Get<T>(string key)
     {
-        string category = _settingsKeyCategoryMap[key];
-        ISetting setting = ActiveSettings[category][key];
-        return (T) setting.GetValue();
+        (string category, int index) = _settingsKeyCategoryIndexMap[key];
+        ISetting setting = ActiveSettings[category][index];
+        return (T)setting.GetValue();
     }
 
-    public void Set<T>(string key, T value)
+    public void OverrideSettings(List<ISetting> newSettingsToSave)
     {
-        Setting<T> setting = new(key, value);
-        string category = _settingsKeyCategoryMap[key];
-        ActiveSettings[category][key] = setting;
-    }
-    
-    public void SetSetting(ISetting setting)
-    {
-        string category = _settingsKeyCategoryMap[setting.Key];
-        ActiveSettings[category][setting.Key] = setting;
-    }
-
-    public GlobalData GetCopy()
-    {
-        return new GlobalData(AsJsonDto());
+        foreach (ISetting setting in newSettingsToSave)
+        {
+            (string category, int index) = _settingsKeyCategoryIndexMap[setting.Key];
+            ActiveSettings[category][index] = setting;
+        }
     }
 
     public void SaveToDisk()
