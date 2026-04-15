@@ -10,6 +10,10 @@ namespace ZooBuilder.globals.saveable;
 
 public class GlobalData
 {
+    // TODO: Find a way to define EVERYTHING here in one single spot.
+    //  MinMax values for floats, categories for all keys, String representation for all keys, etc.
+    // TODO: Provide a OnSaveCallback for each Setting so that the save handler can just call a list of OnSaveCallbacks when saving.  
+    
     // <SettingsCategory, <settingsKey, Setting>>
     public readonly Dictionary<string, Dictionary<string, ISetting>> ActiveSettings = new();
     private readonly Dictionary<string, string> _settingsKeyCategoryMap = new();

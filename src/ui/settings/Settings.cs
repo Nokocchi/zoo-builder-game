@@ -126,6 +126,8 @@ public partial class Settings : Control
         {
             copy.SetSetting(input.GetAsSetting());
         }
+        
+        copy.SetSetting(new Setting<string>(GlobalDataSingleton.KEY_SELECTED_LOCALE, (string)_languageSelector.GetItemMetadata(_languageSelector.Selected)));
 
         return copy;
     }
