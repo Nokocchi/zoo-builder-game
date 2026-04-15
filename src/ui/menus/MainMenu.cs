@@ -9,7 +9,7 @@ public partial class MainMenu : CanvasLayer
 	
 	public override void _Ready()
 	{
-		GlobalDataSingleton.LoadFromDisk();
+		GlobalDataSingleton.LoadSettingsFromDisk();
 		TranslationServer.SetLocale(GlobalDataSingleton.SelectedLocale);
 		InputManager.LoadActions();
 	}

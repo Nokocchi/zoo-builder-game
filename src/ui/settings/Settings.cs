@@ -7,117 +7,126 @@ using ZooBuilder.ui.settings;
 
 public partial class Settings : Control
 {
-	private OptionButton _languageSelector;
-	private VBoxContainer _vBoxContainer1;
-	private VBoxContainer _vBoxContainer2;
-	private VBoxContainer _vBoxContainer3;
-	
-	public override void _Ready()
-	{
-		_vBoxContainer1 = GetNode<VBoxContainer>("%VBoxContainer1");
-		_vBoxContainer2 = GetNode<VBoxContainer>("%VBoxContainer2");
-		_vBoxContainer3 = GetNode<VBoxContainer>("%VBoxContainer3");
+    private OptionButton _languageSelector;
+    private VBoxContainer _vBoxContainer1;
+    private VBoxContainer _vBoxContainer2;
+    private VBoxContainer _vBoxContainer3;
 
-		Visible = false;
-		
-		foreach (KeyValuePair<string, CustomInputEvent> action in InputManager.ChosenInputMappings)
-		{
-			InputRemapButton remapButton = InputRemapButton.Create(action.Key, action.Value);
-			_vBoxContainer3.AddChild(remapButton);
-		}
-	}
+    public override void _Ready()
+    {
+        _vBoxContainer1 = GetNode<VBoxContainer>("%VBoxContainer1");
+        _vBoxContainer2 = GetNode<VBoxContainer>("%VBoxContainer2");
+        _vBoxContainer3 = GetNode<VBoxContainer>("%VBoxContainer3");
 
-	private void PopulateLanguageSelector(string selectedLocale)
-	{
-			string currentLocale = selectedLocale ?? TranslationServer.GetLocale();
-			List<(string locale, string name)> entries = LocaleUtil.GetSortedListOfLocalesForLocale(currentLocale);
-			
-			foreach (var entry in entries)
-			{
-				_languageSelector.AddItem(entry.name);
-				_languageSelector.SetItemMetadata(_languageSelector.ItemCount - 1, entry.locale);
+        Visible = false;
 
-				if (entry.locale == currentLocale) {
-					_languageSelector.Select(_languageSelector.ItemCount - 1);
-				}
-			}
-	}
+        foreach (KeyValuePair<string, CustomInputEvent> action in InputManager.ChosenInputMappings)
+        {
+            InputRemapButton remapButton = InputRemapButton.Create(action.Key, action.Value);
+            _vBoxContainer3.AddChild(remapButton);
+        }
+    }
 
-	private void OnRestoreDefaultKeyBindingsBtnPressed()
-	{
-		InputManager.RestoreDefaults();
-	}
+    private void PopulateLanguageSelector(string selectedLocale)
+    {
+        string currentLocale = selectedLocale ?? TranslationServer.GetLocale();
+        List<(string locale, string name)> entries = LocaleUtil.GetSortedListOfLocalesForLocale(currentLocale);
 
-	public void Initialize()
-	{
-		
-		foreach (Node child in _vBoxContainer1.GetChildren())
-		{
-			child.QueueFree();
-		}
-		
-		foreach (Node child in _vBoxContainer2.GetChildren())
-		{
-			child.QueueFree();
-		}
-		
-		foreach (Node child in _vBoxContainer3.GetChildren())
-		{
-			child.QueueFree();
-		}
-		
-		foreach ((string key, ISetting setting) in GlobalDataSingleton.Instance.ActiveSettings)
-		{
-			switch (setting)
-			{
-				case Setting<float> floatSetting:
-				{
-					(float min, float max) = GlobalDataSingleton.FloatSettingMinMax[key];
-					FloatSettingInput input = FloatSettingInput.CreateWithValue(key, floatSetting.Value, min, max);
-					_vBoxContainer1.AddChild(input);
-					break;
-				}
+        foreach (var entry in entries)
+        {
+            _languageSelector.AddItem(entry.name);
+            _languageSelector.SetItemMetadata(_languageSelector.ItemCount - 1, entry.locale);
 
-				case Setting<bool> boolSetting:
-				{
-					BooleanSettingInput input = BooleanSettingInput.CreateWithValue(key, boolSetting.Value);
-					_vBoxContainer2.AddChild(input);
-					break;
-				}
+            if (entry.locale == currentLocale)
+            {
+                _languageSelector.Select(_languageSelector.ItemCount - 1);
+            }
+        }
+    }
 
-				case Setting<string> stringSetting:
-				{
-					if (key == GlobalDataSingleton.KEY_SELECTED_LOCALE)
-					{
-						_languageSelector = new OptionButton();
-						PopulateLanguageSelector(stringSetting.Value);
-						_vBoxContainer3.AddChild(_languageSelector);
-					}
-					break;
-				}
-			}
-		}
-	}
+    private void OnRestoreDefaultKeyBindingsBtnPressed()
+    {
+        InputManager.RestoreDefaults();
+    }
 
-	private void SaveBtnClickedSignalHandler()
-	{
-		GlobalData globalDataDtoFromUiState = GenerateGlobalDataDtoFromUiState();
-		GlobalDataSingleton.Save(globalDataDtoFromUiState);
-	}
+    public void Initialize()
+    {
+        foreach (Node child in _vBoxContainer1.GetChildren())
+        {
+            child.QueueFree();
+        }
 
-	private GlobalData GenerateGlobalDataDtoFromUiState()
-	{
-		GlobalData copy = GlobalDataSingleton.Instance.GetCopy();
+        foreach (Node child in _vBoxContainer2.GetChildren())
+        {
+            child.QueueFree();
+        }
 
-		IEnumerable<ISettingInput> inputs = GetTree()
-			.GetNodesInGroup(GlobalDataSingleton.SETTINGS_INPUT_GROUP_NAME)
-			.OfType<ISettingInput>();
+        foreach (Node child in _vBoxContainer3.GetChildren())
+        {
+            child.QueueFree();
+        }
 
-		foreach (ISettingInput input in inputs)
-		{
-			copy.ActiveSettings[input.SettingsKey].SetValue(input.GetValue());
-		}
+        foreach (KeyValuePair<string, Dictionary<string, ISetting>> settingsCategory in GlobalDataSingleton.Instance.ActiveSettings)
+        {
+            string settingsCategoryKey = settingsCategory.Key;
+            Dictionary<string, ISetting> settings = settingsCategory.Value;
 
-		return copy;
-	}
+            foreach (KeyValuePair<string, ISetting> settingPair in settings)
+            {
+                string settingKey = settingPair.Key;
+                ISetting setting = settingPair.Value;
+                switch (setting)
+                {
+                    case Setting<float> floatSetting:
+                    {
+                        (float min, float max) = GlobalDataSingleton.FloatSettingMinMax[settingKey];
+                        FloatSettingInput input = FloatSettingInput.CreateWithValue(settingKey, floatSetting.Value, min, max);
+                        _vBoxContainer1.AddChild(input);
+                        break;
+                    }
+
+                    case Setting<bool> boolSetting:
+                    {
+                        BooleanSettingInput input = BooleanSettingInput.CreateWithValue(settingKey, boolSetting.Value);
+                        _vBoxContainer2.AddChild(input);
+                        break;
+                    }
+
+                    case Setting<string> stringSetting:
+                    {
+                        if (settingKey == GlobalDataSingleton.KEY_SELECTED_LOCALE)
+                        {
+                            _languageSelector = new OptionButton();
+                            PopulateLanguageSelector(stringSetting.Value);
+                            _vBoxContainer3.AddChild(_languageSelector);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void SaveBtnClickedSignalHandler()
+    {
+        GlobalData globalDataDtoFromUiState = GenerateGlobalDataDtoFromUiState();
+        GlobalDataSingleton.Save(globalDataDtoFromUiState);
+    }
+
+    private GlobalData GenerateGlobalDataDtoFromUiState()
+    {
+        GlobalData copy = GlobalDataSingleton.Instance.GetCopy();
+
+        IEnumerable<ISettingInput> inputs = GetTree()
+            .GetNodesInGroup(GlobalDataSingleton.SETTINGS_INPUT_GROUP_NAME)
+            .OfType<ISettingInput>();
+
+        foreach (ISettingInput input in inputs)
+        {
+            copy.SetSetting(input.GetAsSetting());
+        }
+
+        return copy;
+    }
 }

@@ -3,5 +3,5 @@
 public interface ISettingInput
 {
     string SettingsKey { get; }
-    object GetValue();
+    ISetting GetAsSetting();
 }

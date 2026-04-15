@@ -13,7 +13,7 @@ public partial class FloatSettingInput : PanelContainer, ISettingInput
 	private float _minValue;
 	private float _maxValue;
 
-	public object GetValue() => (float)_slider.Value;
+	public ISetting GetAsSetting() => new Setting<float>(SettingsKey, (float)_slider.Value);
 	public string SettingsKey { get; private set; }
 	private float _initialValue;
 

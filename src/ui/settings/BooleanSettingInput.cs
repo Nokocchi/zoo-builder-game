@@ -9,7 +9,7 @@ public partial class BooleanSettingInput : PanelContainer, ISettingInput
 	private CheckBox _checkBox;
 	private Label _label;
 	
-	public object GetValue() => _checkBox.ButtonPressed;
+	public ISetting GetAsSetting() => new Setting<bool>(SettingsKey, _checkBox.ButtonPressed);
 	public string SettingsKey { get; private set; }
 	private bool _initialValue;
 

@@ -11,7 +11,7 @@ public class GlobalDataSingleton
     public static readonly string FLOAT_TYPE_NAME = nameof(Single);
     public static readonly string STRING_TYPE_NAME = nameof(String);
     
-    public static readonly string SETTINGS_LOCATION = "user://settings.json";
+    public static readonly string SETTINGS_LOCATION = "user://settings_2.json";
     
     public static readonly string SETTINGS_INPUT_GROUP_NAME = "settings_input_group";
     
@@ -42,35 +42,18 @@ public class GlobalDataSingleton
     public static float BackgroundMusicAudioVolume => Instance.Get<float>(KEY_BACKGROUND_MUSIC_AUDIO_VOLUME);
     public static string SelectedLocale => Instance.Get<string>(KEY_SELECTED_LOCALE);
 
-    public static void LoadFromDisk()
+    public static void LoadSettingsFromDisk()
     {
-        using FileAccess file = FileAccess.Open(SETTINGS_LOCATION, FileAccess.ModeFlags.Read);
-        if (file == null)
-        {
-            Error openError = FileAccess.GetOpenError();
-            if (openError is Error.DoesNotExist or Error.FileNotFound)
-            {
-                // TODO: Handle other error cases
-                Instance = new GlobalData();
-                return;
-            }
-
-            GD.Print(openError);
-        }
-
-        string json = file.GetAsText();
-        Instance = JsonSerializer.Deserialize<GlobalData>(json);
+        Instance = GlobalData.LoadFromDisk();
     }
 
     public static void Save(GlobalData dataToStore)
     {
         // TODO: This method is doing too many different things. Could it just call a bunch of callback methods instead?
         Instance = dataToStore;
-        string serializedJson = JsonSerializer.Serialize(dataToStore);
-        using FileAccess file = FileAccess.Open(SETTINGS_LOCATION, FileAccess.ModeFlags.Write);
-        file.StoreString(serializedJson);
         TranslationServer.SetLocale(SelectedLocale);
         int audioBusIndexBgMusic = AudioServer.GetBusIndex("BgMusic");
         AudioServer.SetBusVolumeLinear(audioBusIndexBgMusic,  BackgroundMusicAudioVolume / 100);
+        Instance.SaveToDisk();
     }
 }
