@@ -10,8 +10,6 @@ namespace ZooBuilder.globals.saveable;
 
 public class GlobalData
 {
-    // TODO: One option is also that every setting is its own class, inheriting from some parent class. 
-
     // <SettingsCategory, <settingsKey, Setting>>
     private readonly Dictionary<string, (string, int)> _settingsKeyCategoryIndexMap = new();
 
@@ -108,16 +106,16 @@ public class GlobalData
                 (string category, int index) = _settingsKeyCategoryIndexMap[key];
                 if (type == BOOL_TYPE_NAME)
                 {
-                    ActiveSettings[settingsCategory][index].SetValue((bool)convertedValue);
+                    ActiveSettings[settingsCategory][index].SaveNewValue((bool)convertedValue);
                 }
                 else if (type == FLOAT_TYPE_NAME)
                 {
                     FloatSetting floatSetting = (FloatSetting)ActiveSettings[settingsCategory][index];
-                    floatSetting.SetValue(Convert.ToSingle(convertedValue));
+                    floatSetting.SaveNewValue(Convert.ToSingle(convertedValue));
                 }
                 else if (type == STRING_TYPE_NAME)
                 {
-                    ActiveSettings[settingsCategory][index].SetValue((string)convertedValue);
+                    ActiveSettings[settingsCategory][index].SaveNewValue((string)convertedValue);
                 }
                 else
                 {

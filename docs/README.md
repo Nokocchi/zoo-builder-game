@@ -49,7 +49,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - Show "last saved x minutes ago"
   - ✅ Adjust audio
   - ✅ Hotbar scrolling direction
-  - Only save when save button is clicked
+  - ✅ Only save when save button is clicked
   - Allow players to remap input
   - Various graphics settings
 - **Quest view**

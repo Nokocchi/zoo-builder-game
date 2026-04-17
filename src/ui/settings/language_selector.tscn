@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://drioj1qtamnix"]
+
+[ext_resource type="Script" uid="uid://dyo3clj4oye6m" path="res://src/ui/settings/LanguageSelector.cs" id="1_vykct"]
+
+[node name="LanguageSelector" type="OptionButton" unique_id=1098196644]
+script = ExtResource("1_vykct")

@@ -9,9 +9,10 @@ public class GlobalDataSingleton
 {
     
     // TODO: Can we move a lot of the JSON conversion (BOOL_TYPE_NAME and SetDataFromDto() and AsJsonDto()) into the GlobalDataJsonDTO, or at least a helper method?
-    // TODO: Make it nicer to work with custom setting inputs like language selector
-    // TODO: Fix onSaveCallback. Doesn't seem to work for audio and language
-    // TOdo: In settings.cs, don't create new Settings, but just update the existing ones.
+    // TODO: Reset to default button
+    // TODO: Generate tabs for each category
+    // TODO: Warning when closing settings menu with unchanged settings
+    // TODO: Handle input remappings
 
     public static readonly string BOOL_TYPE_NAME = nameof(Boolean);
     public static readonly string FLOAT_TYPE_NAME = nameof(Single);
@@ -46,13 +47,8 @@ public class GlobalDataSingleton
         Instance = GlobalData.LoadFromDisk();
     }
 
-    public static void Save(List<ISetting> newSettingsToSave)
+    public static void SaveToDisk()
     {
-        Instance.OverrideSettings(newSettingsToSave);
-        foreach (ISetting setting in newSettingsToSave)
-        {
-            setting.executeOnSaveCallback();
-        }
         Instance.SaveToDisk();
     }
 }

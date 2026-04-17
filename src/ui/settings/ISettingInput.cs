@@ -2,6 +2,5 @@
 
 public interface ISettingInput
 {
-    string SettingsKey { get; }
-    ISetting GetAsSetting();
+    void SaveInputStateToGlobalSetting();
 }

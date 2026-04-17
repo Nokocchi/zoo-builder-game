@@ -4,29 +4,30 @@ using ZooBuilder.ui.settings;
 
 public partial class BooleanSettingInput : PanelContainer, ISettingInput
 {
-	
-	private static readonly PackedScene BooleanSettingInputScene = GD.Load<PackedScene>("res://src/ui/settings/boolean_setting_input.tscn");
-	private CheckBox _checkBox;
-	private Label _label;
-	
-	public ISetting GetAsSetting() => new Setting<bool>(SettingsKey, _checkBox.ButtonPressed);
-	public string SettingsKey { get; private set; }
-	private bool _initialValue;
+    private static readonly PackedScene BooleanSettingInputScene = GD.Load<PackedScene>("res://src/ui/settings/boolean_setting_input.tscn");
+    private CheckBox _checkBox;
+    private Label _label;
 
-	public override void _Ready()
-	{
-		AddToGroup(GlobalDataSingleton.SETTINGS_INPUT_GROUP_NAME);
-		_checkBox = GetNode<CheckBox>("%CheckBox");
-		_label = GetNode<Label>("%Label");
-		_checkBox.SetPressed(_initialValue);
-		_label.Text = SettingsKey;
-	}
+    private Setting<bool> _setting;
 
-	public static BooleanSettingInput CreateWithValue(string settingsKey, bool value)
-	{
-		BooleanSettingInput input = BooleanSettingInputScene.Instantiate<BooleanSettingInput>();
-		input._initialValue = value;
-		input.SettingsKey = settingsKey;
-		return input;
-	}
+    public override void _Ready()
+    {
+        AddToGroup(GlobalDataSingleton.SETTINGS_INPUT_GROUP_NAME);
+        _checkBox = GetNode<CheckBox>("%CheckBox");
+        _label = GetNode<Label>("%Label");
+        _checkBox.SetPressed(_setting.Value);
+        _label.Text = _setting.Key;
+    }
+
+    public static BooleanSettingInput CreateWithValue(Setting<bool> setting)
+    {
+        BooleanSettingInput input = BooleanSettingInputScene.Instantiate<BooleanSettingInput>();
+        input._setting = setting;
+        return input;
+    }
+
+    public void SaveInputStateToGlobalSetting()
+    {
+        _setting.SaveNewValue(_checkBox.ButtonPressed);
+    }
 }

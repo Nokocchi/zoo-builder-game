@@ -18,8 +18,13 @@ public class Setting<T> : ISetting
     }
 
     public object GetValue() => Value;
-    public void SetValue(object newValue) => Value = (T) newValue;
     
+    public void SaveNewValue(object newValue)
+    {
+        Value = (T)newValue;
+        executeOnSaveCallback();
+    }
+
     public void executeOnSaveCallback()
     {
         _onSaveCallback?.Invoke(Value);

@@ -64,10 +64,6 @@ custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 text = "Save"
 
-[node name="LanguageSelector" type="OptionButton" parent="Panel/MarginContainer/ContentAndSaveBtnVboxContainer/HBoxContainer/VBoxContainer4" unique_id=108135768]
-unique_name_in_owner = true
-layout_mode = 2
-
 [node name="RestoreDefaultKeyBindingsBtn" type="Button" parent="Panel/MarginContainer/ContentAndSaveBtnVboxContainer/HBoxContainer/VBoxContainer4" unique_id=1954701655]
 custom_minimum_size = Vector2(80, 30)
 layout_mode = 2

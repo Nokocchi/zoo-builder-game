@@ -27,23 +27,6 @@ public partial class Settings : Control
         }
     }
 
-    private void PopulateLanguageSelector(string selectedLocale)
-    {
-        string currentLocale = selectedLocale ?? TranslationServer.GetLocale();
-        List<(string locale, string name)> entries = LocaleUtil.GetSortedListOfLocalesForLocale(currentLocale);
-
-        foreach (var entry in entries)
-        {
-            _languageSelector.AddItem(entry.name);
-            _languageSelector.SetItemMetadata(_languageSelector.ItemCount - 1, entry.locale);
-
-            if (entry.locale == currentLocale)
-            {
-                _languageSelector.Select(_languageSelector.ItemCount - 1);
-            }
-        }
-    }
-
     private void OnRestoreDefaultKeyBindingsBtnPressed()
     {
         InputManager.RestoreDefaults();
@@ -79,14 +62,14 @@ public partial class Settings : Control
                     case Setting<float> floatSetting:
                     {
                         FloatSetting castFloatSetting = (FloatSetting)floatSetting;
-                        FloatSettingInput input = FloatSettingInput.CreateWithValue(settingKey, floatSetting.Value, castFloatSetting.MinValue, castFloatSetting.MaxValue);
+                        FloatSettingInput input = FloatSettingInput.CreateWithValue(castFloatSetting);
                         _vBoxContainer1.AddChild(input);
                         break;
                     }
 
                     case Setting<bool> boolSetting:
                     {
-                        BooleanSettingInput input = BooleanSettingInput.CreateWithValue(settingKey, boolSetting.Value);
+                        BooleanSettingInput input = BooleanSettingInput.CreateWithValue(boolSetting);
                         _vBoxContainer2.AddChild(input);
                         break;
                     }
@@ -95,9 +78,8 @@ public partial class Settings : Control
                     {
                         if (settingKey == GlobalDataSingleton.KEY_SELECTED_LOCALE)
                         {
-                            _languageSelector = new OptionButton();
-                            PopulateLanguageSelector(stringSetting.Value);
-                            _vBoxContainer3.AddChild(_languageSelector);
+                            LanguageSelector languageSelector = LanguageSelector.CreateWithValue(stringSetting);
+                            _vBoxContainer3.AddChild(languageSelector);
                         }
 
                         break;
@@ -112,13 +94,12 @@ public partial class Settings : Control
         IEnumerable<ISettingInput> inputs = GetTree()
             .GetNodesInGroup(GlobalDataSingleton.SETTINGS_INPUT_GROUP_NAME)
             .OfType<ISettingInput>();
-
-        List<ISetting> newSettings = [];
-        newSettings.Add(new Setting<string>(GlobalDataSingleton.KEY_SELECTED_LOCALE, (string)_languageSelector.GetItemMetadata(_languageSelector.Selected), TranslationServer.SetLocale));
+        
         foreach (ISettingInput input in inputs)
         {
-            newSettings.Add(input.GetAsSetting());
+            input.SaveInputStateToGlobalSetting();
         }
-        GlobalDataSingleton.Save(newSettings);
+        
+        GlobalDataSingleton.SaveToDisk();
     }
 }
