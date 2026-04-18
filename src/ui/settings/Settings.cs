@@ -19,12 +19,6 @@ public partial class Settings : Control
         _vBoxContainer3 = GetNode<VBoxContainer>("%VBoxContainer3");
 
         Visible = false;
-
-        foreach (KeyValuePair<string, CustomInputEvent> action in InputManager.ChosenInputMappings)
-        {
-            InputRemapButton remapButton = InputRemapButton.Create(action.Key, action.Value);
-            _vBoxContainer3.AddChild(remapButton);
-        }
     }
 
     private void OnRestoreDefaultKeyBindingsBtnPressed()
@@ -47,6 +41,12 @@ public partial class Settings : Control
         foreach (Node child in _vBoxContainer3.GetChildren())
         {
             child.QueueFree();
+        }
+        
+        foreach (KeyValuePair<string, CustomInputEvent> action in InputManager.ChosenInputMappings)
+        {
+            InputRemapButton remapButton = InputRemapButton.Create(action.Key, action.Value);
+            _vBoxContainer3.AddChild(remapButton);
         }
 
         foreach (KeyValuePair<string, List<ISetting>> settingsCategory in GlobalDataSingleton.Instance.ActiveSettings)

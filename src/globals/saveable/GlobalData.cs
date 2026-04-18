@@ -63,6 +63,40 @@ public class GlobalData
             }
         }
     }
+    
+    public T Get<T>(string key)
+    {
+        (string category, int index) = _settingsKeyCategoryIndexMap[key];
+        ISetting setting = ActiveSettings[category][index];
+        return (T)setting.GetValue();
+    }
+
+    public void SaveToDisk()
+    {
+        string serializedJson = JsonSerializer.Serialize(AsJsonDto());
+        using FileAccess file = FileAccess.Open(SETTINGS_LOCATION, FileAccess.ModeFlags.Write);
+        file.StoreString(serializedJson);
+    }
+
+    public static GlobalData LoadFromDisk()
+    {
+        using FileAccess file = FileAccess.Open(SETTINGS_LOCATION, FileAccess.ModeFlags.Read);
+        if (file == null)
+        {
+            Error openError = FileAccess.GetOpenError();
+            if (openError is Error.DoesNotExist or Error.FileNotFound)
+            {
+                // TODO: Handle other error cases
+                return new GlobalData();
+            }
+
+            GD.Print(openError);
+        }
+
+        string json = file.GetAsText();
+        GlobalDataJsonDTO loadedFromDisk = JsonSerializer.Deserialize<GlobalDataJsonDTO>(json);
+        return new GlobalData(loadedFromDisk);
+    }
 
     private void SetDataFromDto(GlobalDataJsonDTO dto)
     {
@@ -162,48 +196,5 @@ public class GlobalData
         }
 
         return new GlobalDataJsonDTO(dataToStore);
-    }
-
-    public T Get<T>(string key)
-    {
-        (string category, int index) = _settingsKeyCategoryIndexMap[key];
-        ISetting setting = ActiveSettings[category][index];
-        return (T)setting.GetValue();
-    }
-
-    public void OverrideSettings(List<ISetting> newSettingsToSave)
-    {
-        foreach (ISetting setting in newSettingsToSave)
-        {
-            (string category, int index) = _settingsKeyCategoryIndexMap[setting.Key];
-            ActiveSettings[category][index] = setting;
-        }
-    }
-
-    public void SaveToDisk()
-    {
-        string serializedJson = JsonSerializer.Serialize(AsJsonDto());
-        using FileAccess file = FileAccess.Open(SETTINGS_LOCATION, FileAccess.ModeFlags.Write);
-        file.StoreString(serializedJson);
-    }
-
-    public static GlobalData LoadFromDisk()
-    {
-        using FileAccess file = FileAccess.Open(SETTINGS_LOCATION, FileAccess.ModeFlags.Read);
-        if (file == null)
-        {
-            Error openError = FileAccess.GetOpenError();
-            if (openError is Error.DoesNotExist or Error.FileNotFound)
-            {
-                // TODO: Handle other error cases
-                return new GlobalData();
-            }
-
-            GD.Print(openError);
-        }
-
-        string json = file.GetAsText();
-        GlobalDataJsonDTO loadedFromDisk = JsonSerializer.Deserialize<GlobalDataJsonDTO>(json);
-        return new GlobalData(loadedFromDisk);
     }
 }

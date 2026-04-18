@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using ZooBuilder.globals;
+using ZooBuilder.ui.settings;
 
 public partial class InputRemapButton : Button
 {
@@ -28,25 +29,7 @@ public partial class InputRemapButton : Button
 
     private void UpdateText()
     {
-        // Not sure what is going on in this AI generated madness
-        // But it should ensure that on a Danish layout, buttons like ÆØÅ are printed correctly, and symbols like .,^¨ are printed as symbols, but space bar specifically is printed as a localized word, not " ". 
-        // Supposedly this should also work on other keyboards and languages. Time will tell. 
-        
-        Key localizedKeyboardKey = DisplayServer.KeyboardGetLabelFromPhysical(_actionInputEventKey.PhysicalKeycode);
-        string text;
-        if (localizedKeyboardKey == Key.Space)
-        {
-            text = Tr("SPACE");
-        }
-        else if ((int)localizedKeyboardKey < 128 || char.IsLetterOrDigit((char)localizedKeyboardKey) || (char)localizedKeyboardKey > 127)
-        {
-            text = char.ConvertFromUtf32((int)localizedKeyboardKey);
-        }
-        else
-        {
-            text = OS.GetKeycodeString(localizedKeyboardKey);
-        }
-        
+        string text = LocaleUtil.Instance.GetLocalizedLabelForKeyCode(_actionInputEventKey.PhysicalKeycode);
         _inputKeyLabel.Text = _actionKey + ": " + text;
     }
     
