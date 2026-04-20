@@ -4,6 +4,7 @@ using Godot;
 using ZooBuilder.globals;
 using ZooBuilder.globals.saveable;
 using ZooBuilder.ui.settings;
+using static GlobalDataSingleton;
 
 public partial class Settings : Control
 {
@@ -23,7 +24,7 @@ public partial class Settings : Control
 
     private void OnRestoreDefaultKeyBindingsBtnPressed()
     {
-        InputManager.RestoreDefaults();
+
     }
 
     public void Initialize()
@@ -42,17 +43,21 @@ public partial class Settings : Control
         {
             child.QueueFree();
         }
-        
-        foreach (KeyValuePair<string, CustomInputEvent> action in InputManager.ChosenInputMappings)
-        {
-            InputRemapButton remapButton = InputRemapButton.Create(action.Key, action.Value);
-            _vBoxContainer3.AddChild(remapButton);
-        }
 
-        foreach (KeyValuePair<string, List<ISetting>> settingsCategory in GlobalDataSingleton.Instance.ActiveSettings)
+        foreach (KeyValuePair<string, List<ISetting>> settingsCategory in Instance.ActiveSettings)
         {
             string settingsCategoryKey = settingsCategory.Key;
             List<ISetting> settings = settingsCategory.Value;
+            
+            if (settingsCategoryKey == SETTINGS_CATEGORY_INPUT)
+            {
+                foreach (ISetting setting in settings)
+                {
+                    InputSetting inputSetting = (InputSetting)setting;
+                    InputRemapButton remapButton = InputRemapButton.Create(inputSetting);
+                    _vBoxContainer3.AddChild(remapButton);
+                }
+            }
 
             foreach (ISetting setting in settings)
             {
@@ -76,7 +81,7 @@ public partial class Settings : Control
 
                     case Setting<string> stringSetting:
                     {
-                        if (settingKey == GlobalDataSingleton.KEY_SELECTED_LOCALE)
+                        if (settingKey == KEY_SELECTED_LOCALE)
                         {
                             LanguageSelector languageSelector = LanguageSelector.CreateWithValue(stringSetting);
                             _vBoxContainer3.AddChild(languageSelector);
@@ -92,7 +97,7 @@ public partial class Settings : Control
     private void SaveBtnClickedSignalHandler()
     {
         IEnumerable<ISettingInput> inputs = GetTree()
-            .GetNodesInGroup(GlobalDataSingleton.SETTINGS_INPUT_GROUP_NAME)
+            .GetNodesInGroup(SETTINGS_INPUT_GROUP_NAME)
             .OfType<ISettingInput>();
         
         foreach (ISettingInput input in inputs)
@@ -100,6 +105,6 @@ public partial class Settings : Control
             input.SaveInputStateToGlobalSetting();
         }
         
-        GlobalDataSingleton.SaveToDisk();
+        SaveToDisk();
     }
 }

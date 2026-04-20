@@ -40,7 +40,7 @@ public partial class MouseWithItemMarker : Control
             // get_viewport().get_mouse_position() ?
         }
 
-        if (!@event.IsActionPressed(InputManager.ACTION_TOSS_SINGLE_ITEM)) return;
+        if (!@event.IsActionPressed(GlobalDataSingleton.ACTION_TOSS_SINGLE_ITEM)) return;
         if (!Visible || _uiSlotInstance.InventorySlotResource.IsEmpty() || _uiSlotInstance.InventorySlotResource.GetItem().Amount <= 0) return;
         
         _inventory.TossOneOfHeldItem();

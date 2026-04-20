@@ -34,17 +34,17 @@ public partial class Menu : Control
         
         if (anyRemapButtonsListening) return;
         
-        if(@event.IsActionPressed(InputManager.ACTION_OPEN_INVENTORY))
+        if(@event.IsActionPressed(GlobalDataSingleton.ACTION_OPEN_INVENTORY))
         {
             HandleMenuOpenButton(INVENTORY_TAB_INDEX);
         }
-        if(@event.IsActionPressed(InputManager.ACTION_OPEN_SETTINGS))
+        if(@event.IsActionPressed(GlobalDataSingleton.ACTION_OPEN_SETTINGS))
         {
             // TODO: Do this whenever settings are opened, not just when "O" is pressed
             _settings.Initialize();
             HandleMenuOpenButton(SETTINGS_TAB_INDEX);
         }
-        if(@event.IsActionPressed(InputManager.ACTION_OPEN_ACHIEVEMENTS))
+        if(@event.IsActionPressed(GlobalDataSingleton.ACTION_OPEN_ACHIEVEMENTS))
         {
             HandleMenuOpenButton(ACHIEVEMENTS_TAB_INDEX);
         }

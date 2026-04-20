@@ -4,12 +4,17 @@ namespace ZooBuilder.globals;
 
 public partial class CustomInputEvent : InputEventKey
 {
-    [Signal]
-    public delegate void KeyChangedEventHandler();
+
+    public string ActionKey { get; private set; }
     
-    public void UpdateKeyMapping(Key newKey)
+    public CustomInputEvent(string actionKey, Key physicalKeyCode)
+    {
+        ActionKey = actionKey;
+        PhysicalKeycode = physicalKeyCode;
+    }
+
+    public void SetKeyMapping(Key newKey)
     {
         PhysicalKeycode = newKey;
-        EmitSignal(SignalName.KeyChanged);
     }
 }

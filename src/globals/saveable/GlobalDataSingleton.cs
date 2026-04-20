@@ -7,16 +7,20 @@ using ZooBuilder.ui.settings;
 
 public class GlobalDataSingleton
 {
-    
-    // TODO: Can we move a lot of the JSON conversion (BOOL_TYPE_NAME and SetDataFromDto() and AsJsonDto()) into the GlobalDataJsonDTO, or at least a helper method?
-    // TODO: Reset to default button
+    // TODO: This can probably be cleaned up quite a bit
     // TODO: Generate tabs for each category
     // TODO: Warning when closing settings menu with unchanged settings
-    // TODO: Handle input remappings
-
+    // TODO: Each settings category should have a defaults list, and a way to restore defaults and save etc. - maybe a common interface?
+    // TODO: If the player picks a key that is already used, show what it is used for and give the option to cancel or swap. 
+    
     public static readonly string BOOL_TYPE_NAME = nameof(Boolean);
     public static readonly string FLOAT_TYPE_NAME = nameof(Single);
     public static readonly string STRING_TYPE_NAME = nameof(String);
+    public static readonly string INPUT_EVENT_TYPE_NAME = "InputEvent";
+    
+    public static readonly string SETTINGS_CATEGORY_GAMEPLAY = "Gameplay";
+    public static readonly string SETTINGS_CATEGORY_OTHER = "Other";
+    public static readonly string SETTINGS_CATEGORY_INPUT = "Input";
     
     public static readonly string SETTINGS_LOCATION = "user://settings_3.json";
     
@@ -29,6 +33,17 @@ public class GlobalDataSingleton
     public static readonly string KEY_HIDE_MINIMAP = "SETTINGS_HIDE_MINIMAP";
     public static readonly string KEY_NORTH_FACING_MINIMAP = "SETTINGS_NORTH_FACING_MINIMAP";
     public static readonly string KEY_SELECTED_LOCALE = "SelectedLocale";
+    
+    public static readonly string ACTION_MOVE_RIGHT = "move_right";
+    public static readonly string ACTION_MOVE_LEFT = "move_left";
+    public static readonly string ACTION_MOVE_FORWARD = "move_forward";
+    public static readonly string ACTION_MOVE_BACK = "move_back";
+    public static readonly string ACTION_JUMP = "jump";
+    public static readonly string ACTION_RUN = "run";
+    public static readonly string ACTION_OPEN_SETTINGS = "open_settings";
+    public static readonly string ACTION_OPEN_ACHIEVEMENTS = "open_achievements";
+    public static readonly string ACTION_OPEN_INVENTORY = "open_inventory";
+    public static readonly string ACTION_TOSS_SINGLE_ITEM = "toss_single_item";
 
     // ACCESSORS
     

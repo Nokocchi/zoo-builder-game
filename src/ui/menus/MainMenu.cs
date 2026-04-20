@@ -11,7 +11,6 @@ public partial class MainMenu : CanvasLayer
 	{
 		GlobalDataSingleton.LoadSettingsFromDisk();
 		TranslationServer.SetLocale(GlobalDataSingleton.SelectedLocale);
-		InputManager.LoadActions();
 	}
 
 	

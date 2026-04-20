@@ -15,7 +15,7 @@ public class GlobalData
 
     public readonly Dictionary<string, List<ISetting>> ActiveSettings = new()
     {
-        ["Gameplay"] =
+        [SETTINGS_CATEGORY_GAMEPLAY] =
         [
             new Setting<bool>(KEY_MOUSE_Y_FLIPPED, false),
             new Setting<bool>(KEY_HOTBAR_SCROLL_DIRECTION_FLIPPED, false),
@@ -28,7 +28,23 @@ public class GlobalData
                 AudioServer.SetBusVolumeLinear(audioBusIndexBgMusic, audioVolume / 100);
             })
         ],
-        ["Other"] = [new Setting<string>(KEY_SELECTED_LOCALE, "en", TranslationServer.SetLocale)]
+        [SETTINGS_CATEGORY_OTHER] =
+        [
+            new Setting<string>(KEY_SELECTED_LOCALE, "en", TranslationServer.SetLocale)
+        ],
+        [SETTINGS_CATEGORY_INPUT] =
+        [
+            new InputSetting(ACTION_OPEN_INVENTORY, new CustomInputEvent(ACTION_OPEN_INVENTORY, Key.E)),
+            new InputSetting(ACTION_JUMP, new CustomInputEvent(ACTION_JUMP, Key.Space)),
+            new InputSetting(ACTION_MOVE_RIGHT, new CustomInputEvent(ACTION_MOVE_RIGHT, Key.D)),
+            new InputSetting(ACTION_MOVE_LEFT, new CustomInputEvent(ACTION_MOVE_LEFT, Key.A)),
+            new InputSetting(ACTION_MOVE_FORWARD, new CustomInputEvent(ACTION_MOVE_FORWARD, Key.W)),
+            new InputSetting(ACTION_MOVE_BACK, new CustomInputEvent(ACTION_MOVE_BACK, Key.S)),
+            new InputSetting(ACTION_OPEN_SETTINGS, new CustomInputEvent(ACTION_OPEN_SETTINGS, Key.O)),
+            new InputSetting(ACTION_OPEN_ACHIEVEMENTS, new CustomInputEvent(ACTION_OPEN_ACHIEVEMENTS, Key.P)),
+            new InputSetting(ACTION_RUN, new CustomInputEvent(ACTION_RUN, Key.Shift)),
+            new InputSetting(ACTION_TOSS_SINGLE_ITEM, new CustomInputEvent(ACTION_TOSS_SINGLE_ITEM, Key.Q)),
+        ]
     };
 
     public GlobalData()
@@ -48,6 +64,16 @@ public class GlobalData
         {
             SetDataFromDto(dto);
         }
+        InitializeInputMappings();
+    }
+
+    private void InitializeInputMappings()
+    {
+        foreach (ISetting setting in ActiveSettings[SETTINGS_CATEGORY_INPUT])
+        {
+            InputSetting inputSetting = (InputSetting)setting;
+            inputSetting.StoreKeyMapping();
+        }
     }
 
     private void InitializeLookupTables()
@@ -63,7 +89,7 @@ public class GlobalData
             }
         }
     }
-    
+
     public T Get<T>(string key)
     {
         (string category, int index) = _settingsKeyCategoryIndexMap[key];
@@ -127,6 +153,10 @@ public class GlobalData
                     {
                         convertedValue = jsonElement.GetString();
                     }
+                    else if (type == INPUT_EVENT_TYPE_NAME)
+                    {
+                        convertedValue = (long)jsonElement.GetDouble();
+                    }
                     else
                     {
                         throw new Exception("Unsupported type: " + type);
@@ -150,6 +180,10 @@ public class GlobalData
                 else if (type == STRING_TYPE_NAME)
                 {
                     ActiveSettings[settingsCategory][index].SaveNewValue((string)convertedValue);
+                }
+                else if (type == INPUT_EVENT_TYPE_NAME)
+                {
+                    ActiveSettings[settingsCategory][index].SaveNewValue(new CustomInputEvent(key, (Key) convertedValue));
                 }
                 else
                 {
@@ -184,6 +218,11 @@ public class GlobalData
                 else if (setting is Setting<string>)
                 {
                     type = STRING_TYPE_NAME;
+                }
+                else if (setting is Setting<CustomInputEvent>)
+                {
+                    type = INPUT_EVENT_TYPE_NAME;
+                    value = (long) ((CustomInputEvent)setting.GetValue()).PhysicalKeycode;
                 }
                 else
                 {

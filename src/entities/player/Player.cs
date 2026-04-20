@@ -120,22 +120,22 @@ public partial class Player : CharacterBody3D
         if (!UIManager.IsMenuOpen())
         {
             // We check for each move input and update the direction accordingly.
-            if (Input.IsActionPressed(InputManager.ACTION_MOVE_RIGHT))
+            if (Input.IsActionPressed(GlobalDataSingleton.ACTION_MOVE_RIGHT))
             {
                 direction.X += 1.0f;
             }
 
-            if (Input.IsActionPressed(InputManager.ACTION_MOVE_LEFT))
+            if (Input.IsActionPressed(GlobalDataSingleton.ACTION_MOVE_LEFT))
             {
                 direction.X -= 1.0f;
             }
 
-            if (Input.IsActionPressed(InputManager.ACTION_MOVE_BACK))
+            if (Input.IsActionPressed(GlobalDataSingleton.ACTION_MOVE_BACK))
             {
                 direction.Z += 1.0f;
             }
 
-            if (Input.IsActionPressed(InputManager.ACTION_MOVE_FORWARD))
+            if (Input.IsActionPressed(GlobalDataSingleton.ACTION_MOVE_FORWARD))
             {
                 direction.Z -= 1.0f;
             }
@@ -160,7 +160,7 @@ public partial class Player : CharacterBody3D
             _animationPlayer.SpeedScale = 1;
         }
 
-        int speed = Input.IsActionPressed(InputManager.ACTION_RUN) ? RunSpeed : Speed;
+        int speed = Input.IsActionPressed(GlobalDataSingleton.ACTION_RUN) ? RunSpeed : Speed;
         // Ground velocity
         _targetVelocity.X = direction.X * speed;
         _targetVelocity.Z = direction.Z * speed;
@@ -175,7 +175,7 @@ public partial class Player : CharacterBody3D
         Velocity = _targetVelocity;
 
         // Jumping.
-        if (IsOnFloor() && Input.IsActionJustPressed(InputManager.ACTION_JUMP))
+        if (IsOnFloor() && Input.IsActionJustPressed(GlobalDataSingleton.ACTION_JUMP))
         {
             _targetVelocity.Y = JumpImpulse;
         }
