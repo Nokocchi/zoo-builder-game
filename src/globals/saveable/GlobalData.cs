@@ -17,10 +17,10 @@ public class GlobalData
     {
         [SETTINGS_CATEGORY_GAMEPLAY] =
         [
-            new Setting<bool>(KEY_MOUSE_Y_FLIPPED, false),
-            new Setting<bool>(KEY_HOTBAR_SCROLL_DIRECTION_FLIPPED, false),
-            new Setting<bool>(KEY_HIDE_MINIMAP, false),
-            new Setting<bool>(KEY_NORTH_FACING_MINIMAP, false),
+            new BoolSetting(KEY_MOUSE_Y_FLIPPED, false),
+            new BoolSetting(KEY_HOTBAR_SCROLL_DIRECTION_FLIPPED, false),
+            new BoolSetting(KEY_HIDE_MINIMAP, false),
+            new BoolSetting(KEY_NORTH_FACING_MINIMAP, false),
             new FloatSetting(KEY_MOUSE_SENSITIVITY, 50, 0, 100),
             new FloatSetting(KEY_BACKGROUND_MUSIC_AUDIO_VOLUME, 100, 0, 100, audioVolume =>
             {
@@ -30,7 +30,7 @@ public class GlobalData
         ],
         [SETTINGS_CATEGORY_OTHER] =
         [
-            new Setting<string>(KEY_SELECTED_LOCALE, "en", TranslationServer.SetLocale)
+            new StringSetting(KEY_SELECTED_LOCALE, "en", TranslationServer.SetLocale)
         ],
         [SETTINGS_CATEGORY_INPUT] =
         [
@@ -94,7 +94,7 @@ public class GlobalData
     {
         (string category, int index) = _settingsKeyCategoryIndexMap[key];
         ISetting setting = ActiveSettings[category][index];
-        return (T)setting.GetValue();
+        return (T)setting.GetValueUntyped();
     }
 
     public void SaveToDisk()
@@ -132,34 +132,24 @@ public class GlobalData
             {
                 (string category, int index) = _settingsKeyCategoryIndexMap[entry.Key];
                 ISetting setting = ActiveSettings[category][index];
-                setting.LoadFromJson((JsonElement) entry.Value);
+                setting.LoadFromJson(entry.Value);
             }
         }
     }
 
     private GlobalDataJsonDTO AsJsonDto()
     {
-        Dictionary<string, List<SettingEntryDto>> dataToStore = [];
-        foreach (KeyValuePair<string, List<ISetting>> categoryEntry in ActiveSettings)
+        var data = new Dictionary<string, List<SettingEntryDto>>();
+        foreach ((string category, List<ISetting> settings) in ActiveSettings)
         {
-            string category = categoryEntry.Key;
-            List<ISetting> settings = categoryEntry.Value;
-            dataToStore[category] = [];
-
+            data[category] = [];
             foreach (ISetting setting in settings)
             {
-                object value = setting.GetValue();
-
-                if (setting is Setting<CustomInputEvent>)
-                {
-                    value = (long)((CustomInputEvent)setting.GetValue()).PhysicalKeycode;
-                }
-
-                SettingEntryDto entry = new(setting.Key, value);
-                dataToStore[category].Add(entry);
+                object value = setting.SaveToJson();
+                data[category].Add(new SettingEntryDto(setting.Key, JsonSerializer.SerializeToElement(value)));
             }
         }
 
-        return new GlobalDataJsonDTO(dataToStore);
+        return new GlobalDataJsonDTO(data);
     }
 }

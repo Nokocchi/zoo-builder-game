@@ -12,7 +12,7 @@ public partial class LanguageSelector : OptionButton, ISettingInput
 	public override void _Ready()
 	{
 		AddToGroup(GlobalDataSingleton.SETTINGS_INPUT_GROUP_NAME);
-		PopulateLanguageSelector(_setting.Value);
+		PopulateLanguageSelector(_setting.GetValue());
 	}
 	
 	public static LanguageSelector CreateWithValue(Setting<string> setting)

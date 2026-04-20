@@ -6,7 +6,7 @@ namespace ZooBuilder.ui.settings;
 public interface ISetting
 {
     string Key { get; }
-    object GetValue();
-    void SaveNewValue(object newValue);
+    object GetValueUntyped();
     void LoadFromJson(JsonElement element);
+    object SaveToJson();
 }

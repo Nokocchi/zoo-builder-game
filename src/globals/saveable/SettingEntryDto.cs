@@ -1,7 +1,9 @@
-﻿namespace ZooBuilder.globals.saveable;
+﻿using System.Text.Json;
 
-public class SettingEntryDto(string key, object value)
+namespace ZooBuilder.globals.saveable;
+
+public class SettingEntryDto(string key, JsonElement value)
 {
     public string Key { get; set; } = key;
-    public object Value { get; set; } = value;
+    public JsonElement Value { get; set; } = value;
 }

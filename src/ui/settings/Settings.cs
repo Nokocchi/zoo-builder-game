@@ -43,7 +43,7 @@ public partial class Settings : Control
         {
             child.QueueFree();
         }
-
+        
         foreach (KeyValuePair<string, List<ISetting>> settingsCategory in Instance.ActiveSettings)
         {
             string settingsCategoryKey = settingsCategory.Key;
@@ -64,22 +64,21 @@ public partial class Settings : Control
                 string settingKey = setting.Key;
                 switch (setting)
                 {
-                    case Setting<float> floatSetting:
+                    case FloatSetting floatSetting:
                     {
-                        FloatSetting castFloatSetting = (FloatSetting)floatSetting;
-                        FloatSettingInput input = FloatSettingInput.CreateWithValue(castFloatSetting);
+                        FloatSettingInput input = FloatSettingInput.CreateWithValue(floatSetting);
                         _vBoxContainer1.AddChild(input);
                         break;
                     }
 
-                    case Setting<bool> boolSetting:
+                    case BoolSetting boolSetting:
                     {
                         BooleanSettingInput input = BooleanSettingInput.CreateWithValue(boolSetting);
                         _vBoxContainer2.AddChild(input);
                         break;
                     }
 
-                    case Setting<string> stringSetting:
+                    case StringSetting stringSetting:
                     {
                         if (settingKey == KEY_SELECTED_LOCALE)
                         {

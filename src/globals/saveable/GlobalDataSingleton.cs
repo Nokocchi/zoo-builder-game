@@ -12,11 +12,8 @@ public class GlobalDataSingleton
     // TODO: Warning when closing settings menu with unchanged settings
     // TODO: Each settings category should have a defaults list, and a way to restore defaults and save etc. - maybe a common interface?
     // TODO: If the player picks a key that is already used, show what it is used for and give the option to cancel or swap. 
-    
-    public static readonly string BOOL_TYPE_NAME = nameof(Boolean);
-    public static readonly string FLOAT_TYPE_NAME = nameof(Single);
-    public static readonly string STRING_TYPE_NAME = nameof(String);
-    public static readonly string INPUT_EVENT_TYPE_NAME = "InputEvent";
+    // TODO: Clean up or simplify the switch on Settings impl in settings.cs
+    // TODO: Inputs/actions probably don't belong here. 
     
     public static readonly string SETTINGS_CATEGORY_GAMEPLAY = "Gameplay";
     public static readonly string SETTINGS_CATEGORY_OTHER = "Other";

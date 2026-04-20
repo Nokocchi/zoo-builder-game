@@ -18,8 +18,8 @@ public partial class FloatSettingInput : PanelContainer, ISettingInput
 		_slider = GetNode<HSlider>("%Slider");
 		_inputBox = GetNode<SpinBox>("%InputBox");
 		_label = GetNode<Label>("%Label");
-		_slider.Value = _setting.Value;
-		_inputBox.Value = _setting.Value;
+		_slider.Value = _setting.GetValue();
+		_inputBox.Value = _setting.GetValue();
 		_slider.MinValue = _setting.MinValue;
 		_slider.MaxValue = _setting.MaxValue;
 		_label.Text = _setting.Key;

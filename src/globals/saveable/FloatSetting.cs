@@ -16,8 +16,9 @@ public class FloatSetting : Setting<float>
         MaxValue = maxValue;
     }
     
-    public override void LoadFromJson(JsonElement element)
-    {
-        SaveNewValue((float)element.GetDouble());
-    }
+    protected override float Deserialize(JsonElement element)
+        => (float)element.GetDouble();
+
+    protected override object Serialize(float value)
+        => value;
 }

@@ -25,7 +25,7 @@ public partial class InputRemapButton : Button, ISettingInput
         btn.AddToGroup(INPUT_REMAP_BUTTON_GROUP_NAME);
         btn._inputSetting = inputSetting;
         btn._actionKey = inputSetting.Key;
-        btn._actionInputEventKey = new CustomInputEvent(inputSetting.Value.ActionKey, inputSetting.Value.PhysicalKeycode);
+        btn._actionInputEventKey = new CustomInputEvent(inputSetting.GetValue().ActionKey, inputSetting.GetValue().PhysicalKeycode);
         return btn;
     }
 

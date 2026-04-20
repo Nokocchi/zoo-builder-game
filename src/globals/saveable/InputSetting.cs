@@ -15,7 +15,18 @@ public class InputSetting : Setting<CustomInputEvent>
 
     public void StoreKeyMapping()
     {
-        OnSaveCallback(Value);
+        OnSaveCallback(GetValue());
+    }
+    
+    protected override CustomInputEvent Deserialize(JsonElement element)
+    {
+        Key keycode = (Key)element.GetInt64();
+        return new CustomInputEvent(Key, keycode);
+    }
+
+    protected override object Serialize(CustomInputEvent value)
+    {
+        return (long)value.PhysicalKeycode;
     }
 
     private static void OnSaveCallback(CustomInputEvent customInputEvent)
@@ -30,11 +41,5 @@ public class InputSetting : Setting<CustomInputEvent>
         
         InputMap.AddAction(actionKey);
         InputMap.ActionAddEvent(actionKey, customInputEvent);
-    }
-    
-    public override void LoadFromJson(JsonElement element)
-    {
-        Key key = (Key)element.GetInt64();
-        SaveNewValue(new CustomInputEvent(Key, key));
     }
 }

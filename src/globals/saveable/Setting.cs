@@ -5,45 +5,40 @@ using Godot;
 
 namespace ZooBuilder.ui.settings;
 
-public class Setting<T> : ISetting
+public abstract class Setting<T> : ISetting
 {
     public string Key { get; }
-    public T Value { get; private set; }
-    private readonly Action<T>? _onSaveCallback;
 
-    public Setting(string key, T defaultValue, Action<T>? onSaveCallback = null)
+    private T _value;
+    private readonly Action<T>? _onSave;
+
+    protected Setting(string key, T defaultValue, Action<T>? onSave = null)
     {
         Key = key;
-        Value = defaultValue;
-        _onSaveCallback = onSaveCallback;
+        _value = defaultValue;
+        _onSave = onSave;
     }
 
-    public object GetValue() => Value;
-    
-    public void SaveNewValue(object newValue)
+    public T GetValue() => _value;
+
+    public object GetValueUntyped() => _value!;
+
+    public void SaveNewValue(T value)
     {
-        Value = (T)newValue;
-        executeOnSaveCallback();
+        _value = value;
+        _onSave?.Invoke(value);
     }
 
-    private void executeOnSaveCallback()
+    public void LoadFromJson(JsonElement element)
     {
-        _onSaveCallback?.Invoke(Value);
+        SaveNewValue(Deserialize(element));
     }
-    
-    public virtual void LoadFromJson(JsonElement element)
+
+    public object SaveToJson()
     {
-        object value;
-
-        if (typeof(T) == typeof(bool))
-            value = element.GetBoolean();
-        else if (typeof(T) == typeof(float))
-            value = (float)element.GetDouble();
-        else if (typeof(T) == typeof(string))
-            value = element.GetString();
-        else
-            throw new Exception($"Unsupported type {typeof(T)}");
-
-        SaveNewValue((T)value);
+        return Serialize(_value);
     }
+
+    protected abstract T Deserialize(JsonElement element);
+    protected abstract object Serialize(T value);
 }
