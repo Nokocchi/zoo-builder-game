@@ -22,7 +22,7 @@ public class GlobalDataSingleton
     public static readonly string SETTINGS_CATEGORY_OTHER = "Other";
     public static readonly string SETTINGS_CATEGORY_INPUT = "Input";
     
-    public static readonly string SETTINGS_LOCATION = "user://settings_3.json";
+    public static readonly string SETTINGS_LOCATION = "user://settings.json";
     
     public static readonly string SETTINGS_INPUT_GROUP_NAME = "settings_input_group";
     

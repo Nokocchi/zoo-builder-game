@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using System;
+using System.Text.Json;
 using Godot;
 using ZooBuilder.globals;
 
@@ -29,5 +30,11 @@ public class InputSetting : Setting<CustomInputEvent>
         
         InputMap.AddAction(actionKey);
         InputMap.ActionAddEvent(actionKey, customInputEvent);
+    }
+    
+    public override void LoadFromJson(JsonElement element)
+    {
+        Key key = (Key)element.GetInt64();
+        SaveNewValue(new CustomInputEvent(Key, key));
     }
 }

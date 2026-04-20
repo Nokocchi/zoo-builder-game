@@ -126,69 +126,13 @@ public class GlobalData
 
     private void SetDataFromDto(GlobalDataJsonDTO dto)
     {
-        foreach (KeyValuePair<string, List<SettingEntryDto>> categoryEntry in dto.Settings)
+        foreach (var categoryEntry in dto.Settings)
         {
-            string settingsCategory = categoryEntry.Key;
-            List<SettingEntryDto> entries = categoryEntry.Value;
-
-            foreach (SettingEntryDto entry in entries)
+            foreach (var entry in categoryEntry.Value)
             {
-                string key = entry.Key;
-                string type = entry.Type;
-                object rawValue = entry.Value;
-
-                object convertedValue;
-
-                if (rawValue is JsonElement jsonElement)
-                {
-                    if (type == BOOL_TYPE_NAME)
-                    {
-                        convertedValue = jsonElement.GetBoolean();
-                    }
-                    else if (type == FLOAT_TYPE_NAME)
-                    {
-                        convertedValue = (float)jsonElement.GetDouble();
-                    }
-                    else if (type == STRING_TYPE_NAME)
-                    {
-                        convertedValue = jsonElement.GetString();
-                    }
-                    else if (type == INPUT_EVENT_TYPE_NAME)
-                    {
-                        convertedValue = (long)jsonElement.GetDouble();
-                    }
-                    else
-                    {
-                        throw new Exception("Unsupported type: " + type);
-                    }
-                }
-                else
-                {
-                    convertedValue = rawValue;
-                }
-
-                (string category, int index) = _settingsKeyCategoryIndexMap[key];
-                if (type == BOOL_TYPE_NAME)
-                {
-                    ActiveSettings[settingsCategory][index].SaveNewValue((bool)convertedValue);
-                }
-                else if (type == FLOAT_TYPE_NAME)
-                {
-                    FloatSetting floatSetting = (FloatSetting)ActiveSettings[settingsCategory][index];
-                    floatSetting.SaveNewValue(Convert.ToSingle(convertedValue));
-                }
-                else if (type == STRING_TYPE_NAME)
-                {
-                    ActiveSettings[settingsCategory][index].SaveNewValue((string)convertedValue);
-                }
-                else if (type == INPUT_EVENT_TYPE_NAME)
-                {
-                    ActiveSettings[settingsCategory][index].SaveNewValue(new CustomInputEvent(key, (Key) convertedValue));
-                }
-                else
-                {
-                    throw new Exception("Unsupported type: " + type);
-                }
+                (string category, int index) = _settingsKeyCategoryIndexMap[entry.Key];
+                ISetting setting = ActiveSettings[category][index];
+                setting.LoadFromJson((JsonElement) entry.Value);
             }
         }
     }
@@ -205,31 +149,13 @@ public class GlobalData
             foreach (ISetting setting in settings)
             {
                 object value = setting.GetValue();
-                string type;
 
-                if (setting is Setting<bool>)
+                if (setting is Setting<CustomInputEvent>)
                 {
-                    type = BOOL_TYPE_NAME;
-                }
-                else if (setting is Setting<float>)
-                {
-                    type = FLOAT_TYPE_NAME;
-                }
-                else if (setting is Setting<string>)
-                {
-                    type = STRING_TYPE_NAME;
-                }
-                else if (setting is Setting<CustomInputEvent>)
-                {
-                    type = INPUT_EVENT_TYPE_NAME;
-                    value = (long) ((CustomInputEvent)setting.GetValue()).PhysicalKeycode;
-                }
-                else
-                {
-                    throw new Exception("Unsupported setting type");
+                    value = (long)((CustomInputEvent)setting.GetValue()).PhysicalKeycode;
                 }
 
-                SettingEntryDto entry = new(setting.Key, type, value);
+                SettingEntryDto entry = new(setting.Key, value);
                 dataToStore[category].Add(entry);
             }
         }

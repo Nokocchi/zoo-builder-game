@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using System;
+using System.Text.Json;
 using Godot;
 
 namespace ZooBuilder.ui.settings;
@@ -25,8 +26,24 @@ public class Setting<T> : ISetting
         executeOnSaveCallback();
     }
 
-    public void executeOnSaveCallback()
+    private void executeOnSaveCallback()
     {
         _onSaveCallback?.Invoke(Value);
+    }
+    
+    public virtual void LoadFromJson(JsonElement element)
+    {
+        object value;
+
+        if (typeof(T) == typeof(bool))
+            value = element.GetBoolean();
+        else if (typeof(T) == typeof(float))
+            value = (float)element.GetDouble();
+        else if (typeof(T) == typeof(string))
+            value = element.GetString();
+        else
+            throw new Exception($"Unsupported type {typeof(T)}");
+
+        SaveNewValue((T)value);
     }
 }

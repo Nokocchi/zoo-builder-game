@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using System;
+using System.Text.Json;
 using Godot;
 
 namespace ZooBuilder.ui.settings;
@@ -13,5 +14,10 @@ public class FloatSetting : Setting<float>
     {
         MinValue = minValue;
         MaxValue = maxValue;
+    }
+    
+    public override void LoadFromJson(JsonElement element)
+    {
+        SaveNewValue((float)element.GetDouble());
     }
 }
