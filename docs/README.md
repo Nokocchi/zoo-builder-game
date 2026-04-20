@@ -50,7 +50,7 @@ Actual storyline details, specific features or game mechanics will be added afte
   - ✅ Adjust audio
   - ✅ Hotbar scrolling direction
   - ✅ Only save when save button is clicked
-  - Allow players to remap input
+  - ✅ Allow players to remap input
   - Various graphics settings
 - **Quest view**
   - Show 3 tabs. Active quests, completed quests, all quests
