@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -24,7 +25,6 @@ public partial class Settings : Control
 
     private void OnRestoreDefaultKeyBindingsBtnPressed()
     {
-
     }
 
     public void Initialize()
@@ -43,54 +43,71 @@ public partial class Settings : Control
         {
             child.QueueFree();
         }
-        
+
         foreach (KeyValuePair<string, List<ISetting>> settingsCategory in Instance.ActiveSettings)
         {
             string settingsCategoryKey = settingsCategory.Key;
             List<ISetting> settings = settingsCategory.Value;
-            
-            if (settingsCategoryKey == SETTINGS_CATEGORY_INPUT)
+
+            VBoxContainer settingsContainer = null;
+            if (settingsCategoryKey == SETTINGS_CATEGORY_GAMEPLAY)
             {
-                foreach (ISetting setting in settings)
-                {
-                    InputSetting inputSetting = (InputSetting)setting;
-                    InputRemapButton remapButton = InputRemapButton.Create(inputSetting);
-                    _vBoxContainer3.AddChild(remapButton);
-                }
+                settingsContainer = _vBoxContainer1;
+            }
+            else if (settingsCategoryKey == SETTINGS_CATEGORY_OTHER)
+            {
+                settingsContainer = _vBoxContainer2;
+            }
+            else if (settingsCategoryKey == SETTINGS_CATEGORY_INPUT)
+            {
+                settingsContainer = _vBoxContainer3;
             }
 
             foreach (ISetting setting in settings)
             {
-                string settingKey = setting.Key;
-                switch (setting)
+                ISettingInput input = createSettingsInput(setting);
+                settingsContainer.AddChild((Node) input);
+            }
+            
+            Button button = new();
+            button.Text = "Restore defaults";
+            settingsContainer.AddChild(button);
+            // TODO: When resetting settings, update the Settings
+        }
+    }
+
+    private ISettingInput createSettingsInput(ISetting setting)
+    {
+        string settingKey = setting.Key;
+        switch (setting)
+        {
+            case FloatSetting floatSetting:
+            {
+                return FloatSettingInput.CreateWithValue(floatSetting);
+            }
+
+            case BoolSetting boolSetting:
+            {
+                return BooleanSettingInput.CreateWithValue(boolSetting);
+            }
+
+            case StringSetting stringSetting:
+            {
+                if (settingKey == KEY_SELECTED_LOCALE)
                 {
-                    case FloatSetting floatSetting:
-                    {
-                        FloatSettingInput input = FloatSettingInput.CreateWithValue(floatSetting);
-                        _vBoxContainer1.AddChild(input);
-                        break;
-                    }
-
-                    case BoolSetting boolSetting:
-                    {
-                        BooleanSettingInput input = BooleanSettingInput.CreateWithValue(boolSetting);
-                        _vBoxContainer2.AddChild(input);
-                        break;
-                    }
-
-                    case StringSetting stringSetting:
-                    {
-                        if (settingKey == KEY_SELECTED_LOCALE)
-                        {
-                            LanguageSelector languageSelector = LanguageSelector.CreateWithValue(stringSetting);
-                            _vBoxContainer3.AddChild(languageSelector);
-                        }
-
-                        break;
-                    }
+                    return LanguageSelectorInput.CreateWithValue(stringSetting);
                 }
+
+                break;
+            }
+
+            case InputSetting inputSetting:
+            {
+                return InputRemapButton.Create(inputSetting);
             }
         }
+
+        throw new Exception();
     }
 
     private void SaveBtnClickedSignalHandler()
@@ -98,12 +115,12 @@ public partial class Settings : Control
         IEnumerable<ISettingInput> inputs = GetTree()
             .GetNodesInGroup(SETTINGS_INPUT_GROUP_NAME)
             .OfType<ISettingInput>();
-        
+
         foreach (ISettingInput input in inputs)
         {
             input.SaveInputStateToGlobalSetting();
         }
-        
+
         SaveToDisk();
     }
 }

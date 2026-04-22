@@ -55,19 +55,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer4" type="VBoxContainer" parent="Panel/MarginContainer/ContentAndSaveBtnVboxContainer/HBoxContainer" unique_id=1005399784]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="SaveBtn" type="Button" parent="Panel/MarginContainer/ContentAndSaveBtnVboxContainer/HBoxContainer/VBoxContainer4" unique_id=1690093526]
+[node name="SaveBtn" type="Button" parent="Panel/MarginContainer/ContentAndSaveBtnVboxContainer" unique_id=1690093526]
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 text = "Save"
 
-[node name="RestoreDefaultKeyBindingsBtn" type="Button" parent="Panel/MarginContainer/ContentAndSaveBtnVboxContainer/HBoxContainer/VBoxContainer4" unique_id=1954701655]
-custom_minimum_size = Vector2(80, 30)
-layout_mode = 2
-text = "Restore input defaults"
-
-[connection signal="pressed" from="Panel/MarginContainer/ContentAndSaveBtnVboxContainer/HBoxContainer/VBoxContainer4/SaveBtn" to="." method="SaveBtnClickedSignalHandler"]
-[connection signal="pressed" from="Panel/MarginContainer/ContentAndSaveBtnVboxContainer/HBoxContainer/VBoxContainer4/RestoreDefaultKeyBindingsBtn" to="." method="OnRestoreDefaultKeyBindingsBtnPressed"]
+[connection signal="pressed" from="Panel/MarginContainer/ContentAndSaveBtnVboxContainer/SaveBtn" to="." method="SaveBtnClickedSignalHandler"]

@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using ZooBuilder.ui.settings;
 
-public partial class LanguageSelector : OptionButton, ISettingInput
+public partial class LanguageSelectorInput : OptionButton, ISettingInput
 {
-	private static readonly PackedScene LanguageSelectorInputScene = GD.Load<PackedScene>("res://src/ui/settings/language_selector.tscn");
+	private static readonly PackedScene LanguageSelectorInputScene = GD.Load<PackedScene>("res://src/ui/settings/language_selector_input.tscn");
 
 	private Setting<string> _setting;
 	
@@ -15,9 +15,9 @@ public partial class LanguageSelector : OptionButton, ISettingInput
 		PopulateLanguageSelector(_setting.GetValue());
 	}
 	
-	public static LanguageSelector CreateWithValue(Setting<string> setting)
+	public static LanguageSelectorInput CreateWithValue(Setting<string> setting)
 	{
-		LanguageSelector input = LanguageSelectorInputScene.Instantiate<LanguageSelector>();
+		LanguageSelectorInput input = LanguageSelectorInputScene.Instantiate<LanguageSelectorInput>();
 		input._setting = setting;
 		return input;
 	}
