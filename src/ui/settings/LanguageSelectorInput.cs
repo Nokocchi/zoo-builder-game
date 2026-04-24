@@ -11,7 +11,6 @@ public partial class LanguageSelectorInput : OptionButton, ISettingInput
 	
 	public override void _Ready()
 	{
-		AddToGroup(GlobalDataSingleton.SETTINGS_INPUT_GROUP_NAME);
 		PopulateLanguageSelector(_setting.GetValue());
 	}
 	

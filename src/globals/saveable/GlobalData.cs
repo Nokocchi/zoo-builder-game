@@ -47,14 +47,15 @@ public class GlobalData
         ]
     };
 
+    // Create with default data
     public GlobalData()
     {
-        Initialize();
     }
 
-    public GlobalData(GlobalDataJsonDTO dto)
+    // Create with loaded data and initialize
+    public GlobalData(GlobalDataJsonDTO initializeWithDTO)
     {
-        Initialize(dto);
+        Initialize(initializeWithDTO);
     }
 
     private void Initialize(GlobalDataJsonDTO dto = null)
@@ -113,7 +114,9 @@ public class GlobalData
             if (openError is Error.DoesNotExist or Error.FileNotFound)
             {
                 // TODO: Handle other error cases
-                return new GlobalData();
+                GlobalData newGlobalData = new();
+                newGlobalData.Initialize();
+                return newGlobalData;
             }
 
             GD.Print(openError);

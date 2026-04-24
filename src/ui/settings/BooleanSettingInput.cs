@@ -12,7 +12,6 @@ public partial class BooleanSettingInput : PanelContainer, ISettingInput
 
     public override void _Ready()
     {
-        AddToGroup(GlobalDataSingleton.SETTINGS_INPUT_GROUP_NAME);
         _checkBox = GetNode<CheckBox>("%CheckBox");
         _label = GetNode<Label>("%Label");
         _checkBox.SetPressed(_setting.GetValue());

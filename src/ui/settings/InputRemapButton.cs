@@ -14,15 +14,13 @@ public partial class InputRemapButton : Button, ISettingInput
 
     public override void _Ready()
     {
-        AddToGroup(GlobalDataSingleton.SETTINGS_INPUT_GROUP_NAME);
         _inputKeyLabel = GetNode<Label>("%InputKeyLabel");
         UpdateText();
     }
 
     public static InputRemapButton Create(InputSetting inputSetting)
     {
-        InputRemapButton btn = InputRemapButtonScene.Instantiate<InputRemapButton>();
-        btn.AddToGroup(INPUT_REMAP_BUTTON_GROUP_NAME);
+        InputRemapButton btn = InputRemapButtonScene.Instantiate<InputRemapButton>(); ;
         btn._inputSetting = inputSetting;
         btn._actionKey = inputSetting.Key;
         btn._actionInputEventKey = new CustomInputEvent(inputSetting.GetValue().ActionKey, inputSetting.GetValue().PhysicalKeycode);

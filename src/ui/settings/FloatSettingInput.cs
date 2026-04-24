@@ -14,7 +14,6 @@ public partial class FloatSettingInput : PanelContainer, ISettingInput
 
 	public override void _Ready()
 	{
-		AddToGroup(GlobalDataSingleton.SETTINGS_INPUT_GROUP_NAME);
 		_slider = GetNode<HSlider>("%Slider");
 		_inputBox = GetNode<SpinBox>("%InputBox");
 		_label = GetNode<Label>("%Label");
@@ -42,7 +41,7 @@ public partial class FloatSettingInput : PanelContainer, ISettingInput
 		_setting.SaveNewValue((float) _slider.Value);
 	}
 
-	public static FloatSettingInput CreateWithValue(FloatSetting setting)
+	public static FloatSettingInput CreateWithValue( FloatSetting setting)
 	{
 		FloatSettingInput input = FloatSettingInputScene.Instantiate<FloatSettingInput>();
 		input._setting = setting;

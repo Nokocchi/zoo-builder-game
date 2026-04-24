@@ -1,18 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Text.Json;
-using Godot;
 using ZooBuilder.globals.saveable;
-using ZooBuilder.ui.settings;
 
 public class GlobalDataSingleton
 {
-    // TODO: This can probably be cleaned up quite a bit
-    // TODO: Generate tabs for each category
+    // SETTINGS:
+    // TODO: Implement RestoreDefault method
+    // TODO: Reload view
+    // TODO: All menu tabs should have a shared menuContainer theme or scene so that they all have the same padding and look
+    // TODO: Highlight settings input if value changed
     // TODO: Warning when closing settings menu with unchanged settings
+    
+    // TODO: This can probably be cleaned up quite a bit
     // TODO: Each settings category should have a defaults list, and a way to restore defaults and save etc. - maybe a common interface?
     // TODO: If the player picks a key that is already used, show what it is used for and give the option to cancel or swap. 
-    // TODO: Clean up or simplify the switch on Settings impl in settings.cs
     // TODO: Inputs/actions probably don't belong here. 
     
     public static readonly string SETTINGS_CATEGORY_GAMEPLAY = "Gameplay";
@@ -20,8 +19,6 @@ public class GlobalDataSingleton
     public static readonly string SETTINGS_CATEGORY_INPUT = "Input";
     
     public static readonly string SETTINGS_LOCATION = "user://settings.json";
-    
-    public static readonly string SETTINGS_INPUT_GROUP_NAME = "settings_input_group";
     
     public static readonly string KEY_MOUSE_SENSITIVITY = "SETTINGS_MOUSE_SENSITIVITY";
     public static readonly string KEY_BACKGROUND_MUSIC_AUDIO_VOLUME = "SETTINGS_AUDIO_BG_VOL";
@@ -45,6 +42,7 @@ public class GlobalDataSingleton
     // ACCESSORS
     
     public static GlobalData Instance { get; private set; }
+    public static GlobalData Defaults { get; private set; }
     
     public static bool MouseYFlipped => Instance.Get<bool>(KEY_MOUSE_Y_FLIPPED);
     public static bool HotbarScrollDirectionFlipped => Instance.Get<bool>(KEY_HOTBAR_SCROLL_DIRECTION_FLIPPED);
@@ -57,6 +55,7 @@ public class GlobalDataSingleton
     public static void LoadSettingsFromDisk()
     {
         Instance = GlobalData.LoadFromDisk();
+        Defaults = new GlobalData();
     }
 
     public static void SaveToDisk()
