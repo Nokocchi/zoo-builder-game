@@ -51,6 +51,7 @@ public partial class FloatSettingInput : PanelContainer, ISettingInput
 	public void RestoreDefault()
 	{
 		float defaultValue = GlobalDataSingleton.Defaults.Get<float>(_setting.Key);
-		_setting.SaveNewValue(defaultValue);
+		_slider.Value = defaultValue;
+		_inputBox.Value = defaultValue;
 	}
 }

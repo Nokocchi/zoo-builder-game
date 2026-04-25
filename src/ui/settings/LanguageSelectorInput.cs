@@ -51,6 +51,17 @@ public partial class LanguageSelectorInput : OptionButton, ISettingInput
 	public void RestoreDefault()
 	{
 		string defaultValue = GlobalDataSingleton.Defaults.Get<string>(_setting.Key);
-		_setting.SaveNewValue(defaultValue);
+		
+		for (int i = 0; i < ItemCount; i++)
+		{
+			string locale = (string)GetItemMetadata(i);
+
+			if (locale == defaultValue)
+			{
+				Select(i);
+				return;
+			}
+		}
+		
 	}
 }

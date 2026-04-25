@@ -77,8 +77,6 @@ public partial class SettingsCategoryContainer : VBoxContainer
         {
             input.RestoreDefault();
         }
-
-        SaveToDisk();
     }
 
     private void OnSaveButtonPressedSignalHandler()

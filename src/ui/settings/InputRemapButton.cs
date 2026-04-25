@@ -70,6 +70,7 @@ public partial class InputRemapButton : Button, ISettingInput
     public void RestoreDefault()
     {
         CustomInputEvent defaultValue = GlobalDataSingleton.Defaults.Get<CustomInputEvent>(_inputSetting.Key);
-        _inputSetting.SaveNewValue(defaultValue);
+        _actionInputEventKey = defaultValue;
+        UpdateText();
     }
 }

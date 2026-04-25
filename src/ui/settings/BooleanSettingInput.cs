@@ -33,6 +33,6 @@ public partial class BooleanSettingInput : PanelContainer, ISettingInput
     public void RestoreDefault()
     {
         bool defaultValue = GlobalDataSingleton.Defaults.Get<bool>(_setting.Key);
-        _setting.SaveNewValue(defaultValue);
+        _checkBox.ButtonPressed = defaultValue;
     }
 }
