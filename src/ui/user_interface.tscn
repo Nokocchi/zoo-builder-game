@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://cu2u1if3nxhi"]
 
-[ext_resource type="PackedScene" uid="uid://c72a0pojkscg1" path="res://src/ui/hud.tscn" id="1_mnt17"]
-[ext_resource type="Script" uid="uid://isfg8cuaye8x" path="res://src/ui/inventory/OverworldDropListenerPanel.cs" id="3_l7m13"]
-[ext_resource type="PackedScene" uid="uid://35h1drx8luv0" path="res://src/ui/menu.tscn" id="5_5cefr"]
-[ext_resource type="PackedScene" uid="uid://cj1sh7dasg33y" path="res://src/ui/inventory/hotbar/hot_bar_view.tscn" id="7_1kx6s"]
-[ext_resource type="PackedScene" uid="uid://b188e020fy2c8" path="res://src/ui/game_save_label.tscn" id="9_c247d"]
-[ext_resource type="Script" uid="uid://mijcq21r47nf" path="res://src/ui/GameSaveLabel.cs" id="10_qhj0k"]
-[ext_resource type="PackedScene" uid="uid://6rbicaxbnvcl" path="res://src/ui/inventory/mouse_with_item_marker.tscn" id="11_w70da"]
+[ext_resource type="PackedScene" uid="uid://c72a0pojkscg1" path="res://src/ui/hud/hud.tscn" id="1_mnt17"]
+[ext_resource type="Script" uid="uid://isfg8cuaye8x" path="res://src/ui/ingamemenu/inventory/OverworldDropListenerPanel.cs" id="3_l7m13"]
+[ext_resource type="PackedScene" uid="uid://35h1drx8luv0" path="res://src/ui/ingamemenu/menu.tscn" id="5_5cefr"]
+[ext_resource type="PackedScene" uid="uid://cj1sh7dasg33y" path="res://src/ui/ingamemenu/inventory/hotbar/hot_bar_view.tscn" id="7_1kx6s"]
+[ext_resource type="PackedScene" uid="uid://b188e020fy2c8" path="res://src/ui/hud/game_save_label.tscn" id="9_c247d"]
+[ext_resource type="Script" uid="uid://mijcq21r47nf" path="res://src/ui/hud/GameSaveLabel.cs" id="10_qhj0k"]
+[ext_resource type="PackedScene" uid="uid://6rbicaxbnvcl" path="res://src/ui/ingamemenu/inventory/mouse_with_item_marker.tscn" id="11_w70da"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_074og"]
 bg_color = Color(0.6, 0.6, 0.6, 0)

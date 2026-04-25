@@ -3,7 +3,6 @@ using ZooBuilder.globals.saveable;
 public class GlobalDataSingleton
 {
     // SETTINGS:
-    // TODO: Reload view on restore defaults
     // TODO: All menu tabs should have a shared menuContainer theme or scene so that they all have the same padding and look
     // TODO: Highlight settings input if value changed
     // TODO: Warning when closing settings menu with unchanged settings

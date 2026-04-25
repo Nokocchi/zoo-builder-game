@@ -37,9 +37,6 @@ public partial class Player : CharacterBody3D
     private GlobalObjectsContainer _globals;
     private ItemHeldInHandMesh _itemHeldInHandMesh;
     private AnimationPlayer _animationPlayer;
-
-    [Export]
-    public PackedScene OverworldItemScene { get; set; }
     
     [Signal]
     public delegate void HitEventHandler();

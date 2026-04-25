@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cepapv538ecu6"]
+
+[ext_resource type="Script" uid="uid://de7af6wo0nbpa" path="res://src/ui/ingamemenu/achievement/AchievementsUI.cs" id="1_ww8k0"]
+
+[node name="AchievementsUI" type="VBoxContainer" unique_id=1430988465]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 1142.0
+offset_bottom = 631.0
+theme_override_constants/separation = 15
+script = ExtResource("1_ww8k0")

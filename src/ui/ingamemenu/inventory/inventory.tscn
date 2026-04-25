@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://d6u50yq3mt8o"]
+
+[ext_resource type="Script" uid="uid://bk8vhpa6ssxsu" path="res://src/ui/ingamemenu/inventory/MainInventoryGridContainer.cs" id="2_1deq4"]
+
+[node name="Inventory" type="MarginContainer" unique_id=2126084695]
+offset_right = 1124.0
+offset_bottom = 628.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_right = 10
+script = ExtResource("2_1deq4")
+
+[node name="UISlotContainer" type="GridContainer" parent="." unique_id=1117256098]
+unique_name_in_owner = true
+clip_contents = true
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 10
