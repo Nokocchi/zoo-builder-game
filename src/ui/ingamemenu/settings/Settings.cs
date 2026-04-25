@@ -8,7 +8,7 @@ public partial class Settings : Control
     
     public override void _Ready()
     {
-        Visible = false;
+        Initialize();
     }
 
     public void Initialize()

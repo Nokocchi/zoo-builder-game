@@ -1,11 +1,7 @@
 [gd_scene format=3 uid="uid://35h1drx8luv0"]
 
-[ext_resource type="PackedScene" uid="uid://d6u50yq3mt8o" path="res://src/ui/ingamemenu/inventory/inventory.tscn" id="1_fqjwh"]
 [ext_resource type="Theme" uid="uid://bu6nmhhcx3muw" path="res://art/tooltip_popup_theme.tres" id="1_r1qqu"]
 [ext_resource type="Script" uid="uid://bklv43quacy8o" path="res://src/ui/ingamemenu/Menu.cs" id="1_w3pxu"]
-[ext_resource type="PackedScene" uid="uid://cv4awdbqqm0k7" path="res://src/ui/ingamemenu/settings/settings.tscn" id="2_w3pxu"]
-[ext_resource type="PackedScene" uid="uid://cepapv538ecu6" path="res://src/ui/ingamemenu/achievement/achievements.tscn" id="3_r1qqu"]
-[ext_resource type="PackedScene" uid="uid://b8mmiweyke4io" path="res://src/ui/ingamemenu/menu_tab_container_panel.tscn" id="3_w3pxu"]
 
 [node name="Menu" type="Control" unique_id=1828590038]
 layout_mode = 3
@@ -43,23 +39,5 @@ theme_override_constants/margin_bottom = 10
 [node name="TabContainer" type="TabContainer" parent="MarginContainer/PanelContainer/MarginContainer" unique_id=474966242]
 unique_name_in_owner = true
 layout_mode = 2
-current_tab = 0
-
-[node name="Inventory" parent="MarginContainer/PanelContainer/MarginContainer/TabContainer" unique_id=366993659 instance=ExtResource("3_w3pxu")]
-layout_mode = 2
-_contentScene = ExtResource("1_fqjwh")
-metadata/_tab_index = 0
-
-[node name="Settings" parent="MarginContainer/PanelContainer/MarginContainer/TabContainer" unique_id=55254045 instance=ExtResource("3_w3pxu")]
-visible = false
-layout_mode = 2
-_contentScene = ExtResource("2_w3pxu")
-metadata/_tab_index = 1
-
-[node name="Achievements" parent="MarginContainer/PanelContainer/MarginContainer/TabContainer" unique_id=1796257824 instance=ExtResource("3_w3pxu")]
-visible = false
-layout_mode = 2
-_contentScene = ExtResource("3_r1qqu")
-metadata/_tab_index = 2
 
 [connection signal="tab_selected" from="MarginContainer/PanelContainer/MarginContainer/TabContainer" to="." method="TabContainerTabSelectionChangedListener"]

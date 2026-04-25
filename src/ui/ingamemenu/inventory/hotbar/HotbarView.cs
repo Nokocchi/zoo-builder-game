@@ -3,7 +3,7 @@ using ZooBuilder.entities.player;
 using ZooBuilder.globals;
 using ZooBuilder.ui.inventory;
 
-public partial class HotbarView : InventoryHandler
+public partial class HotbarView : AbstractInventoryUi
 {
     public int SelectedHotbarIndex { get; private set; }
 

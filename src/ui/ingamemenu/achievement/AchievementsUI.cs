@@ -10,7 +10,6 @@ public partial class AchievementsUI : VBoxContainer
 	
 	public override void _Ready()
 	{
-		Visible = false;
 		Load();
 	}
 

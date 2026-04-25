@@ -3,11 +3,9 @@ using ZooBuilder.globals.saveable;
 public class GlobalDataSingleton
 {
     // SETTINGS:
-    // TODO: All menu tabs should have a shared menuContainer theme or scene so that they all have the same padding and look
     // TODO: Highlight settings input if value changed
-    // TODO: Warning when closing settings menu with unchanged settings
-    // TODO: Settings are not loaded if menu opened with E and tab is changed to settings
     // TODO: If the player picks a key that is already used, show what it is used for and give the option to cancel or swap. 
+    // TODO: Warning when closing settings menu with unchanged settings
     
     // TODO: Inputs/actions probably don't belong here. 
     

@@ -5,7 +5,6 @@ using ZooBuilder.ui.settings;
 
 public partial class InputRemapButton : Button, ISettingInput
 {
-    public static readonly string INPUT_REMAP_BUTTON_GROUP_NAME = "input_remap_button_group";
     private static readonly PackedScene InputRemapButtonScene = GD.Load<PackedScene>("res://src/ui/ingamemenu/settings/input/InputRemapButton.tscn");
     private Label _inputKeyLabel;
     private string _actionKey;
@@ -59,6 +58,7 @@ public partial class InputRemapButton : Button, ISettingInput
         {
             _actionInputEventKey.SetKeyMapping(key.PhysicalKeycode);
             ButtonPressed = false;
+            GetWindow().SetInputAsHandled();
         }
     }
 

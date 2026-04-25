@@ -7,55 +7,39 @@ public partial class Menu : Control
 {
     private TabContainer _tabContainer;
 
-    private MainInventoryGridContainer _inventory;
-    private Settings _settings;
-    private AchievementsUI _achievements;
+    private int _inventoryTabIndex;
+    private int _settingsTabIndex;
+    private int _achievementsTabIndex;
     
-    // TODO: This seems a bit hacky. Could it be automated somehow? 
-    private const int INVENTORY_TAB_INDEX = 0;
-    private const int SETTINGS_TAB_INDEX = 1;
-    private const int ACHIEVEMENTS_TAB_INDEX = 2;
+    private static readonly PackedScene InventoryScene = GD.Load<PackedScene>("res://src/ui/ingamemenu/inventory/inventory.tscn");
+    private static readonly PackedScene SettingsScene = GD.Load<PackedScene>("res://src/ui/ingamemenu/settings/settings.tscn");
+    private static readonly PackedScene AchievementsScene = GD.Load<PackedScene>("res://src/ui/ingamemenu/achievement/achievements.tscn");
 
     public override void _Ready()
     {
         _tabContainer = GetNode<TabContainer>("%TabContainer");
-        _inventory = (MainInventoryGridContainer)_tabContainer.GetTabControl(INVENTORY_TAB_INDEX);
-        _settings = (Settings)_tabContainer.GetTabControl(SETTINGS_TAB_INDEX);
-        _achievements = (AchievementsUI)_tabContainer.GetTabControl(ACHIEVEMENTS_TAB_INDEX);
         Visible = false;
     }
     
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
-        bool anyRemapButtonsListening = GetTree()
-            .GetNodesInGroup(InputRemapButton.INPUT_REMAP_BUTTON_GROUP_NAME)
-            .OfType<InputRemapButton>()
-            .Any(button => button.IsPressed());
-        
-        if (anyRemapButtonsListening) return;
-        
-        if(@event.IsActionPressed(GlobalDataSingleton.ACTION_OPEN_INVENTORY))
-        {
-            HandleMenuOpenButton(INVENTORY_TAB_INDEX);
-        }
-        if(@event.IsActionPressed(GlobalDataSingleton.ACTION_OPEN_SETTINGS))
-        {
-            // TODO: Do this whenever settings are opened, not just when "O" is pressed
-            _settings.Initialize();
-            HandleMenuOpenButton(SETTINGS_TAB_INDEX);
-        }
-        if(@event.IsActionPressed(GlobalDataSingleton.ACTION_OPEN_ACHIEVEMENTS))
-        {
-            HandleMenuOpenButton(ACHIEVEMENTS_TAB_INDEX);
-        }
+        if (@event.IsActionPressed(GlobalDataSingleton.ACTION_OPEN_INVENTORY))
+            HandleMenuOpenButton(MenuTab.Inventory);
+
+        if (@event.IsActionPressed(GlobalDataSingleton.ACTION_OPEN_SETTINGS))
+            HandleMenuOpenButton(MenuTab.Settings);
+
+        if (@event.IsActionPressed(GlobalDataSingleton.ACTION_OPEN_ACHIEVEMENTS))
+            HandleMenuOpenButton(MenuTab.Achievements);
     }
 
-    private void HandleMenuOpenButton(int tabIndex)
+    private void HandleMenuOpenButton(MenuTab tabToShow)
     {
-        int currentTabIndex = _tabContainer.GetCurrentTab();
         if (UIManager.IsMenuOpen())
         {
-            if (currentTabIndex == tabIndex)
+            int currentTabIndex = _tabContainer.GetCurrentTab();
+            int indexOfTabToShow = GetTabIndex(tabToShow);
+            if (currentTabIndex == indexOfTabToShow)
             {
                 Visible = false;
                 UIManager.CloseMenu();
@@ -63,29 +47,70 @@ public partial class Menu : Control
             }
             else
             {
-                _tabContainer.SetCurrentTab(tabIndex);
+                _tabContainer.SetCurrentTab(indexOfTabToShow);
             }
         }
         else
         {
+            MainInventoryUI inventory = InventoryScene.Instantiate<MainInventoryUI>();
+            Settings settings = SettingsScene.Instantiate<Settings>();
+            AchievementsUI achievements = AchievementsScene.Instantiate<AchievementsUI>();
+
+            foreach (Node child in _tabContainer.GetChildren())
+            {
+                child.Free();
+            }
+
+            _inventoryTabIndex = AddTab(inventory, "MENU_TAB_INVENTORY");
+            _settingsTabIndex = AddTab(settings, "MENU_TAB_SETTINGS");
+            _achievementsTabIndex = AddTab(achievements, "MENU_TAB_ACHIEVEMENTS");
+            
             UIManager.OpenMenu();
             Visible = true;
-            _tabContainer.SetCurrentTab(tabIndex);
+            _tabContainer.SetCurrentTab(GetTabIndex(tabToShow));
         }
-        Input.MouseMode = Visible ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
+        
+        Input.MouseMode = UIManager.IsMenuOpen() ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
     }
+    
+    private int AddTab(Control content, string title)
+    {
+        MenuTabContainerPanel panel = MenuTabContainerPanel.CreateWithContent(content);
+        _tabContainer.AddChild(panel);
 
-    // TODO: Can this be used for anything? 
+        int index = _tabContainer.GetTabIdxFromControl(panel);
+        _tabContainer.SetTabTitle(index, title);
+
+        return index;
+    }
+    
     private void TabContainerTabSelectionChangedListener(int newTabIndex)
     {
-        if (newTabIndex == INVENTORY_TAB_INDEX)
+        if (newTabIndex == _inventoryTabIndex)
         {
-        } else if (newTabIndex == SETTINGS_TAB_INDEX)
+        } else if (newTabIndex == _settingsTabIndex)
         {
-        } else if (newTabIndex == ACHIEVEMENTS_TAB_INDEX)
+        } else if (newTabIndex == _achievementsTabIndex)
         {
         }
     }
 
+    private int GetTabIndex(MenuTab tab)
+    {
+        return tab switch
+        {
+            MenuTab.Inventory => _inventoryTabIndex,
+            MenuTab.Settings => _settingsTabIndex,
+            MenuTab.Achievements => _achievementsTabIndex,
+            _ => 0
+        };
+    }
+    
+    private enum MenuTab
+    {
+        Inventory,
+        Settings,
+        Achievements
+    }
 
 }

@@ -7,7 +7,7 @@ using static GlobalDataSingleton;
 
 public partial class SettingsCategoryContainer : VBoxContainer
 {
-    private static readonly PackedScene SettingsCategoryContainerScene = GD.Load<PackedScene>("res://src/ui/settings/settings_category_container.tscn");
+    private static readonly PackedScene SettingsCategoryContainerScene = GD.Load<PackedScene>("res://src/ui/ingamemenu/settings/settings_category_container.tscn");
     private string _settingCategoryKey;
     private Label _title;
     private VBoxContainer _settingsContainer;

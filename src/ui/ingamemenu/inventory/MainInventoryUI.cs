@@ -1,6 +1,6 @@
 ﻿namespace ZooBuilder.ui.inventory;
 
-public partial class MainInventoryGridContainer : InventoryHandler
+public partial class MainInventoryUI : AbstractInventoryUi
 {
     public override void _Ready()
     {
