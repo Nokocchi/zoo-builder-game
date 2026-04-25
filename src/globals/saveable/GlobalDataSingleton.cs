@@ -3,10 +3,12 @@ using ZooBuilder.globals.saveable;
 public class GlobalDataSingleton
 {
     // SETTINGS:
+    // TODO: Proper styling of the settings list
     // TODO: Highlight settings input if value changed
     // TODO: If the player picks a key that is already used, show what it is used for and give the option to cancel or swap. 
     // TODO: Warning when closing settings menu with unchanged settings
     
+    // TODO: Opening and closing the menu means that you can no longer place any items in the inventory. Also, already placed items will disappear after closing and reopening. Fix bug!
     // TODO: Inputs/actions probably don't belong here. 
     
     public static readonly string SETTINGS_CATEGORY_GAMEPLAY = "Gameplay";

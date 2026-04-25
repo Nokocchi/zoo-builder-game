@@ -113,6 +113,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 ## Others
 - ✅ Autoload EventBus using generic C# events
+- Proper tests
 
 ---
 
