@@ -4,8 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cct7dqifva85s" path="res://src/entities/player/player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cqejvmqcgsyw4" path="res://src/entities/mob/mob.tscn" id="2_1bvp3"]
 [ext_resource type="Resource" uid="uid://c8gtfq4el17x7" path="res://src/globals/resources/DayNightCycleResource.tres" id="3_cegan"]
-[ext_resource type="PackedScene" uid="uid://cu2u1if3nxhi" path="res://src/globals/util/user_interface.tscn" id="5_074og"]
-[ext_resource type="Script" uid="uid://ifnnmars022x" path="res://src/ui/UserInterface.cs" id="6_cegan"]
+[ext_resource type="PackedScene" uid="uid://cu2u1if3nxhi" path="res://src/ui/user_interface.tscn" id="5_074og"]
 [ext_resource type="PackedScene" uid="uid://c6ts0k6wj3s1u" path="res://src/entities/item/overworld_item.tscn" id="8_kek77"]
 [ext_resource type="Texture2D" uid="uid://cpf58p7pinxex" path="res://art/samplepic.png" id="9_ycdy4"]
 [ext_resource type="Resource" uid="uid://bpxkd43kvlasp" path="res://src/entities/item/item_apple.tres" id="11_w48qg"]
@@ -479,21 +478,21 @@ _data = {
 &"SkyboxDayNightCycle": SubResource("Animation_a6jrf")
 }
 
-[sub_resource type="Resource" id="Resource_adv81"]
+[sub_resource type="Resource" id="Resource_d7bab"]
 resource_local_to_scene = true
 script = ExtResource("12_2cqfq")
 ItemData = ExtResource("20_ib8ht")
 Amount = 1
 metadata/_custom_type_script = "uid://cqb8fpfa7pppt"
 
-[sub_resource type="Resource" id="Resource_lovvn"]
+[sub_resource type="Resource" id="Resource_ib8ht"]
 resource_local_to_scene = true
 script = ExtResource("12_2cqfq")
 ItemData = ExtResource("21_43aqp")
 Amount = 1
 metadata/_custom_type_script = "uid://cqb8fpfa7pppt"
 
-[sub_resource type="Resource" id="Resource_jitvu"]
+[sub_resource type="Resource" id="Resource_43aqp"]
 resource_local_to_scene = true
 script = ExtResource("12_2cqfq")
 ItemData = ExtResource("22_ocmcv")
@@ -549,7 +548,6 @@ wait_time = 0.5
 autostart = true
 
 [node name="UserInterface" parent="." unique_id=1646991969 instance=ExtResource("5_074og")]
-script = ExtResource("6_cegan")
 
 [node name="OverworldItem" parent="." unique_id=749414553 instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.76123, 23.6205)
@@ -593,15 +591,15 @@ autoplay = &"SkyboxDayNightCycle"
 
 [node name="OverworldItem5" parent="." unique_id=303049329 instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.89354, 0, 23.194145)
-ItemStackResource = SubResource("Resource_adv81")
+ItemStackResource = SubResource("Resource_d7bab")
 
 [node name="OverworldItem6" parent="." unique_id=1493305534 instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.77247, 0, 25.283464)
-ItemStackResource = SubResource("Resource_lovvn")
+ItemStackResource = SubResource("Resource_ib8ht")
 
 [node name="OverworldItem7" parent="." unique_id=1157777972 instance=ExtResource("8_kek77")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.77247, 0, -21.254095)
-ItemStackResource = SubResource("Resource_jitvu")
+ItemStackResource = SubResource("Resource_43aqp")
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]

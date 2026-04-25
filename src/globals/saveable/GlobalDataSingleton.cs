@@ -7,10 +7,9 @@ public class GlobalDataSingleton
     // TODO: All menu tabs should have a shared menuContainer theme or scene so that they all have the same padding and look
     // TODO: Highlight settings input if value changed
     // TODO: Warning when closing settings menu with unchanged settings
-    
-    // TODO: This can probably be cleaned up quite a bit
-    // TODO: Each settings category should have a defaults list, and a way to restore defaults and save etc. - maybe a common interface?
+    // TODO: Settings are not loaded if menu opened with E and tab is changed to settings
     // TODO: If the player picks a key that is already used, show what it is used for and give the option to cancel or swap. 
+    
     // TODO: Inputs/actions probably don't belong here. 
     
     public static readonly string SETTINGS_CATEGORY_GAMEPLAY = "Gameplay";
