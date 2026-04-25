@@ -50,21 +50,14 @@ public class GlobalData
     // Create with default data
     public GlobalData()
     {
+        InitializeLookupTables();
     }
 
     // Create with loaded data and initialize
     public GlobalData(GlobalDataJsonDTO initializeWithDTO)
     {
-        Initialize(initializeWithDTO);
-    }
-
-    private void Initialize(GlobalDataJsonDTO dto = null)
-    {
         InitializeLookupTables();
-        if (dto != null)
-        {
-            SetDataFromDto(dto);
-        }
+        SetDataFromDto(initializeWithDTO);
         InitializeInputMappings();
     }
 
@@ -114,9 +107,7 @@ public class GlobalData
             if (openError is Error.DoesNotExist or Error.FileNotFound)
             {
                 // TODO: Handle other error cases
-                GlobalData newGlobalData = new();
-                newGlobalData.Initialize();
-                return newGlobalData;
+                return new GlobalData();
             }
 
             GD.Print(openError);

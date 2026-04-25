@@ -29,4 +29,10 @@ public partial class BooleanSettingInput : PanelContainer, ISettingInput
     {
         _setting.SaveNewValue(_checkBox.ButtonPressed);
     }
+
+    public void RestoreDefault()
+    {
+        bool defaultValue = GlobalDataSingleton.Defaults.Get<bool>(_setting.Key);
+        _setting.SaveNewValue(defaultValue);
+    }
 }

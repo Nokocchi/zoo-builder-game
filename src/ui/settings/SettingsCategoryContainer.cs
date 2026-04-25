@@ -75,10 +75,10 @@ public partial class SettingsCategoryContainer : VBoxContainer
     {
         foreach (ISettingInput input in GetInputs())
         {
-            //input.RestoreDefault();
+            input.RestoreDefault();
         }
 
-        //SaveToDisk();
+        SaveToDisk();
     }
 
     private void OnSaveButtonPressedSignalHandler()

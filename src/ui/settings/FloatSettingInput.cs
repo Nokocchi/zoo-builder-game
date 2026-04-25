@@ -47,4 +47,10 @@ public partial class FloatSettingInput : PanelContainer, ISettingInput
 		input._setting = setting;
 		return input;
 	}
+	
+	public void RestoreDefault()
+	{
+		float defaultValue = GlobalDataSingleton.Defaults.Get<float>(_setting.Key);
+		_setting.SaveNewValue(defaultValue);
+	}
 }

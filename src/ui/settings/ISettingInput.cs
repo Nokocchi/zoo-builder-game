@@ -3,4 +3,5 @@
 public interface ISettingInput
 {
     void SaveInputStateToGlobalSetting();
+    void RestoreDefault();
 }
