@@ -5,8 +5,9 @@ using GodotSteam;
 using ZooBuilder.data.stats;
 using ZooBuilder.globals;
 using ZooBuilder.globals.saveable;
+using static ZooBuilder.globals.saveable.GameDataSingleton;
 
-public partial class Player : CharacterBody3D
+public partial class Player : CharacterBody3D, ISaveableNode
 {
     // How fast the player moves in meters per second.
     [Export] public int Speed { get; set; } = 14;
@@ -53,10 +54,9 @@ public partial class Player : CharacterBody3D
         _itemPickupZone = GetNode<Area3D>("ItemImmediatePickupZone");
         _pivot = GetNode<Node3D>("Pivot");
         _globals.Player = this;
-        GlobalPosition = GameDataSingleton.Instance.PlayerGlobalPosition;
-        _pivot.Rotation = GameDataSingleton.Instance.PlayerRotation;
         _itemHeldInHandMesh = GetNode<ItemHeldInHandMesh>("%ItemHeldInHandMesh");
         _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        AddToGroup(SAVEABLE_NODE_GROUP);
     }
 
     private void ItemPullZoneBodyEntered(Node3D ignored)
@@ -205,5 +205,17 @@ public partial class Player : CharacterBody3D
         }
         
         _pivot.Rotation = new Vector3(Mathf.Pi / 6.0f * Velocity.Y / JumpImpulse, _pivot.Rotation.Y, _pivot.Rotation.Z);
+    }
+
+    public void SaveTo(GameData data)
+    {
+        data.PlayerGlobalPosition = GlobalPosition;
+        data.PlayerRotation = _pivot.Rotation;
+    }
+
+    public void LoadFrom(GameData data)
+    {
+        GlobalPosition = data.PlayerGlobalPosition;
+        _pivot.Rotation = data.PlayerRotation;
     }
 }

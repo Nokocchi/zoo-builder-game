@@ -22,6 +22,7 @@ DrawLine3d="*res://src/globals/util/DrawLine3D.gd"
 DrawLine3dMono="*res://src/globals/util/DrawLine3D.cs"
 SteamSetup="*res://src/globals/util/SteamSetup.cs"
 LocaleUtil="*uid://srrpv8wo2rtt"
+GameDataSingleton="*uid://cl06tcxybb67c"
 
 [debug]
 

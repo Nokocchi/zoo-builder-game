@@ -28,13 +28,15 @@ public partial class Main : Node
 		Steam.SetStatInt(SteamStatNames.IntStats.NumGames, SteamDataCache.GamesPlayed);
 		Steam.StoreStats();
 		
+		GameDataSingleton.LoadDataFromDisk();
+		
 		// TODO: Check if _skyBoxAnimationPlayer.CurrentAnimationLength is indeed 40
 		
 		_skyBoxAnimationPlayer.SpeedScale = (float)
 			_skyBoxAnimationPlayer.CurrentAnimationLength / DayNightCycleResource.DayNightTotalLengthSeconds;
 		
 		// Initializing the day-night cycle animation to be in sync with the loaded time of day
-		int howManySecondsIntoDayNightAnimation = GameDataSingleton.Instance.GameTime % DayNightCycleResource.DayNightTotalLengthSeconds;
+		int howManySecondsIntoDayNightAnimation = GameDataSingleton.Data.GameTime % DayNightCycleResource.DayNightTotalLengthSeconds;
 		_skyBoxAnimationPlayer.Advance(howManySecondsIntoDayNightAnimation);
 	}
 
@@ -58,7 +60,7 @@ public partial class Main : Node
 
 	private void OnGameSaveTimerTimeout()
 	{
-		EventBus.Publish(new GameShouldSaveEvent());
+		GameDataSingleton.SaveToDisk();
 	}
 
 

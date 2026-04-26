@@ -10,6 +10,6 @@ public partial class TimeKeeper : Node
     // Connected to Child timer's timeout
     private void OnSecondPassedSignalHandler()
     {
-        GameDataSingleton.Instance.IncrementGameTime();
+        GameDataSingleton.Data.IncrementGameTime();
     }
 }

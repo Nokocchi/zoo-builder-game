@@ -68,7 +68,7 @@ public class GameData
     {
         using var doc = JsonDocument.Parse(json);
 
-        if (!doc.RootElement.TryGetProperty("version", out var versionProp))
+        if (!doc.RootElement.TryGetProperty("Version", out var versionProp))
             throw new Exception("Save file missing version");
 
         return versionProp.GetInt32();

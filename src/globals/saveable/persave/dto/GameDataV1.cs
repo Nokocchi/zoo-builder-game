@@ -2,13 +2,13 @@
 
 public class GameDataV1 : IVersionedGameData
 {
-    public int Version = 1;
-    public int InventorySize;
-    public Vector3Dto PlayerGlobalPosition;
-    public Vector3Dto PlayerRotation;
-    public Vector3Dto CameraRotation;
-    public int GameTime;
-    
+    public int Version { get; private set; } = 1;
+    public int InventorySize { get; init; }
+    public Vector3Dto PlayerGlobalPosition { get; init; }
+    public Vector3Dto PlayerRotation { get; init; }
+    public Vector3Dto CameraRotation { get; init; }
+    public int GameTime { get; init; }
+
     public GameData ConvertToCurrentFormat()
     {
         return new GameData()

@@ -1,9 +1,10 @@
 using Godot;
 using ZooBuilder.globals;
 using ZooBuilder.globals.saveable;
+using static ZooBuilder.globals.saveable.GameDataSingleton;
 
 
-public partial class PlayerSpringArm : SpringArm3D
+public partial class PlayerSpringArm : SpringArm3D, ISaveableNode
 {
 	[Export] public int LookUpDownMin = -70;
 	[Export] public int LookUpDownMax = -25;
@@ -24,7 +25,7 @@ public partial class PlayerSpringArm : SpringArm3D
 		_globals = GlobalObjectsContainer.Instance;
 		_globals.PlayerSpringArm = this;
 		_globals.PlayerCamera = _camera;
-		RotationDegrees = GameDataSingleton.Instance.CameraRotation;
+		AddToGroup(SAVEABLE_NODE_GROUP);
 	}
 
 	
@@ -45,5 +46,15 @@ public partial class PlayerSpringArm : SpringArm3D
 			float speed = (GlobalDataSingleton.MouseSensitivity / MouseSpeedScale) * _mouseSensitivityBaseline;
 			_mouseRelative = -eventMouseMotion.Relative * speed;
 		}
+	}
+	
+	public void SaveTo(GameData data)
+	{
+		data.CameraRotation = RotationDegrees;
+	}
+
+	public void LoadFrom(GameData data)
+	{
+		RotationDegrees = data.CameraRotation;
 	}
 }

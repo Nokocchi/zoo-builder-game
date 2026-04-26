@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using ZooBuilder.globals;
 
 public partial class GameSaveLabel : Control
 {
@@ -8,12 +9,12 @@ public partial class GameSaveLabel : Control
 	public override void _Ready()
 	{
 		_label = GetNode<Label>("%GameSaveLabel");
+		EventBus.Subscribe<GameIsAboutToBeSavedEvent>(ShowText);
 	}
 
-	public async void ShowText(Action saveAction)
+	private async void ShowText(GameIsAboutToBeSavedEvent e)
 	{
 		_label.Text = "Saving..";
-		saveAction.Invoke();
 		await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
 		_label.Text = "";
 	}

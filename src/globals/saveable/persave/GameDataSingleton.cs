@@ -1,34 +1,46 @@
 ﻿using Godot;
-using Godot.Collections;
+using GodotSteam;
 
 namespace ZooBuilder.globals.saveable;
 
-public class GameDataSingleton
+[GlobalClass]
+public partial class GameDataSingleton : Node
 {
-    // TODO: save slots
+    
     public static readonly string GAME_DATA_LOCATION = "user://game_data.json";
+    public static readonly string SAVEABLE_NODE_GROUP = "saveable_node";
 
-    public static GameData Instance { get; private set; }
+    public static GameData Data { get; private set; }
+    public static GameDataSingleton Instance { get; private set; }
+
+    public override void _EnterTree()
+    {
+        Instance = this;
+    }
 
     public static void LoadDataFromDisk()
     {
-        Instance = GameData.LoadFromDisk();
+        Data = GameData.LoadFromDisk();
+        foreach (var node in Instance.GetTree().GetNodesInGroup(SAVEABLE_NODE_GROUP))
+        {
+            if (node is ISaveableNode saveable)
+            {
+                saveable.LoadFrom(Data);
+            }
+        }
     }
 
     public static void SaveToDisk()
     {
-        /*_userInterface.ShowGameSaveText(SaveAction);
-            return;
-
-        void SaveAction()
+        EventBus.Publish(new GameIsAboutToBeSavedEvent());
+        foreach (var node in Instance.GetTree().GetNodesInGroup(SAVEABLE_NODE_GROUP))
         {
-            Steam.StoreStats();
-            GlobalObjectsContainer.Instance.GameData.Save();
+            if (node is ISaveableNode saveable)
+            {
+                saveable.SaveTo(Data);
+            }
         }
-        */
-
-        // Listen to GameShouldSaveEvent, or have the game save timer call SaveToDisk directly? How do I show a popup that stays for 5 seconds?
-        // Fetch PlayerRotation, PlayerGlobalPosition etc. from the right places. Or should those places just update the GameData 60 times per second?
-        Instance.SaveToDisk();
+        Data.SaveToDisk();
+        Steam.StoreStats();
     }
 }
