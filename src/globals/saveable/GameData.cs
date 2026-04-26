@@ -7,7 +7,6 @@ namespace ZooBuilder.globals.saveable;
 public partial class GameData : Resource
 {
     private const string SaveFileLocation = "user://GameData.tres";
-    private const string SaveFileLocationTemplate = "user://GameData.tres";
 
     // TODO: Use ConfigFile?? 
     [Export] public int InventorySize = 24;

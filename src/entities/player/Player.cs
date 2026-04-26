@@ -27,7 +27,6 @@ public partial class Player : CharacterBody3D
     }
 
     private State _state;
-    private SettingsResource _settings;
     private PlayerSpringArm _playerSpringArm;
     private Area3D _itemPullZone;
     private Area3D _itemPickupZone;
@@ -38,9 +37,6 @@ public partial class Player : CharacterBody3D
     private GlobalObjectsContainer _globals;
     private ItemHeldInHandMesh _itemHeldInHandMesh;
     private AnimationPlayer _animationPlayer;
-
-    [Export]
-    public PackedScene OverworldItemScene { get; set; }
     
     [Signal]
     public delegate void HitEventHandler();
@@ -55,7 +51,6 @@ public partial class Player : CharacterBody3D
         _playerSpringArm = GetNode<PlayerSpringArm>("PlayerSpringArm");
         _itemPullZone = GetNode<Area3D>("ItemPullZone");
         _itemPickupZone = GetNode<Area3D>("ItemImmediatePickupZone");
-        _settings = SettingsResource.Load();
         _inventorySingleton = InventorySingleton.Instance;
         _pivot = GetNode<Node3D>("Pivot");
         _globals.Player = this;
@@ -122,22 +117,22 @@ public partial class Player : CharacterBody3D
         if (!UIManager.IsMenuOpen())
         {
             // We check for each move input and update the direction accordingly.
-            if (Input.IsActionPressed("move_right"))
+            if (Input.IsActionPressed(GlobalDataSingleton.ACTION_MOVE_RIGHT))
             {
                 direction.X += 1.0f;
             }
 
-            if (Input.IsActionPressed("move_left"))
+            if (Input.IsActionPressed(GlobalDataSingleton.ACTION_MOVE_LEFT))
             {
                 direction.X -= 1.0f;
             }
 
-            if (Input.IsActionPressed("move_back"))
+            if (Input.IsActionPressed(GlobalDataSingleton.ACTION_MOVE_BACK))
             {
                 direction.Z += 1.0f;
             }
 
-            if (Input.IsActionPressed("move_forward"))
+            if (Input.IsActionPressed(GlobalDataSingleton.ACTION_MOVE_FORWARD))
             {
                 direction.Z -= 1.0f;
             }
@@ -162,7 +157,7 @@ public partial class Player : CharacterBody3D
             _animationPlayer.SpeedScale = 1;
         }
 
-        int speed = Input.IsActionPressed("run") ? RunSpeed : Speed;
+        int speed = Input.IsActionPressed(GlobalDataSingleton.ACTION_RUN) ? RunSpeed : Speed;
         // Ground velocity
         _targetVelocity.X = direction.X * speed;
         _targetVelocity.Z = direction.Z * speed;
@@ -177,7 +172,7 @@ public partial class Player : CharacterBody3D
         Velocity = _targetVelocity;
 
         // Jumping.
-        if (IsOnFloor() && Input.IsActionJustPressed("jump"))
+        if (IsOnFloor() && Input.IsActionJustPressed(GlobalDataSingleton.ACTION_JUMP))
         {
             _targetVelocity.Y = JumpImpulse;
         }

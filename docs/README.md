@@ -16,6 +16,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 - ✅ Character animation when moving
 - ✅ 3D camera movable with mouse
 - ✅ Holding "forward" (W) always goes in the direction the camera is facing
+- State machine
 
 ## Menu
 - **Full screen inventory with all your items**
@@ -48,8 +49,8 @@ Actual storyline details, specific features or game mechanics will be added afte
   - Show "last saved x minutes ago"
   - ✅ Adjust audio
   - ✅ Hotbar scrolling direction
-  - Only save when save button is clicked
-  - Allow players to remap input
+  - ✅ Only save when save button is clicked
+  - ✅ Allow players to remap input
   - Various graphics settings
 - **Quest view**
   - Show 3 tabs. Active quests, completed quests, all quests
@@ -112,6 +113,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 
 ## Others
 - ✅ Autoload EventBus using generic C# events
+- Proper tests
 
 ---
 

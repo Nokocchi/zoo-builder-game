@@ -1,17 +1,14 @@
-[gd_scene format=3 uid="uid://b8lwyph8agaqm"]
+[gd_scene format=3 uid="uid://bvtcvgy04j04i"]
 
 [ext_resource type="FontFile" uid="uid://cyxhh7ddkn62q" path="res://fonts/Montserrat-Medium.ttf" id="1_tsqwh"]
-[ext_resource type="PackedScene" uid="uid://2duqhekyh7y2" path="res://src/ui/menus/hud_clock.tscn" id="2_eaf2e"]
-[ext_resource type="Script" uid="uid://isfg8cuaye8x" path="res://src/ui/inventory/OverworldDropListenerPanel.cs" id="3_l7m13"]
-[ext_resource type="PackedScene" uid="uid://bekc2wv2d7dyu" path="res://src/ui/minimap/minimap.tscn" id="4_p1dg8"]
-[ext_resource type="Script" uid="uid://ehw2a7dxyavb" path="res://src/ui/ScoreLabel.cs" id="5_pd2cl"]
-[ext_resource type="PackedScene" uid="uid://d6u50yq3mt8o" path="res://src/ui/inventory/inventory.tscn" id="6_4g22y"]
-[ext_resource type="PackedScene" uid="uid://cj1sh7dasg33y" path="res://src/ui/inventory/hotbar/hot_bar_view.tscn" id="7_1kx6s"]
-[ext_resource type="PackedScene" uid="uid://cv4awdbqqm0k7" path="res://src/ui/settings/settings.tscn" id="8_aha7b"]
-[ext_resource type="PackedScene" uid="uid://b188e020fy2c8" path="res://src/ui/game_save_label.tscn" id="9_c247d"]
-[ext_resource type="Script" uid="uid://mijcq21r47nf" path="res://src/ui/GameSaveLabel.cs" id="10_qhj0k"]
-[ext_resource type="PackedScene" uid="uid://6rbicaxbnvcl" path="res://src/ui/inventory/mouse_with_item_marker.tscn" id="11_w70da"]
-[ext_resource type="PackedScene" uid="uid://cepapv538ecu6" path="res://src/ui/achievement/achievements.tscn" id="12_a5sny"]
+[ext_resource type="PackedScene" uid="uid://2duqhekyh7y2" path="res://src/ui/hud/hud_clock.tscn" id="2_eaf2e"]
+[ext_resource type="Script" uid="uid://isfg8cuaye8x" path="res://src/ui/ingamemenu/inventory/OverworldDropListenerPanel.cs" id="3_l7m13"]
+[ext_resource type="PackedScene" uid="uid://bekc2wv2d7dyu" path="res://src/ui/hud/minimap.tscn" id="4_p1dg8"]
+[ext_resource type="Script" uid="uid://ehw2a7dxyavb" path="res://src/ui/hud/ScoreLabel.cs" id="5_pd2cl"]
+[ext_resource type="PackedScene" uid="uid://cj1sh7dasg33y" path="res://src/ui/ingamemenu/inventory/hotbar/hot_bar_view.tscn" id="7_1kx6s"]
+[ext_resource type="PackedScene" uid="uid://b188e020fy2c8" path="res://src/ui/hud/game_save_label.tscn" id="9_c247d"]
+[ext_resource type="Script" uid="uid://mijcq21r47nf" path="res://src/ui/hud/GameSaveLabel.cs" id="10_qhj0k"]
+[ext_resource type="PackedScene" uid="uid://6rbicaxbnvcl" path="res://src/ui/ingamemenu/inventory/mouse_with_item_marker.tscn" id="11_w70da"]
 
 [sub_resource type="Theme" id="Theme_272bh"]
 default_font = ExtResource("1_tsqwh")
@@ -19,7 +16,7 @@ default_font = ExtResource("1_tsqwh")
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_074og"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="UserInterface" type="Control"]
+[node name="UserInterface" type="Control" unique_id=1363116959]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,11 +26,12 @@ grow_vertical = 2
 theme = SubResource("Theme_272bh")
 metadata/_edit_use_anchors_ = true
 
-[node name="HUDClock" parent="." instance=ExtResource("2_eaf2e")]
+[node name="HUDClock" parent="." unique_id=1189269884 instance=ExtResource("2_eaf2e")]
+layout_mode = 1
 
-[node name="OverworldDropListener" type="CanvasLayer" parent="."]
+[node name="OverworldDropListener" type="CanvasLayer" parent="." unique_id=1048439415]
 
-[node name="OverworldDropListenerPanel" type="Panel" parent="OverworldDropListener"]
+[node name="OverworldDropListenerPanel" type="Panel" parent="OverworldDropListener" unique_id=158927543]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -42,9 +40,10 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_074og")
 script = ExtResource("3_l7m13")
 
-[node name="Minimap" parent="." instance=ExtResource("4_p1dg8")]
+[node name="Minimap" parent="." unique_id=762795856 instance=ExtResource("4_p1dg8")]
+layout_mode = 0
 
-[node name="ScoreLabel" type="Label" parent="."]
+[node name="ScoreLabel" type="Label" parent="." unique_id=577448836]
 layout_mode = 0
 offset_left = 66.0
 offset_top = 58.0
@@ -54,20 +53,16 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Score: 0"
 script = ExtResource("5_pd2cl")
 
-[node name="InventoryView" parent="." instance=ExtResource("6_4g22y")]
+[node name="HotBar" parent="." unique_id=316649523 instance=ExtResource("7_1kx6s")]
+layout_mode = 1
 
-[node name="HotBar" parent="." instance=ExtResource("7_1kx6s")]
-
-[node name="Settings" parent="." instance=ExtResource("8_aha7b")]
-
-[node name="GameSaveLabel" parent="." instance=ExtResource("9_c247d")]
+[node name="GameSaveLabel" parent="." unique_id=961741402 instance=ExtResource("9_c247d")]
 unique_name_in_owner = true
+layout_mode = 1
 script = ExtResource("10_qhj0k")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1852364671]
 
-[node name="MouseWithItemMarker" parent="CanvasLayer" instance=ExtResource("11_w70da")]
-
-[node name="Achievements" parent="." instance=ExtResource("12_a5sny")]
+[node name="MouseWithItemMarker" parent="CanvasLayer" unique_id=1692177652 instance=ExtResource("11_w70da")]
 
 [connection signal="gui_input" from="OverworldDropListener/OverworldDropListenerPanel" to="OverworldDropListener/OverworldDropListenerPanel" method="OnGuiInput"]

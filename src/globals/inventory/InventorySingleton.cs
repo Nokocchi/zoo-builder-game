@@ -20,6 +20,7 @@ public partial class InventorySingleton : Node, IInventory
 
     public const int HotBarSize = 8;
 
+    // TODO: Maybe wrap this in object that extends Resource so it can be saved more easily, and different inventories can be loaded during play testing
     public List<InventorySlotResource> Inventory = [];
 
     // Should be kept in InventorySingleton so it can be saved.. Maybe?
@@ -106,18 +107,17 @@ public partial class InventorySingleton : Node, IInventory
 
     public void ItemRightClicked(int itemIndex)
     {
-        InventorySlotResource slot = Inventory[itemIndex];
         if (HeldItem != null)
         {
-            HandleRightClickWithHeldItem(itemIndex, slot);
+            HandleRightClickWithHeldItem(itemIndex);
             EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem)); // If ran out of held item, or clicked on item of different type causing a swap
             EventBus.Publish(new OnInventoryUpdatedEvent()); // If clicked on empty slot, or if clicked on item of different type causing a swap
             return;
         }
 
-        if (slot.HasItem())
+        if (Inventory[itemIndex].HasItem())
         {
-            SplitStackAndHold(itemIndex, slot);
+            SplitStackAndHold(itemIndex);
             EventBus.Publish(new InventoryItemStackHeldEvent(HeldItem));
             EventBus.Publish(new OnInventoryUpdatedEvent()); // In case you pick up the last of that stack
         }
@@ -193,8 +193,9 @@ public partial class InventorySingleton : Node, IInventory
         HeldItem = null;
     }
     
-    private void HandleRightClickWithHeldItem(int index, InventorySlotResource clickedSlot)
+    private void HandleRightClickWithHeldItem(int index)
     {
+        InventorySlotResource clickedSlot = Inventory[index];
         if (clickedSlot.IsEmpty())
         {
             InsertOneOfHeldItemInEmptySlot(index);
@@ -224,14 +225,14 @@ public partial class InventorySingleton : Node, IInventory
         DecrementHeldItem();
     }
 
-    private void SplitStackAndHold(int index, InventorySlotResource clickedSlot)
+    private void SplitStackAndHold(int index)
     {
+        InventorySlotResource clickedSlot = Inventory[index];
         ItemDataResource itemData = clickedSlot.GetItem().ItemData;
         int removedAmount = clickedSlot.SplitInHalf();
 
         if (removedAmount == 0)
         {
-            // TODO: Should the clicked slot just handle this internally? Or does it go against keeping logic in this singleton?
             removedAmount = 1;
             Inventory[index].ClearStack();
         }

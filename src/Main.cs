@@ -13,14 +13,12 @@ public partial class Main : Node
 	public DayNightCycleResource DayNightCycleResource { get; set; }
 
 	private AnimationPlayer _skyBoxAnimationPlayer;
-	private UserInterface _userInterface;
 	private Player _player;
 
 	public override void _Ready()
 	{
 		GlobalObjectsContainer.Instance.GameScene = this;
 		DrawLine3D.Instance.PrepareDebugLines(this);
-		_userInterface = GetNode<UserInterface>("UserInterface");
 		_skyBoxAnimationPlayer = GetNode<AnimationPlayer>("SkyBoxAnimationPlayer");
 		_player = GetNode<Player>("Player");
 		
@@ -59,7 +57,9 @@ public partial class Main : Node
 
 	private void OnGameSaveTimerTimeout()
 	{
-		_userInterface.ShowGameSaveText(SaveAction);
+		// TODO: Publish on EventBus
+		
+		/*_userInterface.ShowGameSaveText(SaveAction);
 		return;
 
 		void SaveAction()
@@ -67,6 +67,7 @@ public partial class Main : Node
 			Steam.StoreStats();
 			GlobalObjectsContainer.Instance.GameData.Save();
 		}
+		*/
 	}
 
 
