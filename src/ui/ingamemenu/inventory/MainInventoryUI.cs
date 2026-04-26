@@ -1,4 +1,6 @@
-﻿namespace ZooBuilder.ui.inventory;
+﻿using Godot;
+
+namespace ZooBuilder.ui.inventory;
 
 public partial class MainInventoryUI : AbstractInventoryUi
 {
@@ -6,6 +8,7 @@ public partial class MainInventoryUI : AbstractInventoryUi
     {
         FirstSlot = global::InventorySingleton.HotBarSize;
         LastSlot = global::InventorySingleton.Instance.GetInventory().Count - 1;
+        UiSlotContainer = GetNode<Container>("%UISlotContainer");
         base._Ready();
     }
 }

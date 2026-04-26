@@ -10,6 +10,9 @@ public partial class Menu : Control
     private int _inventoryTabIndex;
     private int _settingsTabIndex;
     private int _achievementsTabIndex;
+    private MainInventoryUI _inventory;
+    private Settings _settings;
+    private AchievementsUI _achievements;
     
     private static readonly PackedScene InventoryScene = GD.Load<PackedScene>("res://src/ui/ingamemenu/inventory/inventory.tscn");
     private static readonly PackedScene SettingsScene = GD.Load<PackedScene>("res://src/ui/ingamemenu/settings/settings.tscn");
@@ -18,6 +21,12 @@ public partial class Menu : Control
     public override void _Ready()
     {
         _tabContainer = GetNode<TabContainer>("%TabContainer");
+        _inventory = InventoryScene.Instantiate<MainInventoryUI>();
+        _settings = SettingsScene.Instantiate<Settings>();
+        _achievements = AchievementsScene.Instantiate<AchievementsUI>();
+        _inventoryTabIndex = AddTab(_inventory, "MENU_TAB_INVENTORY");
+        _settingsTabIndex = AddTab(_settings, "MENU_TAB_SETTINGS");
+        _achievementsTabIndex = AddTab(_achievements, "MENU_TAB_ACHIEVEMENTS");
         Visible = false;
     }
     
@@ -52,19 +61,7 @@ public partial class Menu : Control
         }
         else
         {
-            MainInventoryUI inventory = InventoryScene.Instantiate<MainInventoryUI>();
-            Settings settings = SettingsScene.Instantiate<Settings>();
-            AchievementsUI achievements = AchievementsScene.Instantiate<AchievementsUI>();
-
-            foreach (Node child in _tabContainer.GetChildren())
-            {
-                child.Free();
-            }
-
-            _inventoryTabIndex = AddTab(inventory, "MENU_TAB_INVENTORY");
-            _settingsTabIndex = AddTab(settings, "MENU_TAB_SETTINGS");
-            _achievementsTabIndex = AddTab(achievements, "MENU_TAB_ACHIEVEMENTS");
-            
+            _settings.Initialize();
             UIManager.OpenMenu();
             Visible = true;
             _tabContainer.SetCurrentTab(GetTabIndex(tabToShow));

@@ -8,7 +8,6 @@ public partial class Settings : Control
     
     public override void _Ready()
     {
-        Initialize();
     }
 
     public void Initialize()

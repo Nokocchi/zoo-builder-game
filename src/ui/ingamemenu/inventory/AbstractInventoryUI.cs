@@ -14,7 +14,6 @@ public abstract partial class AbstractInventoryUi : Control
     public override void _Ready()
     {
         _inventoryItemStackScene = GD.Load<PackedScene>("res://src/ui/ingamemenu/inventory/ui_inventory_slot.tscn");
-        UiSlotContainer = GetNode<Container>("%UISlotContainer");
         InventorySingleton = global::InventorySingleton.Instance;
         for (int i = FirstSlot; i <= LastSlot; i++)
         {

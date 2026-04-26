@@ -11,6 +11,7 @@ public partial class HotbarView : AbstractInventoryUi
     {
         FirstSlot = 0;
         LastSlot = global::InventorySingleton.HotBarSize - 1;
+        UiSlotContainer = GetNode<Container>("%UISlotContainer");
         base._Ready();
         
         // Select first slot on startup
