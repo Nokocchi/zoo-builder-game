@@ -99,7 +99,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 - **Menu**
   - ✅ New Game button
   - Continue button
-  - Settings button (Should open same settings as in inventory)
+  - ✅ Settings button (Should open same settings as in inventory)
   - ✅ Background music
 - **Character creation screen**
   - Simple naked character, with a few different hairs and clothes to pick between.

@@ -108,20 +108,25 @@ size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_5ssi0")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer2/Panel" unique_id=1161960302]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 35
 theme_override_constants/margin_top = 35
 theme_override_constants/margin_right = 35
 theme_override_constants/margin_bottom = 35
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer2/Panel/MarginContainer" unique_id=1514747256]
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer2/Panel/MarginContainer" unique_id=1928708098]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer2/Panel/MarginContainer/VBoxContainer" unique_id=527335741]
+[node name="SettingsContainer" type="PanelContainer" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer2/Panel/MarginContainer/ScrollContainer" unique_id=821569703]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Test me daddy"
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1781024014]
 stream = ExtResource("4_1njj5")
