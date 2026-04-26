@@ -1,5 +1,6 @@
 using Godot;
 using ZooBuilder.globals;
+using ZooBuilder.globals.saveable;
 
 
 public partial class PlayerSpringArm : SpringArm3D
@@ -23,7 +24,7 @@ public partial class PlayerSpringArm : SpringArm3D
 		_globals = GlobalObjectsContainer.Instance;
 		_globals.PlayerSpringArm = this;
 		_globals.PlayerCamera = _camera;
-		RotationDegrees = GlobalObjectsContainer.Instance.GameData.CameraRotation;
+		RotationDegrees = GameDataSingleton.Instance.CameraRotation;
 	}
 
 	
@@ -35,7 +36,6 @@ public partial class PlayerSpringArm : SpringArm3D
 		newRotation.X = Mathf.Clamp(newRotation.X, LookUpDownMin, LookUpDownMax);
 		RotationDegrees = newRotation;
 		_mouseRelative = new Vector2();
-		GlobalObjectsContainer.Instance.GameData.CameraRotation = RotationDegrees;
 	}
 
 	public override void _Input(InputEvent @event)

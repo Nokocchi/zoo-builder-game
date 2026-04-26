@@ -4,6 +4,7 @@ using Godot.Collections;
 using GodotSteam;
 using ZooBuilder.data.stats;
 using ZooBuilder.globals;
+using ZooBuilder.globals.saveable;
 
 public partial class Player : CharacterBody3D
 {
@@ -30,7 +31,6 @@ public partial class Player : CharacterBody3D
     private PlayerSpringArm _playerSpringArm;
     private Area3D _itemPullZone;
     private Area3D _itemPickupZone;
-    private IInventory _inventorySingleton;
     private Camera3D _playerCamera;
     private AudioStreamPlayer _itemPickupAudioPlayer;
     private Node3D _pivot;
@@ -51,11 +51,10 @@ public partial class Player : CharacterBody3D
         _playerSpringArm = GetNode<PlayerSpringArm>("PlayerSpringArm");
         _itemPullZone = GetNode<Area3D>("ItemPullZone");
         _itemPickupZone = GetNode<Area3D>("ItemImmediatePickupZone");
-        _inventorySingleton = InventorySingleton.Instance;
         _pivot = GetNode<Node3D>("Pivot");
         _globals.Player = this;
-        GlobalPosition = _globals.GameData.PlayerGlobalPosition;
-        _pivot.Rotation = _globals.GameData.PlayerRotation;
+        GlobalPosition = GameDataSingleton.Instance.PlayerGlobalPosition;
+        _pivot.Rotation = GameDataSingleton.Instance.PlayerRotation;
         _itemHeldInHandMesh = GetNode<ItemHeldInHandMesh>("%ItemHeldInHandMesh");
         _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
     }
@@ -108,7 +107,6 @@ public partial class Player : CharacterBody3D
     public override void _PhysicsProcess(double delta)
     {
         //DrawLine3D.Instance.DrawDebugLines_Basis(_pivot, delta);
-        _globals.GameData.PlayerGlobalPosition = GlobalPosition;
         
         // We create a local variable to store the input direction.
         Vector3 direction = Vector3.Zero;
@@ -149,7 +147,6 @@ public partial class Player : CharacterBody3D
             direction = direction.Normalized();
             // Setting the basis property will affect the rotation of the node.
             _pivot.Basis = Basis.LookingAt(direction);
-            _globals.GameData.PlayerRotation = _pivot.Rotation;
             _animationPlayer.SpeedScale = 4;
         }
         else

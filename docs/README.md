@@ -10,6 +10,21 @@ add more.
 
 Actual storyline details, specific features or game mechanics will be added afterwards.
 
+Temporary order of implementation..
+
+- X Player state machine (IN_AIR, WALKING only states at the moment, so not very easy or useful)
+- Overworld chest
+  - NPCs
+    - Dialogue system
+- Save inventory
+  - Save which overworld items have been picked up
+    - Quests (Item only loads if quest is active, Pick up item, go to area, item is removed from inventory, quest is completed in save file)
+  - Save slots and save file history
+    - Settings menu for saving and loading
+    - Character customizations when starting new game
+      - Save character customization
+- Tests
+
 ## Player
 
 - ✅ Player character, controllable with WASD + Space, can jump
@@ -114,6 +129,7 @@ Actual storyline details, specific features or game mechanics will be added afte
 ## Others
 - ✅ Autoload EventBus using generic C# events
 - Proper tests
+- Simple Multiplayer (shared quests, steam invite, separate inventories, chests that update in real time without race conditions?)
 
 ---
 

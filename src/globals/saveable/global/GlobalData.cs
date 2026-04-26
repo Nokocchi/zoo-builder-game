@@ -10,6 +10,9 @@ namespace ZooBuilder.globals.saveable;
 
 public class GlobalData
 {
+    // TODO: Might have been easier to have nested classes that we serialize to JSON. And some versioned intermediate classes for deserialization.
+    //  Then everything looks neater and we do not need all these generic Settings, casting from object, etc.
+    //  But then it would be difficult to automatically and generically generate the settings view by category and automatically create UI components for all settings.
     // <SettingsCategory, <settingsKey, Setting>>
     private readonly Dictionary<string, (string, int)> _settingsKeyCategoryIndexMap = new();
 

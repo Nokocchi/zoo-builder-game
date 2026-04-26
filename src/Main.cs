@@ -2,6 +2,7 @@ using Godot;
 using GodotSteam;
 using ZooBuilder.data.stats;
 using ZooBuilder.globals;
+using ZooBuilder.globals.saveable;
 
 public partial class Main : Node
 {
@@ -33,7 +34,7 @@ public partial class Main : Node
 			_skyBoxAnimationPlayer.CurrentAnimationLength / DayNightCycleResource.DayNightTotalLengthSeconds;
 		
 		// Initializing the day-night cycle animation to be in sync with the loaded time of day
-		int howManySecondsIntoDayNightAnimation = GlobalObjectsContainer.Instance.GameData.GameTime % DayNightCycleResource.DayNightTotalLengthSeconds;
+		int howManySecondsIntoDayNightAnimation = GameDataSingleton.Instance.GameTime % DayNightCycleResource.DayNightTotalLengthSeconds;
 		_skyBoxAnimationPlayer.Advance(howManySecondsIntoDayNightAnimation);
 	}
 
@@ -57,17 +58,7 @@ public partial class Main : Node
 
 	private void OnGameSaveTimerTimeout()
 	{
-		// TODO: Publish on EventBus
-		
-		/*_userInterface.ShowGameSaveText(SaveAction);
-		return;
-
-		void SaveAction()
-		{
-			Steam.StoreStats();
-			GlobalObjectsContainer.Instance.GameData.Save();
-		}
-		*/
+		EventBus.Publish(new GameShouldSaveEvent());
 	}
 
 

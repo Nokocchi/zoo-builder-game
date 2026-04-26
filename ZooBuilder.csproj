@@ -267,7 +267,6 @@
     <Content Include="addons\steamworks\sdk\tools\linux\README.md" />
     <Content Include="addons\steamworks\sdk\tools\SteamPipeGUI.zip" />
     <Content Include="docs\README.md" />
-    <Content Include="src\globals\saveable\SettingsResource.tres" />
     <Content Include="src\globals\util\DrawLine3D.gd" />
     <Content Include="src\globals\util\time_keeper.tscn" />
     <Content Include="src\globals\util\user_interface.tscn" />

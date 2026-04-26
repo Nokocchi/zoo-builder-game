@@ -572,7 +572,7 @@ bus = &"BgMusic"
 
 [node name="TimeKeeper" parent="." unique_id=137850630 instance=ExtResource("21_getpj")]
 
-[node name="GameStatsSaveTimer" type="Timer" parent="." unique_id=400193999]
+[node name="GameSaveTimer" type="Timer" parent="." unique_id=400193999]
 wait_time = 10.0
 autostart = true
 
@@ -601,6 +601,5 @@ ItemStackResource = SubResource("Resource_ib8ht")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.77247, 0, -21.254095)
 ItemStackResource = SubResource("Resource_43aqp")
 
-[connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]
-[connection signal="timeout" from="GameStatsSaveTimer" to="." method="OnGameSaveTimerTimeout"]
+[connection signal="timeout" from="GameSaveTimer" to="." method="OnGameSaveTimerTimeout"]
