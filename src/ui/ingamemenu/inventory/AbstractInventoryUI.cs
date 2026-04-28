@@ -7,22 +7,30 @@ public abstract partial class AbstractInventoryUi : Control
 {
     private PackedScene _inventoryItemStackScene;
     protected Container UiSlotContainer;
-    protected IInventory InventorySingleton;
     protected int FirstSlot;
     protected int LastSlot;
     
     public override void _Ready()
     {
         _inventoryItemStackScene = GD.Load<PackedScene>("res://src/ui/ingamemenu/inventory/ui_inventory_slot.tscn");
-        InventorySingleton = global::InventorySingleton.Instance;
+        EventBus.Subscribe<GameFinishedLoadingEvent>(OnSaveDataLoaded);
+    }
+
+    protected virtual void OnSaveDataLoaded(GameFinishedLoadingEvent e)
+    {
+        IInventory inventorySingleton = InventorySingleton.Instance;
+        GD.Print("INVENTORY STUFF parent");
         for (int i = FirstSlot; i <= LastSlot; i++)
         {
+            GD.Print("Using last slot: ", LastSlot);
             UiInventorySlot uiInventorySlot = _inventoryItemStackScene.Instantiate<UiInventorySlot>();
-            uiInventorySlot.SlotClicked += (clickedSlotIndex) => InventorySingleton.ItemClicked(clickedSlotIndex);
-            uiInventorySlot.SlotRightClicked += (clickedSlotIndex) => InventorySingleton.ItemRightClicked(clickedSlotIndex);
-            uiInventorySlot.SetInventorySlotResource(InventorySingleton.GetInventory()[i]);
+            uiInventorySlot.SlotClicked += (clickedSlotIndex) => inventorySingleton.ItemClicked(clickedSlotIndex);
+            uiInventorySlot.SlotRightClicked += (clickedSlotIndex) => inventorySingleton.ItemRightClicked(clickedSlotIndex);
+            GD.Print("INVENTORY STUFF abstract add: ", i);
+            InventorySlotResource inventorySlotResource = inventorySingleton.GetInventory()[i];
+            uiInventorySlot.SetInventorySlotResource(inventorySlotResource);
             UiSlotContainer.AddChild(uiInventorySlot);
         }
     }
-    
+
 }

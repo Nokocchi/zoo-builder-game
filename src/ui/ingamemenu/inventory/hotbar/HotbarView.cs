@@ -10,9 +10,15 @@ public partial class HotbarView : AbstractInventoryUi
     public override void _Ready()
     {
         FirstSlot = 0;
-        LastSlot = global::InventorySingleton.HotBarSize - 1;
+        LastSlot = InventorySingleton.HotBarSize - 1;
         UiSlotContainer = GetNode<Container>("%UISlotContainer");
         base._Ready();
+    }
+
+    protected override void OnSaveDataLoaded(GameFinishedLoadingEvent e)
+    {
+        GD.Print("INVENTORY STUFF hotbar");
+        base.OnSaveDataLoaded(e);
         
         // Select first slot on startup
         UiSlotContainer.GetChild<UiInventorySlot>(SelectedHotbarIndex).HighlightSlot();
@@ -41,12 +47,12 @@ public partial class HotbarView : AbstractInventoryUi
             int previousIndex = SelectedHotbarIndex;
             if (wheelDown ^ GlobalDataSingleton.HotbarScrollDirectionFlipped)
             {
-                SelectedHotbarIndex = (SelectedHotbarIndex + 1) % global::InventorySingleton.HotBarSize;
+                SelectedHotbarIndex = (SelectedHotbarIndex + 1) % InventorySingleton.HotBarSize;
             }
 
             if (wheelUp ^ GlobalDataSingleton.HotbarScrollDirectionFlipped)
             {
-                SelectedHotbarIndex = ((SelectedHotbarIndex - 1) + global::InventorySingleton.HotBarSize) % global::InventorySingleton.HotBarSize;
+                SelectedHotbarIndex = ((SelectedHotbarIndex - 1) + InventorySingleton.HotBarSize) % InventorySingleton.HotBarSize;
             }
 
             UiSlotContainer.GetChild<UiInventorySlot>(previousIndex).RemoveHighlight();
@@ -55,8 +61,10 @@ public partial class HotbarView : AbstractInventoryUi
         }
 
         if (!@event.IsActionPressed(GlobalDataSingleton.ACTION_TOSS_SINGLE_ITEM)) return;
+        
+        IInventory inventorySingleton = InventorySingleton.Instance;
         UiInventorySlot currentSelectedStack = UiSlotContainer.GetChild<UiInventorySlot>(SelectedHotbarIndex);
-        if (InventorySingleton.GetHeldItem() != null || currentSelectedStack?.InventorySlotResource?.GetItem() == null || currentSelectedStack.InventorySlotResource.GetItem() is not { Amount: >= 0 }) return;
-        InventorySingleton.TossOneOfItem(currentSelectedStack.InventorySlotResource.InventoryIndex);
+        if (inventorySingleton.GetHeldItem() != null || currentSelectedStack?.InventorySlotResource?.GetItem() == null || currentSelectedStack.InventorySlotResource.GetItem() is not { Amount: >= 0 }) return;
+        inventorySingleton.TossOneOfItem(currentSelectedStack.InventorySlotResource.InventoryIndex);
     }
 }

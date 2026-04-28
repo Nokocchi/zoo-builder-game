@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using Godot;
@@ -15,7 +16,7 @@ public class GameData
     public Vector3 PlayerRotation = Vector3.Zero;
     public Vector3 CameraRotation = Vector3.Zero;
     public int GameTime;
-    public Array<ItemStackResource> Inventory;
+    public List<InventorySlotResource> Inventory;
 
     public static GameData LoadFromDisk()
     {
@@ -38,6 +39,7 @@ public class GameData
         IVersionedGameData data = version switch
         {
             1 => JsonSerializer.Deserialize<GameDataV1>(json)!,
+            2 => JsonSerializer.Deserialize<GameDataV2>(json)!,
             _ => throw new Exception($"Unsupported save version: {version}")
         };
 
@@ -51,16 +53,16 @@ public class GameData
         file.StoreString(serializedJson);
     }
 
-    private GameDataV1 ToDto()
+    private GameDataV2 ToDto()
     {
-        return new GameDataV1()
+        return new GameDataV2()
         {
             InventorySize = InventorySize,
             PlayerGlobalPosition = Vector3Dto.FromVector3(PlayerGlobalPosition),
             PlayerRotation = Vector3Dto.FromVector3(PlayerRotation),
             CameraRotation = Vector3Dto.FromVector3(CameraRotation),
-            GameTime = GameTime
-            
+            GameTime = GameTime,
+            Inventory = InventorySlotDto.FromInventorySlotResource(Inventory)
         };
     }
 

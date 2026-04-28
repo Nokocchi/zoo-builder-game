@@ -1,13 +1,16 @@
-﻿namespace ZooBuilder.globals.saveable;
+﻿using System.Collections.Generic;
 
-public record GameDataV1 : IVersionedGameData
+namespace ZooBuilder.globals.saveable;
+
+public record GameDataV2 : IVersionedGameData
 {
-    public int Version { get; private set; } = 1;
+    public int Version { get; private set; } = 2;
     public int InventorySize { get; init; }
     public Vector3Dto PlayerGlobalPosition { get; init; }
     public Vector3Dto PlayerRotation { get; init; }
     public Vector3Dto CameraRotation { get; init; }
     public int GameTime { get; init; }
+    public List<InventorySlotDto> Inventory { get; init; }
 
     public GameData ConvertToCurrentFormat()
     {
@@ -18,7 +21,7 @@ public record GameDataV1 : IVersionedGameData
             PlayerRotation = PlayerRotation.AsVector3(),
             CameraRotation = CameraRotation.AsVector3(),
             GameTime = GameTime,
-            Inventory = InventorySlotDto.AsInventorySlotResource(null, InventorySize)
+            Inventory = InventorySlotDto.AsInventorySlotResource(Inventory, InventorySize)
         };
     }
 }

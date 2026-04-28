@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using Godot;
 using ZooBuilder.globals;
+using ZooBuilder.globals.saveable;
 using ZooBuilder.ui.inventory;
+using static ZooBuilder.globals.saveable.GameDataSingleton;
 
 // Strategy: All changes to inventory data must be made from IInventory
 // Examples are stack count, which items are in which slot, etc.
@@ -11,12 +13,11 @@ using ZooBuilder.ui.inventory;
 // Only InventorySingleton should call the modifying methods in InventorySlotResource.
 // Events are only published from public functions, and public functions do not call each other. This will cause some unnecessary events,
 // (Or maybe in the future I would want an event to be published only at the correct time, which risks multiple of the same events being published in a single API call)
-public partial class InventorySingleton : Node, IInventory
+public partial class InventorySingleton : Node, IInventory, ISaveableNode
 {
     public static IInventory Instance { get; private set; }
-
-    // TODO Inv: Set inventory size via inventory resource
-    [Export] public int InventorySize = 100;
+    
+    public int InventorySize;
 
     public const int HotBarSize = 8;
 
@@ -28,18 +29,9 @@ public partial class InventorySingleton : Node, IInventory
 
     public bool MenuOpen { get; set; }
 
-    public override void _EnterTree()
+    public override void _Ready()
     {
-        if (Instance != null)
-        {
-            QueueFree();
-        }
-
-        Instance = this;
-        for (int i = 0; i < InventorySize; i++)
-        {
-            Inventory.Add(new InventorySlotResource(i, null));
-        }
+        AddToGroup(SAVEABLE_NODE_GROUP);
     }
 
     // Interface methods
@@ -48,10 +40,12 @@ public partial class InventorySingleton : Node, IInventory
     // Returns true if item could be added. False if item could not be added
     public bool TryAddItem(ItemStackResource itemStack)
     {
+        GD.Print("INVENTORY STUFF: Try add item", Inventory);
         InventorySlotResource slotWithStackOfSameType = null;
         int firstEmptySlot = -1;
         for (int i = 0; i < InventorySize; i++)
         {
+            GD.Print("INVENTORY STUFF try add item: ", i);
             InventorySlotResource slot = Inventory[i];
             // We already have this kind of item in the inventory. Break early
             if (slot.HasItem() && slot.GetItem().ItemData.ItemName == itemStack.ItemData.ItemName)
@@ -297,5 +291,24 @@ public partial class InventorySingleton : Node, IInventory
         InventorySlotResource slotToHold = Inventory[index];
         HeldItem = new HeldItem(slotToHold.GetItem(), index);
         slotToHold.ClearStack();
+    }
+
+    public void SaveTo(GameData data)
+    {
+        data.Inventory = Inventory;
+        data.InventorySize = InventorySize;
+    }
+
+    public void LoadFrom(GameData data)
+    {
+        // TODO: The issue is that InventorySize is indeed 48, but this is not accessible via the API in this class.
+        // We use the .Count of the inventory list instead, and that list is only 24 long because 24 is the default
+        GD.Print("INVENTORY STUFF: Setting inventory: ", data.Inventory);
+        GD.Print("INVENTORY STUFF: Inventory size: ", data.InventorySize);
+        Inventory = data.Inventory;
+        InventorySize = data.InventorySize;
+        GD.Print("INVENTORY STUFF Instance before: ", Instance);
+        Instance = this;
+        GD.Print("INVENTORY STUFF Instance after: ", Instance);
     }
 }
