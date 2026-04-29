@@ -46,15 +46,20 @@ public partial class UiInventorySlot : Panel
 
     private void Render()
     {
+        // TODO: Not initialized yet when game starts. Fix initialization of these components. Also, fix the weird process function..
+        GD.Print("Render it, not initialized yet!");
         if (!_initialized) return; // When inventory is set in InventoryHandler's _Ready()
+        GD.Print("Render initialized");
         if (InventorySlotResource != null && InventorySlotResource.HasItem())
         {
+            GD.Print("Render it, has item!");
             ItemStackResource itemStack = InventorySlotResource.GetItem();
             SetTexture(itemStack.ItemData.Texture);
             SetStackSize(itemStack.Amount + "");
         }
         else
         {
+            GD.Print("Render it, has no item!");
             SetTexture(null);
             SetStackSize(null);
         }

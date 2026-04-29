@@ -14,6 +14,7 @@ public partial class MainMenu : CanvasLayer
 		GlobalDataSingleton.LoadSettingsFromDisk();
 		TranslationServer.SetLocale(GlobalDataSingleton.SelectedLocale);
 		_settingsContainer = GetNode<PanelContainer>("%SettingsContainer");
+		ItemDatabase.Initialize();
 	}
 
 	

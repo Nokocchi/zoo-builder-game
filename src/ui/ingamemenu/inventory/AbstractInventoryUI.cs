@@ -19,14 +19,11 @@ public abstract partial class AbstractInventoryUi : Control
     protected virtual void OnSaveDataLoaded(GameFinishedLoadingEvent e)
     {
         IInventory inventorySingleton = InventorySingleton.Instance;
-        GD.Print("INVENTORY STUFF parent");
         for (int i = FirstSlot; i <= LastSlot; i++)
         {
-            GD.Print("Using last slot: ", LastSlot);
             UiInventorySlot uiInventorySlot = _inventoryItemStackScene.Instantiate<UiInventorySlot>();
             uiInventorySlot.SlotClicked += (clickedSlotIndex) => inventorySingleton.ItemClicked(clickedSlotIndex);
             uiInventorySlot.SlotRightClicked += (clickedSlotIndex) => inventorySingleton.ItemRightClicked(clickedSlotIndex);
-            GD.Print("INVENTORY STUFF abstract add: ", i);
             InventorySlotResource inventorySlotResource = inventorySingleton.GetInventory()[i];
             uiInventorySlot.SetInventorySlotResource(inventorySlotResource);
             UiSlotContainer.AddChild(uiInventorySlot);

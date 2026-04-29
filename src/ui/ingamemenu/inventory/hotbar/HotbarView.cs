@@ -17,7 +17,6 @@ public partial class HotbarView : AbstractInventoryUi
 
     protected override void OnSaveDataLoaded(GameFinishedLoadingEvent e)
     {
-        GD.Print("INVENTORY STUFF hotbar");
         base.OnSaveDataLoaded(e);
         
         // Select first slot on startup

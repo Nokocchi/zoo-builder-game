@@ -28,7 +28,7 @@ public record InventorySlotDto
             {
                 string itemName = inventorySlotsDto.ItemName;
                 int amount = inventorySlotsDto.Amount;
-                inventory.Add(new InventorySlotResource(i, new ItemStackResource(new ItemDataResource { ItemName = itemName, Description = "What's up" }, amount)));
+                inventory.Add(new InventorySlotResource(i, new ItemStackResource(ItemDatabase.Get(itemName), amount)));
             }
             else
             {

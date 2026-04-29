@@ -38,12 +38,10 @@ public partial class InventorySingleton : Node, IInventory, ISaveableNode
     // Returns true if item could be added. False if item could not be added
     public bool TryAddItem(ItemStackResource itemStack)
     {
-        GD.Print("INVENTORY STUFF: Try add item", Inventory);
         InventorySlotResource slotWithStackOfSameType = null;
         int firstEmptySlot = -1;
         for (int i = 0; i < Inventory.Capacity; i++)
         {
-            GD.Print("INVENTORY STUFF try add item: ", i);
             InventorySlotResource slot = Inventory[i];
             // We already have this kind of item in the inventory. Break early
             if (slot.HasItem() && slot.GetItem().ItemData.ItemName == itemStack.ItemData.ItemName)
@@ -298,12 +296,7 @@ public partial class InventorySingleton : Node, IInventory, ISaveableNode
 
     public void LoadFrom(GameData data)
     {
-        // TODO: The issue is that InventorySize is indeed 48, but this is not accessible via the API in this class.
-        // We use the .Count of the inventory list instead, and that list is only 24 long because 24 is the default
-        GD.Print("INVENTORY STUFF: Setting inventory: ", data.Inventory);
         Inventory = data.Inventory;
-        GD.Print("INVENTORY STUFF Instance before: ", Instance);
         Instance = this;
-        GD.Print("INVENTORY STUFF Instance after: ", Instance);
     }
 }
