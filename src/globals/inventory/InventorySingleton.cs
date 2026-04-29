@@ -15,9 +15,7 @@ using static ZooBuilder.globals.saveable.GameDataSingleton;
 // (Or maybe in the future I would want an event to be published only at the correct time, which risks multiple of the same events being published in a single API call)
 public partial class InventorySingleton : Node, IInventory, ISaveableNode
 {
-    public static IInventory Instance { get; private set; }
-    
-    public int InventorySize;
+    public static IInventory Instance { get; private set; } 
 
     public const int HotBarSize = 8;
 
@@ -43,7 +41,7 @@ public partial class InventorySingleton : Node, IInventory, ISaveableNode
         GD.Print("INVENTORY STUFF: Try add item", Inventory);
         InventorySlotResource slotWithStackOfSameType = null;
         int firstEmptySlot = -1;
-        for (int i = 0; i < InventorySize; i++)
+        for (int i = 0; i < Inventory.Capacity; i++)
         {
             GD.Print("INVENTORY STUFF try add item: ", i);
             InventorySlotResource slot = Inventory[i];
@@ -296,7 +294,6 @@ public partial class InventorySingleton : Node, IInventory, ISaveableNode
     public void SaveTo(GameData data)
     {
         data.Inventory = Inventory;
-        data.InventorySize = InventorySize;
     }
 
     public void LoadFrom(GameData data)
@@ -304,9 +301,7 @@ public partial class InventorySingleton : Node, IInventory, ISaveableNode
         // TODO: The issue is that InventorySize is indeed 48, but this is not accessible via the API in this class.
         // We use the .Count of the inventory list instead, and that list is only 24 long because 24 is the default
         GD.Print("INVENTORY STUFF: Setting inventory: ", data.Inventory);
-        GD.Print("INVENTORY STUFF: Inventory size: ", data.InventorySize);
         Inventory = data.Inventory;
-        InventorySize = data.InventorySize;
         GD.Print("INVENTORY STUFF Instance before: ", Instance);
         Instance = this;
         GD.Print("INVENTORY STUFF Instance after: ", Instance);

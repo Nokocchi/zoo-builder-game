@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using Godot;
 using Godot.Collections;
@@ -11,12 +12,13 @@ namespace ZooBuilder.globals.saveable;
 
 public class GameData
 {
-    public int InventorySize = 24;
     public Vector3 PlayerGlobalPosition = Vector3.Zero;
     public Vector3 PlayerRotation = Vector3.Zero;
     public Vector3 CameraRotation = Vector3.Zero;
     public int GameTime;
-    public List<InventorySlotResource> Inventory;
+    public List<InventorySlotResource> Inventory = Enumerable.Range(0, 24)
+        .Select(i => new InventorySlotResource(i, null))
+        .ToList();
 
     public static GameData LoadFromDisk()
     {
@@ -57,7 +59,7 @@ public class GameData
     {
         return new GameDataV2()
         {
-            InventorySize = InventorySize,
+            InventorySize = Inventory.Capacity,
             PlayerGlobalPosition = Vector3Dto.FromVector3(PlayerGlobalPosition),
             PlayerRotation = Vector3Dto.FromVector3(PlayerRotation),
             CameraRotation = Vector3Dto.FromVector3(CameraRotation),

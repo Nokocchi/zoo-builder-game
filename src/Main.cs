@@ -58,6 +58,6 @@ public partial class Main : Node
 
     private void OnGameSaveTimerTimeout()
     {
-        //GameDataSingleton.SaveToDisk();
+        GameDataSingleton.SaveToDisk();
     }
 }

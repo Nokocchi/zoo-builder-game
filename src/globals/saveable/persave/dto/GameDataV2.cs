@@ -16,7 +16,6 @@ public record GameDataV2 : IVersionedGameData
     {
         return new GameData()
         {
-            InventorySize = InventorySize,
             PlayerGlobalPosition = PlayerGlobalPosition.AsVector3(),
             PlayerRotation = PlayerRotation.AsVector3(),
             CameraRotation = CameraRotation.AsVector3(),
