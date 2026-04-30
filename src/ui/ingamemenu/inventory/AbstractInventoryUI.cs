@@ -22,11 +22,11 @@ public abstract partial class AbstractInventoryUi : Control
         for (int i = FirstSlot; i <= LastSlot; i++)
         {
             UiInventorySlot uiInventorySlot = _inventoryItemStackScene.Instantiate<UiInventorySlot>();
+            UiSlotContainer.AddChild(uiInventorySlot);
             uiInventorySlot.SlotClicked += (clickedSlotIndex) => inventorySingleton.ItemClicked(clickedSlotIndex);
             uiInventorySlot.SlotRightClicked += (clickedSlotIndex) => inventorySingleton.ItemRightClicked(clickedSlotIndex);
             InventorySlotResource inventorySlotResource = inventorySingleton.GetInventory()[i];
             uiInventorySlot.SetInventorySlotResource(inventorySlotResource);
-            UiSlotContainer.AddChild(uiInventorySlot);
         }
     }
 

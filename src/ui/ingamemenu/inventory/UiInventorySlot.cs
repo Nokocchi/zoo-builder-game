@@ -24,7 +24,6 @@ public partial class UiInventorySlot : Panel
         _stackSizeLabel = GetNode<Label>("%StackSize");
         _selectedStyle = ResourceLoader.Load<StyleBoxFlat>("res://src/ui/ingamemenu/inventory/hotbar/item_stack_panel_theme_selected.tres");
         _unselectedStyle = ResourceLoader.Load<StyleBoxFlat>("res://src/ui/ingamemenu/inventory/hotbar/item_stack_panel_theme_unselected.tres");
-        _initialized = true;
     }
 
     public void SetInventorySlotResource(InventorySlotResource slot)
@@ -34,6 +33,7 @@ public partial class UiInventorySlot : Panel
         Render();
     }
     
+    // TODO: Why do I have this? Seems AI generated and unnecessary
     public override void _Process(double delta)
     {
         // Continuously adjust height if width changes (responsive)
@@ -46,20 +46,14 @@ public partial class UiInventorySlot : Panel
 
     private void Render()
     {
-        // TODO: Not initialized yet when game starts. Fix initialization of these components. Also, fix the weird process function..
-        GD.Print("Render it, not initialized yet!");
-        if (!_initialized) return; // When inventory is set in InventoryHandler's _Ready()
-        GD.Print("Render initialized");
         if (InventorySlotResource != null && InventorySlotResource.HasItem())
         {
-            GD.Print("Render it, has item!");
             ItemStackResource itemStack = InventorySlotResource.GetItem();
             SetTexture(itemStack.ItemData.Texture);
             SetStackSize(itemStack.Amount + "");
         }
         else
         {
-            GD.Print("Render it, has no item!");
             SetTexture(null);
             SetStackSize(null);
         }
