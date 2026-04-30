@@ -21,8 +21,9 @@ public abstract partial class AbstractInventoryUi : Control
         IInventory inventorySingleton = InventorySingleton.Instance;
         for (int i = FirstSlot; i <= LastSlot; i++)
         {
+            // Could also have been a static Initialize() method, and instead of SlotClicked signals, just call inventorySingleton.ItemClicked directly from within UiInventorySlot.
             UiInventorySlot uiInventorySlot = _inventoryItemStackScene.Instantiate<UiInventorySlot>();
-            UiSlotContainer.AddChild(uiInventorySlot);
+            UiSlotContainer.AddChild(uiInventorySlot); // Add to tree to run _Ready() before setting any resources
             uiInventorySlot.SlotClicked += (clickedSlotIndex) => inventorySingleton.ItemClicked(clickedSlotIndex);
             uiInventorySlot.SlotRightClicked += (clickedSlotIndex) => inventorySingleton.ItemRightClicked(clickedSlotIndex);
             InventorySlotResource inventorySlotResource = inventorySingleton.GetInventory()[i];

@@ -16,13 +16,12 @@ Temporary order of implementation..
 - Overworld chest
   - NPCs
     - Dialogue system
-- Save inventory
-  - Save which overworld items have been picked up
-    - Quests (Item only loads if quest is active, Pick up item, go to area, item is removed from inventory, quest is completed in save file)
-  - Save slots and save file history
-    - Settings menu for saving and loading
-    - Character customizations when starting new game
-      - Save character customization
+- Save which overworld items have been picked up
+  - Quests (Item only loads if quest is active, Pick up item, go to area, item is removed from inventory, quest is completed in save file)
+- Save slots and save file history
+  - Settings menu for saving and loading
+  - Character customizations when starting new game
+    - Save character customization
 - Tests
 
 ## Player
@@ -103,7 +102,7 @@ Temporary order of implementation..
 - ✅ Save settings
 - Save character customization
 - Save quest progression
-- Save inventory
+- ✅ Save inventory
 - ✅ Save current location(?)
 - Multiple save files, selectable from Continue button on main menu
 
