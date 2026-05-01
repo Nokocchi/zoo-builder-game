@@ -5,8 +5,10 @@ using System.Linq;
 using ZooBuilder.globals.saveable;
 
 // TODO:
+// Fix the DrawLine3D.Instance.PrepareDebugLines which fails after reload
 // 1: Add something more interesting like play time (how long), date to the button.
 // 2: Once this works, add the ability to make multiple save slots. It should be possible to name them.
+// 3: Make it possible to save and load games from ingame-menu (only from your already selected slot)
 public partial class SaveFileList : Control
 {
     private VBoxContainer _vBoxContainer;
@@ -15,14 +17,14 @@ public partial class SaveFileList : Control
     {
         _vBoxContainer = GetNode<VBoxContainer>("%VBoxContainer");
     }
-
-    public void AddSaveFile(Button button)
-    {
-        _vBoxContainer.AddChild(button);
-    }
     
-    public void AddSaveFiles(SortedList<long, GameData> sortedSaveFiles, Action<GameData> onSaveFileSelected)
+    public void SetSaveFiles(SortedList<long, GameData> sortedSaveFiles, Action<GameData> onSaveFileSelected)
     {
+        foreach (Node child in _vBoxContainer.GetChildren())
+        {
+            child.Free();
+        }
+
         foreach (KeyValuePair<long, GameData> timestampGameDataPair in sortedSaveFiles.Reverse())
         {
             Button button = new();
@@ -31,6 +33,5 @@ public partial class SaveFileList : Control
             
             _vBoxContainer.AddChild(button);
         }
-        
     }
 }

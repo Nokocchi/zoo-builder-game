@@ -17,38 +17,40 @@ public partial class MainMenu : CanvasLayer
 	
 	public override void _Ready()
 	{
-		GlobalDataSingleton.LoadSettingsFromDisk();
-		TranslationServer.SetLocale(GlobalDataSingleton.SelectedLocale);
 		_contentContainer = GetNode<PanelContainer>("%ContentContainer");
 		_saveFileList = GetNode<SaveFileList>("%SaveFileList");
-		ItemDatabase.Initialize();
-		SortedList<long, GameData> sortedListOfSaves = GameDataSingleton.GetSortedListOfSaves();
 		_settings = SettingsScene.Instantiate<Settings>();
 		_settings.Visible = false;
 		_contentContainer.AddChild(_settings);
-		_settings.Initialize();
-		_saveFileList.AddSaveFiles(sortedListOfSaves, OnSaveFileSelected);
+		CallDeferred(nameof(Initialize));
 	}
 
-	
-	public override void _Process(double delta)
+	private void Initialize()
 	{
+		GlobalDataSingleton.LoadSettingsFromDisk();
+		TranslationServer.SetLocale(GlobalDataSingleton.SelectedLocale);
+		ItemDatabase.Initialize();
+		_settings.Initialize();
+		SortedList<long, GameData> sortedListOfSaves = GameDataSingleton.GetSortedListOfSaves();
+		_saveFileList.SetSaveFiles(sortedListOfSaves, OnSaveFileSelected);
 	}
 
 	private void OnPlayPressed()
 	{
+		_settings.Visible = false;
 		_saveFileList.Visible = true;
 	}
 	
 	private void OnSaveFileSelected(GameData selectedSave)
 	{
-		GetTree().ChangeSceneToPacked(GameScene);
 		GameDataSingleton.SetLoadedSaveFile(selectedSave);
+		GetTree().ChangeSceneToPacked(GameScene);
 	}
 	
 	private void OnSetingsPressed()
 	{
 		_settings.Visible = true;
+		_saveFileList.Visible = false;
 	}
 	
 	private void OnQuitPressed()

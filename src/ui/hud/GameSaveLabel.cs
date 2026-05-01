@@ -12,6 +12,11 @@ public partial class GameSaveLabel : Control
 		EventBus.Subscribe<GameIsAboutToBeSavedEvent>(ShowText);
 	}
 
+	public override void _ExitTree()
+	{
+		EventBus.Unsubscribe<GameIsAboutToBeSavedEvent>(ShowText);
+	}
+
 	private async void ShowText(GameIsAboutToBeSavedEvent e)
 	{
 		_label.Text = "Saving..";

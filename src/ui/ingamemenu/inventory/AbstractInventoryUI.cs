@@ -16,6 +16,11 @@ public abstract partial class AbstractInventoryUi : Control
         EventBus.Subscribe<GameFinishedLoadingEvent>(OnSaveDataLoaded);
     }
 
+    public override void _ExitTree()
+    {
+        EventBus.Unsubscribe<GameFinishedLoadingEvent>(OnSaveDataLoaded);
+    }
+    
     protected virtual void OnSaveDataLoaded(GameFinishedLoadingEvent e)
     {
         IInventory inventorySingleton = InventorySingleton.Instance;

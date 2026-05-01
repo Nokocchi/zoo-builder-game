@@ -17,6 +17,11 @@ public partial class MouseWithItemMarker : Control
         EventBus.Subscribe<InventoryItemStackHeldEvent>(OnItemHeld);
     }
 
+    public override void _ExitTree()
+    {
+        EventBus.Unsubscribe<InventoryItemStackHeldEvent>(OnItemHeld);
+    }
+
     private void OnItemHeld(InventoryItemStackHeldEvent e)
     {
         HeldItem heldItem = e.HeldItem;

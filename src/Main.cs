@@ -7,7 +7,6 @@ using ZooBuilder.globals.saveable;
 public partial class Main : Node
 {
     [Export] public PackedScene MobScene { get; set; }
-
     [Export] public DayNightCycleResource DayNightCycleResource { get; set; }
 
     private AnimationPlayer _skyBoxAnimationPlayer;
@@ -15,26 +14,30 @@ public partial class Main : Node
 
     public override void _Ready()
     {
-        GlobalObjectsContainer.Instance.GameScene = this;
-        DrawLine3D.Instance.PrepareDebugLines(this);
         _skyBoxAnimationPlayer = GetNode<AnimationPlayer>("SkyBoxAnimationPlayer");
         _player = GetNode<Player>("Player");
+        CallDeferred(nameof(Initialize));
+    }
 
+    private void Initialize()
+    {
+        GlobalObjectsContainer.Instance.GameScene = this;
+        //DrawLine3D.Instance.PrepareDebugLines(this);
+        
         // TODO: How can I guarantee that TempStats is set by the SteamSetup before this is run? 
         SteamDataCache.GamesPlayed += 1;
         Steam.SetStatInt(SteamStatNames.IntStats.NumGames, SteamDataCache.GamesPlayed);
         Steam.StoreStats();
-        
         GameDataSingleton.LoadDataFromInstanceIntoGame();
 
         // TODO: Check if _skyBoxAnimationPlayer.CurrentAnimationLength is indeed 40
 
-        _skyBoxAnimationPlayer.SpeedScale = (float)
-            _skyBoxAnimationPlayer.CurrentAnimationLength / DayNightCycleResource.DayNightTotalLengthSeconds;
+        _skyBoxAnimationPlayer.SpeedScale = (float)_skyBoxAnimationPlayer.CurrentAnimationLength / DayNightCycleResource.DayNightTotalLengthSeconds;
 
         // Initializing the day-night cycle animation to be in sync with the loaded time of day
         int howManySecondsIntoDayNightAnimation = GameDataSingleton.Data.GameTime % DayNightCycleResource.DayNightTotalLengthSeconds;
         _skyBoxAnimationPlayer.Advance(howManySecondsIntoDayNightAnimation);
+        
         EventBus.Publish(new GameFinishedLoadingEvent());
     }
 

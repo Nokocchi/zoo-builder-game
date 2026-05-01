@@ -13,6 +13,11 @@ public partial class HudClock : Control
 		EventBus.Subscribe<GameTimeUpdatedEvent>(OnTimeUpdated);
 	}
 
+	public override void _ExitTree()
+	{
+		EventBus.Unsubscribe<GameTimeUpdatedEvent>(OnTimeUpdated);
+	}
+
 	public void OnTimeUpdated(GameTimeUpdatedEvent e)
 	{
 		int gameTimeSeconds = e.newGameTime;

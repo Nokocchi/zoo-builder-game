@@ -44,7 +44,7 @@ Temporary order of implementation..
   - ✅ Hold selected hotbar item in hand in overworld
   - ✅ Item hover popup with information about the item
   - ✅ Reuse the same script for hotbar, inventory and chests (or at least avoid duplication when possible)
-  - ✅ Scrollable inventory with square item slots
+  - ❌ Scrollable inventory with square item slots (They are currently only square if you have enough of them..)
 - **Simple Hotbar**
   - ✅ Show some of your most used items
   - ✅ One item in the hotbar is always highlighted - can be switched by scrolling with mouse
@@ -60,7 +60,7 @@ Temporary order of implementation..
   - ✅ Change up/down direction of mouse
   - ✅ Hide minimap
   - Save and load game buttons
-  - Show "last saved x minutes ago"
+  - Show "last saved x minutes ago", and each save should say "22 minutes ago" etc.
   - ✅ Adjust audio
   - ✅ Hotbar scrolling direction
   - ✅ Only save when save button is clicked
