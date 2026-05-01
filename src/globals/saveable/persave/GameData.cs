@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.Json;
 using Godot;
-using Godot.Collections;
 using static ZooBuilder.globals.saveable.GameDataSingleton;
 using FileAccess = Godot.FileAccess;
 
@@ -16,42 +14,22 @@ public class GameData
     public Vector3 PlayerRotation = Vector3.Zero;
     public Vector3 CameraRotation = Vector3.Zero;
     public int GameTime;
+
     public List<InventorySlotResource> Inventory = Enumerable.Range(0, 24)
         .Select(i => new InventorySlotResource(i, null))
         .ToList();
 
-    public static GameData LoadFromDisk()
-    {
-        using FileAccess file = FileAccess.Open(GAME_DATA_LOCATION, FileAccess.ModeFlags.Read);
-        if (file == null)
-        {
-            Error openError = FileAccess.GetOpenError();
-            if (openError is Error.DoesNotExist or Error.FileNotFound)
-            {
-                // TODO: Handle other error cases
-                return new GameData();
-            }
-
-            GD.Print(openError);
-        }
-
-        string json = file.GetAsText();
-        int version = GetVersion(json);
-        
-        IVersionedGameData data = version switch
-        {
-            1 => JsonSerializer.Deserialize<GameDataV1>(json)!,
-            2 => JsonSerializer.Deserialize<GameDataV2>(json)!,
-            _ => throw new Exception($"Unsupported save version: {version}")
-        };
-
-        return data.ConvertToCurrentFormat();
-    }
-    
     public void SaveToDisk()
     {
+        if (!DirAccess.DirExistsAbsolute(GAME_DATA_LOCATION))
+        {
+            DirAccess.MakeDirRecursiveAbsolute(GAME_DATA_LOCATION);
+        }
+
         string serializedJson = JsonSerializer.Serialize(ToDto());
-        using FileAccess file = FileAccess.Open(GAME_DATA_LOCATION, FileAccess.ModeFlags.Write);
+        long unixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        string filePath = $"{GAME_DATA_LOCATION}/{unixTime}.json";
+        using FileAccess file = FileAccess.Open(filePath, FileAccess.ModeFlags.Write);
         file.StoreString(serializedJson);
     }
 
@@ -68,16 +46,6 @@ public class GameData
         };
     }
 
-    public static int GetVersion(string json)
-    {
-        using var doc = JsonDocument.Parse(json);
-
-        if (!doc.RootElement.TryGetProperty("Version", out var versionProp))
-            throw new Exception("Save file missing version");
-
-        return versionProp.GetInt32();
-    }
-    
     public void IncrementGameTime()
     {
         GameTime++;

@@ -24,8 +24,8 @@ public partial class Main : Node
         SteamDataCache.GamesPlayed += 1;
         Steam.SetStatInt(SteamStatNames.IntStats.NumGames, SteamDataCache.GamesPlayed);
         Steam.StoreStats();
-
-        GameDataSingleton.LoadDataFromDisk();
+        
+        GameDataSingleton.LoadDataFromInstanceIntoGame();
 
         // TODO: Check if _skyBoxAnimationPlayer.CurrentAnimationLength is indeed 40
 

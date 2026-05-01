@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dccrigx4avpxq" path="res://src/main.tscn" id="2_1njj5"]
 [ext_resource type="AudioStream" uid="uid://cyp0e40wbfagw" path="res://art/CozyCrackleNight2.mp3" id="4_1njj5"]
 [ext_resource type="PackedScene" uid="uid://bmil47r6p2a33" path="res://src/ui/mainmenu/main_menu_btn.tscn" id="4_h223f"]
+[ext_resource type="PackedScene" uid="uid://ch86ciuhok16o" path="res://src/ui/shared/SaveFileList.tscn" id="5_2fnks"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qc8qn"]
 texture = ExtResource("1_5oih7")
@@ -122,11 +123,15 @@ theme_override_constants/margin_bottom = 35
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer2/Panel/MarginContainer" unique_id=1928708098]
 layout_mode = 2
 
-[node name="SettingsContainer" type="PanelContainer" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer2/Panel/MarginContainer/ScrollContainer" unique_id=821569703]
+[node name="ContentContainer" type="PanelContainer" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer2/Panel/MarginContainer/ScrollContainer" unique_id=821569703]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="SaveFileList" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer2/Panel/MarginContainer/ScrollContainer/ContentContainer" unique_id=1111225384 instance=ExtResource("5_2fnks")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1781024014]
 stream = ExtResource("4_1njj5")
