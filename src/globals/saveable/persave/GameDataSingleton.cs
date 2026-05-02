@@ -14,6 +14,7 @@ public partial class GameDataSingleton : Node
 
     public static GameData Data { get; private set; }
     public static GameDataSingleton Instance { get; private set; }
+    public static string SaveSlotName { get; set; }
 
     public override void _EnterTree()
     {
@@ -42,49 +43,81 @@ public partial class GameDataSingleton : Node
             }
         }
 
-        Data.SaveToDisk();
+        Data.SaveToDisk(SaveSlotName);
         Steam.StoreStats();
     }
 
-    public static SortedList<long, GameData> GetSortedListOfSaves()
+    public static Dictionary<string, SortedList<long, GameData>> GetSortedListOfSavesForSaveSlots()
     {
-        SortedList<long, GameData> sortedList = new();
+        Dictionary<string, SortedList<long, GameData>> result = new();
 
-        // 1. Check if directory exists
+        // First boot
         if (!DirAccess.DirExistsAbsolute(GAME_DATA_LOCATION))
-            return sortedList;
+            return result;
+        
+        using DirAccess baseDir = DirAccess.Open(GAME_DATA_LOCATION);
+        if (baseDir == null)
+            return result;
 
-        using DirAccess dir = DirAccess.Open(GAME_DATA_LOCATION);
-        if (dir == null)
-            return sortedList;
+        baseDir.ListDirBegin();
 
-        // Collect list of existing save files
-        dir.ListDirBegin();
         while (true)
         {
-            string fileNameWithExtension = dir.GetNext();
+            string subfolderName = baseDir.GetNext();
 
-            // End of iteration - break!
-            if (fileNameWithExtension == "")
+            // No more files or folders, stop traversing
+            if (subfolderName == "")
                 break;
 
-            if (dir.CurrentIsDir() || !fileNameWithExtension.EndsWith(".json"))
+            // Skip non-directories and "." / ".."
+            if (!baseDir.CurrentIsDir() || subfolderName == "." || subfolderName == "..")
                 continue;
 
-            string fileNameWithoutExt = fileNameWithExtension.GetBaseName();
-            string fileFullPath = $"{GAME_DATA_LOCATION}/{fileNameWithExtension}";
+            string subfolderPath = $"{GAME_DATA_LOCATION}/{subfolderName}";
 
-            if (!long.TryParse(fileNameWithoutExt, out long timestamp))
+            using DirAccess subDir = DirAccess.Open(subfolderPath);
+            if (subDir == null)
                 continue;
 
-            using FileAccess file = FileAccess.Open(fileFullPath, FileAccess.ModeFlags.Read);
-            GameData loadedSaveFile = LoadSaveFileFromSavedDirectoryUnchecked(file);
-            sortedList.Add(timestamp, loadedSaveFile);
+            SortedList<long, GameData> sortedList = new(Comparer<long>.Create((x, y) => y.CompareTo(x))); // Reversed, most recent (highest timestamp) first
+
+            subDir.ListDirBegin();
+
+            while (true)
+            {
+                string fileNameWithExtension = subDir.GetNext();
+
+                // No more files or folders, stop traversing
+                if (fileNameWithExtension == "")
+                    break;
+
+                if (subDir.CurrentIsDir() || !fileNameWithExtension.EndsWith(".json"))
+                    continue;
+
+                string fileNameWithoutExt = fileNameWithExtension.GetBaseName();
+                string fileFullPath = $"{subfolderPath}/{fileNameWithExtension}";
+
+                if (!long.TryParse(fileNameWithoutExt, out long timestamp))
+                    continue;
+
+                using FileAccess file = FileAccess.Open(fileFullPath, FileAccess.ModeFlags.Read);
+                if (file == null)
+                    continue;
+
+                GameData loadedSaveFile = LoadSaveFileFromSavedDirectoryUnchecked(file);
+                sortedList[timestamp] = loadedSaveFile; 
+            }
+
+            subDir.ListDirEnd();
+
+            // Only add non-empty folders (optional; remove if you want empty ones too)
+            if (sortedList.Count > 0)
+                result[subfolderName] = sortedList;
         }
 
-        dir.ListDirEnd();
+        baseDir.ListDirEnd();
 
-        return sortedList;
+        return result;
     }
 
     private static GameData LoadSaveFileFromSavedDirectoryUnchecked(FileAccess saveFile)

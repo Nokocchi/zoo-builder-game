@@ -18,9 +18,20 @@ public partial class Main : Node
         _player = GetNode<Player>("Player");
         CallDeferred(nameof(Initialize));
     }
-
+    
     private void Initialize()
     {
+        if (GameDataSingleton.Data == null)
+        {
+            // Game not initialized with loaded save file. Use default initial values, and save them to disk
+            GameDataSingleton.SetLoadedSaveFile(new GameData());
+            GameDataSingleton.SaveToDisk();
+        }
+        
+        // Overwrite default initial values with the data from the loaded save file
+        GameDataSingleton.LoadDataFromInstanceIntoGame();
+        
+
         GlobalObjectsContainer.Instance.GameScene = this;
         //DrawLine3D.Instance.PrepareDebugLines(this);
         
@@ -28,7 +39,7 @@ public partial class Main : Node
         SteamDataCache.GamesPlayed += 1;
         Steam.SetStatInt(SteamStatNames.IntStats.NumGames, SteamDataCache.GamesPlayed);
         Steam.StoreStats();
-        GameDataSingleton.LoadDataFromInstanceIntoGame();
+
 
         // TODO: Check if _skyBoxAnimationPlayer.CurrentAnimationLength is indeed 40
 

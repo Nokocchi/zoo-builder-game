@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dccrigx4avpxq" path="res://src/main.tscn" id="2_1njj5"]
 [ext_resource type="AudioStream" uid="uid://cyp0e40wbfagw" path="res://art/CozyCrackleNight2.mp3" id="4_1njj5"]
 [ext_resource type="PackedScene" uid="uid://bmil47r6p2a33" path="res://src/ui/mainmenu/main_menu_btn.tscn" id="4_h223f"]
-[ext_resource type="PackedScene" uid="uid://ch86ciuhok16o" path="res://src/ui/shared/SaveFileList.tscn" id="5_2fnks"]
+[ext_resource type="PackedScene" uid="uid://bbs6gm2vu712g" path="res://src/ui/shared/SaveSlotList.tscn" id="5_2fnks"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qc8qn"]
 texture = ExtResource("1_5oih7")
@@ -129,7 +129,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="SaveFileList" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer2/Panel/MarginContainer/ScrollContainer/ContentContainer" unique_id=1111225384 instance=ExtResource("5_2fnks")]
+[node name="SaveSlotList" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer2/Panel/MarginContainer/ScrollContainer/ContentContainer" unique_id=1111225384 instance=ExtResource("5_2fnks")]
 unique_name_in_owner = true
 layout_mode = 2
 

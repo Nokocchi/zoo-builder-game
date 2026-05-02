@@ -44,7 +44,7 @@ public partial class ItemHeldInHandMesh : MeshInstance3D
 		{
 			_slotResource.SlotContentChanged -= Render;
 		}
-
+		
 		_slotResource = InventorySingleton.Instance.GetInventory()[newSelectedItemIndex];
 		_slotResource.SlotContentChanged += Render;
 		Render();

@@ -69,7 +69,7 @@ public partial class Menu : Control
         else
         {
             _settings.Initialize();
-            SortedList<long, GameData> sortedListOfSaves = GameDataSingleton.GetSortedListOfSaves();
+            SortedList<long, GameData> sortedListOfSaves = GameDataSingleton.GetSortedListOfSavesForSaveSlots()[GameDataSingleton.SaveSlotName];
             _saveFileList.SetSaveFiles(sortedListOfSaves, OnSelectedSaveFile);
             UIManager.OpenMenu();
             Visible = true;

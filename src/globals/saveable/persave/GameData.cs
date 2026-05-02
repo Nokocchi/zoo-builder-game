@@ -19,16 +19,22 @@ public class GameData
         .Select(i => new InventorySlotResource(i, null))
         .ToList();
 
-    public void SaveToDisk()
+    public void SaveToDisk(string saveSlotName)
     {
         if (!DirAccess.DirExistsAbsolute(GAME_DATA_LOCATION))
         {
             DirAccess.MakeDirRecursiveAbsolute(GAME_DATA_LOCATION);
         }
 
+        string folderPath = $"{GAME_DATA_LOCATION}/{saveSlotName}";
+        if (!DirAccess.DirExistsAbsolute(folderPath))
+        {
+            DirAccess.MakeDirRecursiveAbsolute(folderPath);
+        }
+
         string serializedJson = JsonSerializer.Serialize(ToDto());
         long unixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        string filePath = $"{GAME_DATA_LOCATION}/{unixTime}.json";
+        string filePath = $"{folderPath}/{unixTime}.json";
         using FileAccess file = FileAccess.Open(filePath, FileAccess.ModeFlags.Write);
         file.StoreString(serializedJson);
     }

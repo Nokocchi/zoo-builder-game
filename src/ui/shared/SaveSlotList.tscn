@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://bbs6gm2vu712g"]
+
+[ext_resource type="Script" uid="uid://40inoitilqvj" path="res://src/ui/shared/SaveSlotList.cs" id="1_8i1us"]
+
+[node name="SaveSlotList" type="Control" unique_id=1111225384]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8i1us")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1387466118]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=994352920]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer" unique_id=746694609]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=878486593]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer" unique_id=396344290]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=1496918779]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer" unique_id=461739899]
+layout_mode = 2
+
+[node name="NewSaveSlotNameInput" type="LineEdit" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=1059584216]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="NewSaveSlotButton" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=796357482]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "START_NEW_SAVE"
+
+[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=1964206716]
+layout_mode = 2
+
+[node name="SlotsList" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer2" unique_id=549097344]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SaveFileListContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=1291557748]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer/NewSaveSlotButton" to="." method="OnNewSaveSlotButtonClickedSignalHandler"]
