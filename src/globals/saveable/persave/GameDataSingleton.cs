@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using Godot;
 using GodotSteam;
@@ -47,29 +48,26 @@ public partial class GameDataSingleton : Node
         Steam.StoreStats();
     }
 
-    public static Dictionary<string, SortedList<long, GameData>> GetSortedListOfSavesForSaveSlots()
+    public static SortedDictionary<string, SortedList<long, GameData>> GetSortedListOfSavesForSaveSlots()
     {
-        Dictionary<string, SortedList<long, GameData>> result = new();
+        // Temporary storage including max timestamp per folder
+        Dictionary<string, (long maxTimestamp, SortedList<long, GameData> saves)> temp = new();
 
-        // First boot
         if (!DirAccess.DirExistsAbsolute(GAME_DATA_LOCATION))
-            return result;
-        
+            return new SortedDictionary<string, SortedList<long, GameData>>();
+
         using DirAccess baseDir = DirAccess.Open(GAME_DATA_LOCATION);
         if (baseDir == null)
-            return result;
+            return new SortedDictionary<string, SortedList<long, GameData>>();
 
         baseDir.ListDirBegin();
 
         while (true)
         {
             string subfolderName = baseDir.GetNext();
-
-            // No more files or folders, stop traversing
             if (subfolderName == "")
                 break;
 
-            // Skip non-directories and "." / ".."
             if (!baseDir.CurrentIsDir() || subfolderName == "." || subfolderName == "..")
                 continue;
 
@@ -79,15 +77,17 @@ public partial class GameDataSingleton : Node
             if (subDir == null)
                 continue;
 
-            SortedList<long, GameData> sortedList = new(Comparer<long>.Create((x, y) => y.CompareTo(x))); // Reversed, most recent (highest timestamp) first
+            SortedList<long, GameData> sortedList = new(
+                Comparer<long>.Create((x, y) => y.CompareTo(x)) // newest first
+            );
+
+            long maxTimestamp = long.MinValue;
 
             subDir.ListDirBegin();
 
             while (true)
             {
                 string fileNameWithExtension = subDir.GetNext();
-
-                // No more files or folders, stop traversing
                 if (fileNameWithExtension == "")
                     break;
 
@@ -105,17 +105,46 @@ public partial class GameDataSingleton : Node
                     continue;
 
                 GameData loadedSaveFile = LoadSaveFileFromSavedDirectoryUnchecked(file);
-                sortedList[timestamp] = loadedSaveFile; 
+                sortedList[timestamp] = loadedSaveFile;
+
+                if (timestamp > maxTimestamp)
+                    maxTimestamp = timestamp;
             }
 
             subDir.ListDirEnd();
 
-            // Only add non-empty folders (optional; remove if you want empty ones too)
             if (sortedList.Count > 0)
-                result[subfolderName] = sortedList;
+            {
+                temp[subfolderName] = (maxTimestamp, sortedList);
+            }
+            else
+            {
+                // Treat empty folders as lowest priority
+                temp[subfolderName] = (long.MinValue, sortedList);
+            }
         }
 
         baseDir.ListDirEnd();
+
+        // Now sort folders by maxTimestamp DESC
+        var ordered = temp
+            .OrderByDescending(kvp => kvp.Value.maxTimestamp)
+            .ToList();
+
+        // Materialize into a SortedDictionary with a stable index-based comparer
+        var result = new SortedDictionary<string, SortedList<long, GameData>>(
+            Comparer<string>.Create((a, b) =>
+            {
+                int indexA = ordered.FindIndex(x => x.Key == a);
+                int indexB = ordered.FindIndex(x => x.Key == b);
+                return indexA.CompareTo(indexB);
+            })
+        );
+
+        foreach (var kvp in ordered)
+        {
+            result[kvp.Key] = kvp.Value.saves;
+        }
 
         return result;
     }

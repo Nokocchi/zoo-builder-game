@@ -5,7 +5,7 @@ using ZooBuilder.globals.saveable;
 
 public partial class SaveSlotList : Control
 {
-    private Dictionary<string, SortedList<long, GameData>> _sortedListOfSavesForSaveSlots;
+    private SortedDictionary<string, SortedList<long, GameData>> _sortedListOfSavesForSaveSlots;
     private VBoxContainer _slotsList;
     private MarginContainer _saveFileListContainer;
     private LineEdit _newSaveSlotNameInput;
@@ -37,15 +37,16 @@ public partial class SaveSlotList : Control
                 }
                 SaveFileList saveFileList = SaveFileListScene.Instantiate<SaveFileList>();
                 _saveFileListContainer.AddChild(saveFileList);
-                saveFileList.SetSaveFiles(saveFiles, OnSaveFileSelected);
+                saveFileList.SetSaveFiles(saveFiles, selectedGame => OnSaveFileSelected(selectedGame, saveSlotName));
             };
             _slotsList.AddChild(button);
         }
     }
     
-    private void OnSaveFileSelected(GameData selectedSave)
+    private void OnSaveFileSelected(GameData selectedSave, string saveSlotName)
     {
         GameDataSingleton.SetLoadedSaveFile(selectedSave);
+        GameDataSingleton.SaveSlotName = saveSlotName;
         GetTree().ChangeSceneToPacked(MainScene);
     }
 

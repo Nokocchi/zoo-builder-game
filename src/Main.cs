@@ -25,12 +25,14 @@ public partial class Main : Node
         {
             // Game not initialized with loaded save file. Use default initial values, and save them to disk
             GameDataSingleton.SetLoadedSaveFile(new GameData());
+            GameDataSingleton.LoadDataFromInstanceIntoGame();
             GameDataSingleton.SaveToDisk();
         }
-        
-        // Overwrite default initial values with the data from the loaded save file
-        GameDataSingleton.LoadDataFromInstanceIntoGame();
-        
+        else
+        {
+            // Overwrite default initial values with the data from the loaded save file
+            GameDataSingleton.LoadDataFromInstanceIntoGame();
+        }
 
         GlobalObjectsContainer.Instance.GameScene = this;
         //DrawLine3D.Instance.PrepareDebugLines(this);
