@@ -48,6 +48,8 @@ public partial class GameDataSingleton : Node
         Steam.StoreStats();
     }
 
+    // Save slots are sorted with the slot containing the most recent save first.
+    // The save file list is sorted with the most recent save first. 
     public static SortedDictionary<string, SortedList<long, GameData>> GetSortedListOfSavesForSaveSlots()
     {
         // Temporary storage including max timestamp per folder
