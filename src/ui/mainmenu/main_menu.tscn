@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://cpf58p7pinxex" path="res://art/samplepic.png" id="1_5oih7"]
 [ext_resource type="Script" uid="uid://7yl76bchmsj0" path="res://src/ui/mainmenu/MainMenu.cs" id="1_5ssi0"]
-[ext_resource type="PackedScene" uid="uid://dccrigx4avpxq" path="res://src/main.tscn" id="2_1njj5"]
 [ext_resource type="AudioStream" uid="uid://cyp0e40wbfagw" path="res://art/CozyCrackleNight2.mp3" id="4_1njj5"]
 [ext_resource type="PackedScene" uid="uid://bmil47r6p2a33" path="res://src/ui/mainmenu/main_menu_btn.tscn" id="4_h223f"]
 [ext_resource type="PackedScene" uid="uid://bbs6gm2vu712g" path="res://src/ui/shared/SaveSlotList.tscn" id="5_2fnks"]
@@ -19,7 +18,6 @@ corner_radius_bottom_left = 10
 
 [node name="CanvasLayer" type="CanvasLayer" unique_id=1101267995]
 script = ExtResource("1_5ssi0")
-GameScene = ExtResource("2_1njj5")
 
 [node name="Panel" type="Panel" parent="." unique_id=1686135358]
 anchors_preset = 15

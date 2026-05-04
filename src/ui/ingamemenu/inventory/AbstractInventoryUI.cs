@@ -3,7 +3,7 @@ using ZooBuilder.globals;
 
 namespace ZooBuilder.ui.inventory;
 
-public abstract partial class AbstractInventoryUi : Control
+public abstract partial class AbstractInventoryUI : Control
 {
     private PackedScene _inventoryItemStackScene;
     protected Container UiSlotContainer;

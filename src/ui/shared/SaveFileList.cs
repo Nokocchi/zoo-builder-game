@@ -7,8 +7,12 @@ using ZooBuilder.globals.saveable;
 // TODO:
 // Fix the DrawLine3D.Instance.PrepareDebugLines which fails after reload
 // In-game save selector no longer shows up
+
+[Tool]
 public partial class SaveFileList : Control
 {
+    [Export] public PackedScene SaveFileCardScene;
+    
     private VBoxContainer _vBoxContainer;
     
     public override void _Ready()
@@ -25,8 +29,9 @@ public partial class SaveFileList : Control
         
         foreach (KeyValuePair<long, GameData> timestampGameDataPair in sortedSaveFiles)
         {
-            SaveFileCard saveFileCard = SaveFileCard.Create(timestampGameDataPair.Key, timestampGameDataPair.Value, onSaveFileSelected);
+            SaveFileCard saveFileCard = SaveFileCardScene.Instantiate<SaveFileCard>();
             _vBoxContainer.AddChild(saveFileCard);
+            saveFileCard.Initialize(timestampGameDataPair.Key, timestampGameDataPair.Value, onSaveFileSelected);
         }
     }
 }

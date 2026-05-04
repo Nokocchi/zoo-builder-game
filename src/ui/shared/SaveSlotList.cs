@@ -3,14 +3,32 @@ using System;
 using System.Collections.Generic;
 using ZooBuilder.globals.saveable;
 
+[Tool]
 public partial class SaveSlotList : Control
 {
+    [Export]
+    public int PreviewCount = 3;
+    
+    [Export]
+    public bool RefreshPreview
+    {
+        get => false;
+        set
+        {
+            if (Engine.IsEditorHint() && IsInsideTree())
+            {
+                PopulatePreview();
+            }
+        }
+    }
+
+    [Export] public PackedScene SaveFileListScene;
+    
     private SortedDictionary<string, SortedList<long, GameData>> _sortedListOfSavesForSaveSlots;
     private VBoxContainer _slotsList;
     private MarginContainer _saveFileListContainer;
     private LineEdit _newSaveSlotNameInput;
     private Button _newSaveSlotButton;
-    private static readonly PackedScene SaveFileListScene = GD.Load<PackedScene>("res://src/ui/shared/SaveFileList.tscn");
     private static readonly PackedScene MainScene = GD.Load<PackedScene>("res://src/main.tscn");
     
     public override void _Ready()
@@ -66,5 +84,28 @@ public partial class SaveSlotList : Control
     {
         _sortedListOfSavesForSaveSlots = GameDataSingleton.GetSortedListOfSavesForSaveSlots();
         Render();
+    }
+    
+    private void PopulatePreview()
+    {
+        MarginContainer saveFileListContainer = GetNode<MarginContainer>("%SaveFileListContainer");
+        GD.Print(saveFileListContainer);
+        foreach (Node child in saveFileListContainer.GetChildren())
+        {
+            child.Free();
+        }
+        
+        SaveFileList saveFileList = SaveFileListScene.Instantiate<SaveFileList>();
+        saveFileListContainer.AddChild(saveFileList);
+
+        SortedList<long, GameData> mockSaveFiles = [];
+        
+        for (int i = 0; i < PreviewCount; i++)
+        {
+            long timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - (10000 * i);
+            mockSaveFiles[timestamp] = new GameData();
+        }
+        
+        saveFileList.SetSaveFiles(mockSaveFiles, _ => { });
     }
 }

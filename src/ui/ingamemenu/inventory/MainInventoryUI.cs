@@ -3,7 +3,7 @@ using ZooBuilder.globals;
 
 namespace ZooBuilder.ui.inventory;
 
-public partial class MainInventoryUI : AbstractInventoryUi
+public partial class MainInventoryUI : AbstractInventoryUI
 {
     public override void _Ready()
     {

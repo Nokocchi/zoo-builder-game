@@ -2,9 +2,11 @@ using Godot;
 using System;
 using ZooBuilder.globals.saveable;
 
+[Tool]
 public partial class SaveFileCard : Control
 {
-    private static readonly PackedScene SaveFileCardScene = GD.Load<PackedScene>("res://src/ui/shared/save_file_card.tscn");
+    [Export]
+    public PackedScene SaveFileCardScene;
 
     private Label _itemCountLabel;
     private Label _savedTimeAgoLabel;
@@ -20,20 +22,18 @@ public partial class SaveFileCard : Control
         _itemCountLabel = GetNode<Label>("%ItemCountLabel");
         _savedTimeAgoLabel = GetNode<Label>("%SavedTimeAgoLabel");
         _savedTimestampLabel = GetNode<Label>("%SavedTimestampLabel");
+    }
+
+    public void Initialize(long timestamp, GameData gameData, Action<GameData> onSaveFileSelected)
+    {
+        _timestamp = timestamp;
+        _gameData = gameData;
+        _onSaveFileSelected = onSaveFileSelected;
         long timeNow = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         long timeBetweenNowAndSaveTimestamp = timeNow - _timestamp;
         _itemCountLabel.Text = "Items: " + _gameData.Inventory.FindAll(i => i.HasItem()).Count;
         _savedTimeAgoLabel.Text = $"Saved {FormatTimeAgo(timeBetweenNowAndSaveTimestamp)}";
         _savedTimestampLabel.Text = _timestamp + "";
-    }
-
-    public static SaveFileCard Create(long timestamp, GameData gameData, Action<GameData> onSaveFileSelected)
-    {
-        SaveFileCard saveFileCard = SaveFileCardScene.Instantiate<SaveFileCard>();
-        saveFileCard._timestamp = timestamp;
-        saveFileCard._gameData = gameData;
-        saveFileCard._onSaveFileSelected = onSaveFileSelected;
-        return saveFileCard;
     }
     
     private void OnSaveGameSelectedButtonPressed()
