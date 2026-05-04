@@ -11,8 +11,6 @@ using ZooBuilder.globals.saveable;
 [Tool]
 public partial class SaveFileList : Control
 {
-    [Export] public PackedScene SaveFileCardScene;
-    
     private VBoxContainer _vBoxContainer;
     
     public override void _Ready()
@@ -29,9 +27,8 @@ public partial class SaveFileList : Control
         
         foreach (KeyValuePair<long, GameData> timestampGameDataPair in sortedSaveFiles)
         {
-            SaveFileCard saveFileCard = SaveFileCardScene.Instantiate<SaveFileCard>();
-            _vBoxContainer.AddChild(saveFileCard);
-            saveFileCard.Initialize(timestampGameDataPair.Key, timestampGameDataPair.Value, onSaveFileSelected);
+            SaveFileCard fileCard = SaveFileCard.Create(timestampGameDataPair.Key, timestampGameDataPair.Value, onSaveFileSelected);
+            _vBoxContainer.AddChild(fileCard);
         }
     }
 }
