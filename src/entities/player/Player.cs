@@ -106,7 +106,7 @@ public partial class Player : CharacterBody3D, ISaveableNode
 
     public override void _PhysicsProcess(double delta)
     {
-        //DrawLine3D.Instance.DrawDebugLines_Basis(_pivot, delta);
+        DrawLine3D.Instance.DrawDebugLines_Basis(_pivot, delta);
         
         // We create a local variable to store the input direction.
         Vector3 direction = Vector3.Zero;

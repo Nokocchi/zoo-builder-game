@@ -21,8 +21,6 @@ public partial class SaveSlotList : Control
             }
         }
     }
-
-    [Export] public PackedScene SaveFileListScene;
     
     private SortedDictionary<string, SortedList<long, GameData>> _sortedListOfSavesForSaveSlots;
     private VBoxContainer _slotsList;
@@ -53,7 +51,7 @@ public partial class SaveSlotList : Control
                 {
                     child.Free();
                 }
-                SaveFileList saveFileList = SaveFileListScene.Instantiate<SaveFileList>();
+                SaveFileList saveFileList = SaveFileList.Create();
                 _saveFileListContainer.AddChild(saveFileList);
                 saveFileList.SetSaveFiles(saveFiles, selectedGame => OnSaveFileSelected(selectedGame, saveSlotName));
             };
@@ -95,7 +93,7 @@ public partial class SaveSlotList : Control
             child.Free();
         }
         
-        SaveFileList saveFileList = SaveFileListScene.Instantiate<SaveFileList>();
+        SaveFileList saveFileList = SaveFileList.Create();
         saveFileListContainer.AddChild(saveFileList);
 
         SortedList<long, GameData> mockSaveFiles = [];

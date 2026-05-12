@@ -18,10 +18,8 @@ Temporary order of implementation..
     - Dialogue system
 - Save which overworld items have been picked up
   - Quests (Item only loads if quest is active, Pick up item, go to area, item is removed from inventory, quest is completed in save file)
-- Save slots and save file history
-  - Settings menu for saving and loading
-  - Character customizations when starting new game
-    - Save character customization
+-  Character customizations when starting new game
+  - Save character customization
 - Tests
 
 ## Player
@@ -59,8 +57,8 @@ Temporary order of implementation..
   - ✅ Change mouse sensitivity
   - ✅ Change up/down direction of mouse
   - ✅ Hide minimap
-  - Save and load game buttons
-  - Show "last saved x minutes ago", and each save should say "22 minutes ago" etc.
+  - Save game button
+  - ✅ Each loadable save should say "22 minutes ago" or similar.
   - ✅ Adjust audio
   - ✅ Hotbar scrolling direction
   - ✅ Only save when save button is clicked
@@ -104,7 +102,7 @@ Temporary order of implementation..
 - Save quest progression
 - ✅ Save inventory
 - ✅ Save current location(?)
-- Multiple save files, selectable from Continue button on main menu
+- ✅ Multiple save files, selectable from Continue button on main menu
 
 ## Storyline, gameplay
 - Simple quest system. Activated by talking to an NPC. Pick up apple and give to NPC. Next quest, pick up 2 oranges and give to NPC.
@@ -137,7 +135,8 @@ Temporary order of implementation..
 # Things to fix:
 - When items collide with static objects, they can be picked up. The only static object at the moment is the floor, but in the future, there will be walls.
 - Sun/moon teleport to the other side at the end of a day/night animation cycle, and this causes the light in the scene to blink.
-- Game crashes if Steam is not running.. How to handle that? 
+- Game crashes if Steam is not running.. How to handle that?
+- Fix the Main: DrawLine3D.Instance.PrepareDebugLines which fails after reload
 
 # Things to figure out:
 - When starting a new game, the player would expect all their achievements and stats to be reset for that save file. Maybe you can have multiple save files with different progress. How does that work with Steam stats and achievements which seem to be "global" on the user's steam account?

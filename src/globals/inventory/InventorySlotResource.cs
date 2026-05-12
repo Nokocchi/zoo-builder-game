@@ -8,7 +8,11 @@ public partial class InventorySlotResource : Resource
 {
     [Signal]
     public delegate void SlotContentChangedEventHandler();
-    
+
+    // Otherwise I get an error in the Godot editor every now and then: Don't know why this is even needed?
+    public InventorySlotResource()
+    {
+    }
 
     public InventorySlotResource(int inventoryIndex, ItemStackResource itemStack)
     {

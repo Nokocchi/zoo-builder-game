@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://ch86ciuhok16o"]
 
 [ext_resource type="Script" uid="uid://mwj01ej5jynl" path="res://src/ui/shared/SaveFileList.cs" id="1_d3i43"]
-[ext_resource type="PackedScene" uid="uid://b6xnpm4f4a4ib" path="res://src/ui/shared/save_file_card.tscn" id="2_o1q57"]
 
 [node name="SaveFileList" type="Control" unique_id=1111225384]
 layout_mode = 3
@@ -10,8 +9,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_d3i43")
-SaveFileCardScene = ExtResource("2_o1q57")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=1387466118]
 layout_mode = 1

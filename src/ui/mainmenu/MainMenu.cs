@@ -11,12 +11,14 @@ public partial class MainMenu : CanvasLayer
 	private PanelContainer _contentContainer;
 	private Settings _settings;
 	private SaveSlotList _saveSlotList;
+	private AudioStreamPlayer _bgAudioPlayer;
 	private static readonly PackedScene SettingsScene = GD.Load<PackedScene>("res://src/ui/ingamemenu/settings/settings.tscn");
 	
 	public override void _Ready()
 	{
 		_contentContainer = GetNode<PanelContainer>("%ContentContainer");
 		_saveSlotList = GetNode<SaveSlotList>("%SaveSlotList");
+		_bgAudioPlayer = GetNode<AudioStreamPlayer>("%BgAudioPlayer");
 		_settings = SettingsScene.Instantiate<Settings>();
 		_settings.Visible = false;
 		_contentContainer.AddChild(_settings);
@@ -30,6 +32,7 @@ public partial class MainMenu : CanvasLayer
 		ItemDatabase.Initialize();
 		_settings.Initialize();
 		_saveSlotList.Initialize();
+		_bgAudioPlayer.Play();
 	}
 
 	private void OnPlayPressed()
